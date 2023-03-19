@@ -31,9 +31,9 @@ export async function fetchChat(requestedChat) {
 }
 
 //Posts a message to the given chat
-export async function postMessage(requestedChat) {
+export async function postMessage(requestedChat, message) {
     try {
-        const response = await apiClient.post("/chat/" + requestedChat.chatId + "/" + requestedChat.userId) 
+        const response = await apiClient.post("/chat/" + requestedChat.chatId + "/" + requestedChat.userId, message) 
         return response
     } catch (error) {
         throw new Error("There was an error while posting message: " + error.response.statusText)
