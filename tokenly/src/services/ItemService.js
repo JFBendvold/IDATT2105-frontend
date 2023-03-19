@@ -20,9 +20,9 @@ export async function fetchItemInventory(userId) {
 }
 
 //Posts a new item to the logged in users' item inventory
-export async function postItem(userId) {
+export async function postItem(userId, newItem) {
     try {
-        const response = await apiClient.post("/inventory/" + userId) 
+        const response = await apiClient.post("/inventory/" + userId, newItem) 
         return response
     } catch (error) {
         throw new Error("There was an error while posting a new item to the user inventory: " + error.response.statusText)
