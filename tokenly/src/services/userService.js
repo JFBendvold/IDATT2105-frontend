@@ -12,17 +12,17 @@ const apiClient = axios.create({
 export async function fetchUserId(requestedUser) {
     try {
         const response = await apiClient.post("/login", requestedUser) //TODO: response needs to be either an id or null
-        return response.data
+        return response
     } catch (error) {
         throw new Error("There was an error while fetching user information: " + error.response.statusText)
     }
 }
 
 //TODO: use when changing password etc.
-export async function fetchUserInfo(userId) {
+export async function fetchUserInfo(username) {
     try {
-        const response = await apiClient.get("/" + userId)
-        return response.data
+        const response = await apiClient.get("/" + username)
+        return response
     } catch (error) {
         throw new Error("There was an error while fetching user information: " + error.response.statusText)
     }

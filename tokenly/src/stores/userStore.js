@@ -1,35 +1,37 @@
 import { defineStore } from 'pinia'
-import { fetchUserId } from '../services/userService'
+import { fetchUserId } from '../services/UserService'
 
-export const useUserStore = defineStore('userStore', {
-    state: () => ({
-        id: null,
-        activeUsername: null
-    }),
+export const useUserStore = defineStore('UserStore', {
+    state: () => (
+        {
+        userId: null,
+        username: null
+        }
+    ),
     actions: {
         async logUserIn(username, password) {
             try {
-                const registeredId = await fetchUserId({
+                const response = await fetchUserId({
                     username: username,
                     password: password
                     }, 
                 )
-                if(registeredId) {
-                    this.$id = registeredId
-                    this.$activeUsername = username
+                if(response.status === 200) {
+                    this.userId = response.data
+                    this.username = username
                 }
                 else {
                     throw new Error("The username and/or password did not match any registered users, please try again.")
                 }
                 //TODO: push to specific page?
             } catch (error) {
-                alert(error)
+                console.error(error)
             }
            
         },
         logUserOut() {
-            this.$id = null
-            this.$activeUsername = null
+            this.userId = null
+            this.username = null
             //TODO: push to home? 
         }
         
