@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
 import { fetchItemInventory, postItem } from '../services/ItemService'
 
-export const useUserStore = defineStore('UserStore', {
+export const useItemStore = defineStore({
+    id: 'ItemStore',
     state: () => (
         {
         inventory: []
@@ -40,11 +41,19 @@ export const useUserStore = defineStore('UserStore', {
             } catch (error) {
                 console.error(error)
             }
-        }
-        
+        },
+        //TODO: add methods to update an item
     },
     getters: {
-
+        getInventorySize() {
+            return this.inventory.length
+        },
+        getNewestItem() {
+            if(this.getInventorySize > 0) {
+                return this.inventory[this.getInventorySize() - 1]
+            }
+            return "Item inventory empty."
+        }
     }
 
 })

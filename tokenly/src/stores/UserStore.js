@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
 import { fetchUserId } from '../services/UserService'
 
-export const useUserStore = defineStore('UserStore', {
+export const useUserStore = defineStore({
+    id: 'UserStore',
     state: () => (
         {
         userId: null,
@@ -26,17 +27,21 @@ export const useUserStore = defineStore('UserStore', {
                 //TODO: push to specific page?
             } catch (error) {
                 console.error(error)
-            }
+            } 
            
         },
         logUserOut() {
             this.userId = null
             this.username = null
             //TODO: push to home? 
-        }
+        },
+        //TODO: add methods to update username, password, name etc...
         
     },
     getters: {
+        isLoggedIn() {
+            return this.userId != null
+        }
 
     }
 
