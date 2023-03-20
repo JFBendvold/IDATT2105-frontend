@@ -10,5 +10,5 @@ const props = defineProps({
 </script>
 
 <template>
-  <h1 class="title_component" >{{ title }}</h1>
+  <h1 class="title_component">{{ title }}</h1>
 </template>

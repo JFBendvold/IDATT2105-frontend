@@ -9,8 +9,7 @@ window.addEventListener('scroll', () => {
   let opacity = window.scrollY / 100
   if (opacity > 0.4) opacity = 0.4
   header.style.background = `rgba(0, 0, 0, ${opacity})`
-});
-
+})
 </script>
 
 <template>
@@ -19,12 +18,12 @@ window.addEventListener('scroll', () => {
       <RouterLink to="/" class="logo">
         <h1>tokenly</h1>
       </RouterLink>
-        <div class="search">
-            <input type="text" placeholder="Search" />
-            <button>
-                <i class="fas fa-search fa-sm"></i>
-            </button>
-        </div>
+      <div class="search">
+        <input type="text" placeholder="Search" />
+        <button>
+          <i class="fas fa-search fa-sm"></i>
+        </button>
+      </div>
       <nav class="links">
         <ul>
           <li>
