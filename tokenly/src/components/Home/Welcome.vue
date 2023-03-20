@@ -13,7 +13,7 @@ import "@fortawesome/fontawesome-free/css/all.css";
             <p>
                 Create an account to start trading your favorite NFTs today!
             </p>
-            <RouterLink to="/register">
+            <RouterLink to="/login">
                 <button class="register">
                     Join Now
                 </button>
