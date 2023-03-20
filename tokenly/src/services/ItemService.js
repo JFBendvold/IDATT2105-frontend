@@ -29,6 +29,16 @@ export async function fetchItemInventory(userId) {
     }
 }
 
+//Fetches an item from the database to display on the website
+export async function fetchItem(requestedItem) {
+    try {
+        const response = await apiClient.post("/" + requestedItem.itemId, requestedItem.type) 
+        return response
+    } catch (error) {
+        throw new Error("There was an error while posting a new item to the user inventory: " + error.response.statusText)
+    }
+}
+
 //Posts a new item to the logged in users' item inventory
 export async function postItem(userId, newItem) {
     try {
