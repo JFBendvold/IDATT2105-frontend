@@ -38,7 +38,24 @@
     width: 100%;
 }
 
-.loginContainer .login form input {
+.loginContainer div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.loginContainer .login form div input {
+    width: 48%;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    border: 1px solid #758BFD;
+    border-radius: 5px;
+    outline: none;
+    font-size: 1.2rem;
+}
+
+.largeInput {
     width: 100%;
     padding: 1rem;
     margin: 0.5rem 0;
