@@ -9,6 +9,16 @@ const apiClient = axios.create({
     }
 })
 
+//Retrieves the defualt trending items for the home page display
+export async function fetchTrendingDisplay(amount) {
+    try {
+        const response = await apiClient.post("/trending", amount) 
+        return response
+    } catch (error) {
+        throw new Error("There was an error while fetching the users saved items: " + error.response.statusText)
+    }
+}
+
 //Retrieves the logged in users' item inventory of saved items
 export async function fetchItemInventory(userId) {
     try {
