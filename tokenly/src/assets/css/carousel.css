@@ -8,6 +8,9 @@
 .swiper-slide {
   height: 100%;
   margin: 0 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+
 }
 
 .swiperImg {
@@ -22,6 +25,23 @@
   padding: 10px;
   box-sizing: border-box;
   cursor: pointer;
+}
+
+.swiperImg_overlay {
+  opacity: 0;
+  transition: all 0.3s ease;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 10px;
 }
 
 .swiperImg__title {
@@ -42,6 +62,10 @@
   text-shadow: 0 0 10px rgba(0, 0, 0, 1);
   opacity: 0;
   transition: all 0.3s ease;
+}
+
+.swiperImg:hover .swiperImg_overlay {
+  opacity: 1;
 }
 
 .swiperImg:hover .swiperImg__title {

@@ -18,6 +18,11 @@ const router = createRouter({
       path: '/signup',
       name: 'signup',
       component: () => import('../views/SignupView.vue')
+    },
+    {
+      path: '/nft',
+      name: 'nft',
+      component: () => import('../views/NFTView.vue')
     }
   ]
 })
