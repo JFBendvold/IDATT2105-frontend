@@ -16,6 +16,7 @@ window.addEventListener('scroll', () => {
   <header>
     <div class="wrapper">
       <RouterLink to="/" class="logo">
+        <img src="@/assets/img/logo.png" alt="logo" />
         <h1>tokenly</h1>
       </RouterLink>
       <div class="search">
