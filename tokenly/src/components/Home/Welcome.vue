@@ -8,7 +8,7 @@ import "@fortawesome/fontawesome-free/css/all.css";
     <div class="welcome">
         <div class="title">
             <h1>
-                Buying and selling NFTs has never been easier.
+                {{ $t("Info") }}
             </h1>
             <p>
                 Create an account to start trading your favorite NFTs today!
