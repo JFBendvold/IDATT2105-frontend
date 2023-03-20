@@ -57,7 +57,7 @@ const changeLanguage = () => {
       </div>
     </div>
     <div class="footer-bottom">
-      <select class="footer-language" name="language" id="language" @change="changeLanguage">
+      <select v-model="$i18n.locale" class="footer-language" name="language" id="language" @change="changeLanguage">
         <option value="" disabled selected>Select Language</option>
         <option value="en">English</option>
         <option value="no">Norsk</option>
