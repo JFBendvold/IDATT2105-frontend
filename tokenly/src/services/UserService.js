@@ -9,6 +9,8 @@ const apiClient = axios.create({
   }
 })
 
+//Retrieves the user id associated with the requestedUser based on the client's input 
+//username and password
 export async function fetchUserId(requestedUser) {
   try {
     const response = await apiClient.post('/login', requestedUser) //TODO: response needs to be either an id or null
@@ -20,14 +22,12 @@ export async function fetchUserId(requestedUser) {
   }
 }
 
-//TODO: use when changing password etc.
-export async function fetchUserInfo(username) {
-  try {
-    const response = await apiClient.get('/' + username)
-    return response
-  } catch (error) {
-    throw new Error(
-      'There was an error while fetching user information: ' + error.response.statusText
-    )
-  }
+//Gets the information associated with the logged in username
+export async function fetchUserInfo(username) { //TODO: use when changing password etc.
+    try {
+        const response = await apiClient.get("/" + username)
+        return response
+    } catch (error) {
+        throw new Error("There was an error while fetching user information: " + error.response.statusText)
+    }
 }
