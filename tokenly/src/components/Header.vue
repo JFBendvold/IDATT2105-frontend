@@ -28,16 +28,16 @@ window.addEventListener('scroll', () => {
       <nav class="links">
         <ul>
           <li>
-            <RouterLink to="/discover">Discover</RouterLink>
+            <RouterLink to="/discover"> {{ $t("Discover") }}</RouterLink>
           </li>
           <li>
-            <RouterLink to="/sell">Sell</RouterLink>
+            <RouterLink to="/sell"> {{ $t("Publish") }}</RouterLink>
           </li>
           <li>
-            <RouterLink to="/favorites">Favorites</RouterLink>
+            <RouterLink to="/favorites"> {{ $t("Favorites") }}</RouterLink>
           </li>
           <li>
-            <RouterLink to="/login">Login</RouterLink>
+            <RouterLink to="/login"> {{ $t("Login") }}</RouterLink>
           </li>
         </ul>
       </nav>

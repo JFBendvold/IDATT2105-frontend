@@ -1,3 +1,18 @@
 {
-    "Info": " Kjøp og salg av NFTer har aldri vært lettere."
+   
+    "__INFO__": "SECTION FOR INFORMATION",
+
+    "Info": " Kjøp og salg av NFTer har aldri vært lettere.",
+    "Create Account": "Opprett en bruker for å handle dine favoritt-NFTer i dag!",
+    
+
+    "__KEYWORDS__": "SECTION FOR KEYWORDS",
+
+    "Join": "Bli Med",
+    "Trending": "Populært nå",
+    "Discover": "Utforsk",
+    "Publish": "Publiser",
+    "Favorites": "Favoritter",
+    "Login": "Logg inn",
+    "Search": "Søk"
 }

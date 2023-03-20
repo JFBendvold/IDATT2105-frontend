@@ -11,11 +11,11 @@ import "@fortawesome/fontawesome-free/css/all.css";
                 {{ $t("Info") }}
             </h1>
             <p>
-                Create an account to start trading your favorite NFTs today!
+                {{ $t("Create Account") }}
             </p>
             <RouterLink to="/login">
                 <button class="register">
-                    Join Now
+                    {{ $t("Join") }}
                 </button>
             </RouterLink>
         </div>
