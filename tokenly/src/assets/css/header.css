@@ -12,7 +12,7 @@ header {
     left: 0;
     right: 0;
     z-index: 10;
-    /*backdrop-filter: blur(10px) saturate(100%);*/
+    backdrop-filter: blur(10px) saturate(100%);
 
 }
 

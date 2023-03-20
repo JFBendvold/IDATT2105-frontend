@@ -2,6 +2,15 @@
 import { RouterLink } from 'vue-router'
 import '../assets/css/header.css'
 import '@fortawesome/fontawesome-free/css/all.css'
+
+// Make the background fade in on scroll
+window.addEventListener('scroll', () => {
+  const header = document.querySelector('header')
+  let opacity = window.scrollY / 100
+  if (opacity > 0.4) opacity = 0.4
+  header.style.background = `rgba(0, 0, 0, ${opacity})`
+});
+
 </script>
 
 <template>

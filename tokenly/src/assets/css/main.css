@@ -13,10 +13,5 @@ body {
   background-color: #f1f2f6;
   width: 100vw;
   min-height: 100vh;
-  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(241, 242, 246, 1)),
-    url(../img/bg1.jpg);
-  background-size: cover;
-  background-position: top;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  overflow-x: hidden;
 }
