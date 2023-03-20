@@ -7,10 +7,16 @@ import '@fortawesome/fontawesome-free/css/all.css'
 <template>
   <div class="welcome">
     <div class="title">
-      <h1>Buying and selling NFTs has never been easier.</h1>
-      <p>Create an account to start trading your favorite NFTs today!</p>
+      <h1>
+        {{ $t('Info') }}
+      </h1>
+      <p>
+        {{ $t('Create Account') }}
+      </p>
       <RouterLink to="/login">
-        <button class="register">Join Now</button>
+        <button class="register">
+          {{ $t('Join') }}
+        </button>
       </RouterLink>
     </div>
     <div class="background-fade"></div>

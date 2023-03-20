@@ -23,22 +23,26 @@ export async function fetchTrendingDisplay(amount) {
 
 //Retrieves the logged in users' item inventory of saved items
 export async function fetchItemInventory(userId) {
-    try {
-        const response = await apiClient.get("/inventory/" + userId) 
-        return response
-    } catch (error) {
-        throw new Error("There was an error while fetching the users' saved items: " + error.response.statusText)
-    }
+  try {
+    const response = await apiClient.get('/inventory/' + userId)
+    return response
+  } catch (error) {
+    throw new Error(
+      "There was an error while fetching the users' saved items: " + error.response.statusText
+    )
+  }
 }
 
 //Fetches an item from the database to display on the website
 export async function fetchItem(requestedItem) {
-    try {
-        const response = await apiClient.post("/" + requestedItem.itemId, requestedItem.type) 
-        return response
-    } catch (error) {
-        throw new Error("There was an error while fetching the requested item: " + error.response.statusText)
-    }
+  try {
+    const response = await apiClient.post('/' + requestedItem.itemId, requestedItem.type)
+    return response
+  } catch (error) {
+    throw new Error(
+      'There was an error while fetching the requested item: ' + error.response.statusText
+    )
+  }
 }
 
 //Posts a new item to the logged in users' item inventory
