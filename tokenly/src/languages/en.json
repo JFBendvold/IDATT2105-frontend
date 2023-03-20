@@ -1,17 +1,16 @@
 {
-    "__INFO__": "SECTION FOR INFORMATION",
+  "__INFO__": "SECTION FOR INFORMATION",
 
-    "Info": "Buying and selling NFTs has never been easier.",
-    "Create Account": "Create an account to start trading your favorite NFTs today!",
-    
+  "Info": "Buying and selling NFTs has never been easier.",
+  "Create Account": "Create an account to start trading your favorite NFTs today!",
 
-    "__KEYWORDS__": "SECTION FOR KEYWORDS",
+  "__KEYWORDS__": "SECTION FOR KEYWORDS",
 
-    "Join": "Join Now",
-    "Trending": "Trending Now",
-    "Publish": "Publish",
-    "Sell": "Sell",
-    "Favorites": "Favorites",
-    "Login": "Login",
-    "Search": "Search"
+  "Join": "Join Now",
+  "Trending": "Trending Now",
+  "Publish": "Publish",
+  "Sell": "Sell",
+  "Favorites": "Favorites",
+  "Login": "Login",
+  "Search": "Search"
 }

@@ -4,15 +4,15 @@ import Carousel from '../components/Carousel.vue'
 import Title from '../components/Title.vue'
 import Header from '../components/Header.vue'
 
-  const viteRef = "https://vitejs.dev/"
-  const vueRef = "https://vuejs.org/"
+const viteRef = 'https://vitejs.dev/'
+const vueRef = 'https://vuejs.org/'
 </script>
 
 <template>
   <Header />
   <main>
     <TheWelcome />
-    <Title v-html="$t('Trending', { 'viteRef': viteRef, 'vueRef': vueRef})" />
+    <Title v-html="$t('Trending', { viteRef: viteRef, vueRef: vueRef })" />
     <Carousel />
   </main>
 </template>
