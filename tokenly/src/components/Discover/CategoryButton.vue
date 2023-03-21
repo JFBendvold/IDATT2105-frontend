@@ -1,5 +1,5 @@
 <script setup>
-import "../../assets/css/Discover/categoryButton.css"
+import "../../assets/css/discover/categoryButton.css"
 import { RouterLink } from "vue-router";
 import { ref } from "vue";
 
