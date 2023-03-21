@@ -15,7 +15,7 @@ const vueRef = 'https://vuejs.org/'
     <TheWelcome />
     <Title v-html="$t('Trending', { viteRef: viteRef, vueRef: vueRef })" />
     <Carousel />
-    <Title title="Newly Listed" />
+    <Title v-html="$t('Listed', { viteRef: viteRef, vueRef: vueRef })" />
     <Carousel />
   </main>
   <Footer />

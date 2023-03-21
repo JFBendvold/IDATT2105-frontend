@@ -20,7 +20,7 @@ window.addEventListener('scroll', () => {
         <h1>tokenly</h1>
       </RouterLink>
       <div class="search">
-        <input type="text" placeholder="Search" />
+        <input type="text" :placeholder="$t('Search')" />
         <button>
           <i class="fas fa-search fa-sm"></i>
         </button>
