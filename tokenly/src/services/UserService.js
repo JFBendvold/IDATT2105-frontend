@@ -9,11 +9,11 @@ const apiClient = axios.create({
   }
 })
 
-//Retrieves the user id associated with the requestedUser based on the client's input
+//Retrieves the user token associated with the requestedUser based on the client's input
 //username and password
-export async function fetchUserId(requestedUser) {
+export async function fetchUserToken(requestedUser) {
   try {
-    const response = await apiClient.post('/login', requestedUser) //TODO: response needs to be either an id or null
+    const response = await apiClient.post('/login', requestedUser) //TODO: response needs to be either a token or null
     return response
   } catch (error) {
     throw new Error(

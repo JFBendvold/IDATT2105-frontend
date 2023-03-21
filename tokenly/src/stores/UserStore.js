@@ -9,7 +9,7 @@ export const useUserStore = defineStore({
       password: 'mock',
       admin: true
     },
-    userId: null,
+    userToken: null,
     username: null,
     admin: false
   }),
@@ -24,7 +24,7 @@ export const useUserStore = defineStore({
         })
         //Occurs if the response is returned with a status code 200 (OK)
         if (response.status === 200) {
-          this.userId = response.data.userId
+          this.userToken = response.data.userToken
           this.username = username
           //Additional check to validate if the user is supposed to be an admin
           if (response.data.admin) {
@@ -49,7 +49,7 @@ export const useUserStore = defineStore({
       }
 
       if (username === this.mockUser.username && password === this.mockUser.password) {
-        this.userId = -1
+        this.userToken = "TESTTESTTESTTESTTEST"
         this.username = this.mockUser.username
         this.password = this.mockUser.password
         this.admin = this.mockUser.admin
@@ -61,7 +61,7 @@ export const useUserStore = defineStore({
 
     //Logs the current user out, and resets state to default
     logUserOut() {
-      this.userId = null
+      this.userToken = null
       this.username = null
       this.admin = false
       //TODO: push to home?
