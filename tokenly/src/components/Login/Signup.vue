@@ -22,12 +22,12 @@ let error = ''
           <input type="password" placeholder="Password" />
           <input type="password" placeholder="Confirm Password" />
         </div>
-        <button type="submit">Sign up</button>
+        <button type="submit">{{ $t('Sign up') }}</button>
         <p class="error" v-if="error">{{ error }}</p>
       </form>
       <p>
-        Already have an account?
-        <RouterLink to="/login"> Log in </RouterLink>
+        {{ $t('Already registered?') }}
+        <RouterLink to="/login"> {{ $t('Login') }} </RouterLink>
       </p>
     </div>
   </div>

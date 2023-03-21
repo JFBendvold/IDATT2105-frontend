@@ -52,14 +52,14 @@ const onMouseOut = (event) => {
       <div class="buttons">
         <div class="buy-buttons-row">
           <button class="buy-button">
-            <p>Make a bid</p>
+            <p>{{ $t('Bid') }}</p>
             <div class="price">
               {{ image.bidPrice }}
               <i class="fab fa-ethereum"></i>
             </div>
           </button>
           <button class="buy-button">
-            <p>Buy now</p>
+            <p>{{ $t('Buy') }}</p>
             <div class="price">
               {{ image.price }}
               <i class="fab fa-ethereum"></i>

@@ -14,12 +14,12 @@ let error = ''
       <form>
         <input type="text" placeholder="Username" />
         <input type="password" placeholder="Password" />
-        <button type="submit">Login</button>
+        <button type="submit">{{ $t('Login') }}</button>
         <p class="error" v-if="error">{{ error }}</p>
       </form>
       <p>
-        Don't have an account?
-        <RouterLink to="/signup"> Sign up </RouterLink>
+        {{ $t('Not registered?') }}
+        <RouterLink to="/signup"> {{ $t('Sign up') }} </RouterLink>
       </p>
     </div>
   </div>
