@@ -49,7 +49,7 @@ const changeLanguage = () => {
         </div>
       </div>
       <div class="footer-container">
-        <h2 class="footer-title">{{ $t('Profile') }}</h2>
+        <h2 class="footer-title">{{ $t('Legal') }}</h2>
         <div class="footer-links">
           <a href="https://0xNFT.com/terms" target="_blank">{{ $t('Terms') }}</a>
           <a href="https://0xNFT.com/privacy" target="_blank">{{ $t('Privacy') }}</a>
@@ -61,6 +61,7 @@ const changeLanguage = () => {
         <option value="" disabled selected>{{ $t('Select Language') }}</option>
         <option value="en">English</option>
         <option value="no">Norsk</option>
+        <option value="es">Español</option>
       </select>
       <p>© 2023 tokenly. All rights reserved.</p>
     </div>
