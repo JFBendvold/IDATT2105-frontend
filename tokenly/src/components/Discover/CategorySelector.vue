@@ -1,5 +1,5 @@
 <script setup>
-import "@/assets/css/Discover/categorySelector.css"
+import "@/assets/css/discover/categorySelector.css"
 import CategoryButton from "./CategoryButton.vue"
 </script>
 
