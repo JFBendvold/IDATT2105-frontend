@@ -60,7 +60,8 @@ const changeLanguage = () => {
       <select class="footer-language" name="language" id="language" v-model="$i18n.locale">
         <option value="" disabled selected>{{ $t('Select Language') }}</option>
         <option value="en">English</option>
-        <option value="no">Norsk</option>
+        <option value="nb">Norsk bokmål</option>
+        <option value="nn">Nynorsk</option>
         <option value="es">Español</option>
       </select>
       <p>© 2023 tokenly. All rights reserved.</p>
