@@ -57,6 +57,7 @@ const changeLanguage = () => {
       </div>
     </div>
     <div class="footer-bottom">
+      <img src="@/assets/img/logo.png" alt="logo" />
       <select class="footer-language" name="language" id="language" v-model="$i18n.locale">
         <option value="" disabled selected>{{ $t('Select Language') }}</option>
         <option value="en">English</option>
