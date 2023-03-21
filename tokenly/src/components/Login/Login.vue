@@ -1,13 +1,15 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import '../../assets/css/login/login.css'
+import logo from '../../assets/img/logo.png'
 
 let error = ''
 </script>
 
 <template>
   <div class="loginContainer">
-    <RouterLink to="/">
+    <RouterLink to="/" class="logo-container">
+      <img src="@/assets/img/logo.png" alt="logo" />
       <h1>tokenly</h1>
     </RouterLink>
     <div class="login">
