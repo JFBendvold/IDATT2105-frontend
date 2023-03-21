@@ -7,7 +7,8 @@ let error = ''
 
 <template>
   <div class="loginContainer">
-    <RouterLink to="/">
+    <RouterLink to="/" class="logo-container">
+      <img src="@/assets/img/logo.png" alt="logo" />
       <h1>tokenly</h1>
     </RouterLink>
     <div class="login">
