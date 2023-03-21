@@ -26,6 +26,12 @@
   "Select Language": "Select Language",
   "Buy": "Buy Now",
   "Bid": "Make a bid",
-  "Listed": "Newly Listed"
+  "Listed": "Newly Listed",
+  "Username": "Username",
+  "Username min6chars": "Username (min 6 characters)",
+  "Password": "Password",
+  "Confirm Password": "Confirm Password",
+  "First Name": "First Name",
+  "Last Name": "Last Name"
 
 }

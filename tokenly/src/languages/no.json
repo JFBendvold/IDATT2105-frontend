@@ -26,6 +26,12 @@
   "Select Language": "Velg språk",
   "Buy": "Kjøp nå",
   "Bid": "Gi bud",
-  "Listed": "Nylige oppføringer"
+  "Listed": "Nylige oppføringer",
+  "Username": "Brukernavn",
+  "Username min6chars": "Brukernavn (min 6 tegn)",
+  "Password": "Passord",
+  "Confirm Password": "Bekreft Passord",
+  "First Name": "Fornavn",
+  "Last Name": "Etternavn"
 
 }

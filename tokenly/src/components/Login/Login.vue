@@ -12,8 +12,8 @@ let error = ''
     </RouterLink>
     <div class="login">
       <form>
-        <input type="text" placeholder="Username" />
-        <input type="password" placeholder="Password" />
+        <input type="text" :placeholder="$t('Username')" />
+        <input type="password" :placeholder="$t('Password')" />
         <button type="submit">{{ $t('Login') }}</button>
         <p class="error" v-if="error">{{ error }}</p>
       </form>
