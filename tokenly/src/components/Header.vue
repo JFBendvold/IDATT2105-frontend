@@ -16,10 +16,11 @@ window.addEventListener('scroll', () => {
   <header>
     <div class="wrapper">
       <RouterLink to="/" class="logo">
+        <img src="@/assets/img/logo.png" alt="logo" />
         <h1>tokenly</h1>
       </RouterLink>
       <div class="search">
-        <input type="text" placeholder="Search" />
+        <input type="text" :placeholder="$t('Search')" />
         <button>
           <i class="fas fa-search fa-sm"></i>
         </button>

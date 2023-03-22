@@ -23,6 +23,11 @@ const router = createRouter({
       path: '/nft',
       name: 'nft',
       component: () => import('../views/NFTView.vue')
+    },
+    {
+      path: '/discover',
+      name: 'discover',
+      component: () => import('../views/DiscoverView.vue')
     }
   ]
 })
