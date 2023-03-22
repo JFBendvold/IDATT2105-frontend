@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
-import { fetchUserId } from '../services/UserService'
+import { fetchUserToken } from '../services/UserService'
+import router from '@/router/index.js'
 
 export const useUserStore = defineStore({
   id: 'UserStore',
@@ -7,11 +8,9 @@ export const useUserStore = defineStore({
     mockUser: {
       username: 'mock',
       password: 'mock',
-      admin: true
     },
     userToken: null,
     username: null,
-    admin: false
   }),
   actions: {
     //Sends an api call to backend via post call which validates the user credentials (username, password)
@@ -51,10 +50,11 @@ export const useUserStore = defineStore({
       if (username === this.mockUser.username && password === this.mockUser.password) {
         this.userToken = "TESTTESTTESTTESTTEST"
         this.username = this.mockUser.username
-        this.password = this.mockUser.password
-        this.admin = this.mockUser.admin
+        router.push({ name: 'home' }) //TODO: redirect to logged in page
+        console.log(true)
         return true //"The mock user was successfully logged in!"
       } else {
+        console.log(false)
         return false //"The login failed, please provide the correct username and password for the mock user."
       }
     },
