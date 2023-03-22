@@ -3,18 +3,27 @@ import { RouterLink } from 'vue-router'
 import '../../assets/css/login/login.css'
 import { useUserStore } from '@/stores/UserStore.js'
 
-let error = ''
-
-const userStore = useUserStore()
 
 </script>
 
 <script>
+const userStore = useUserStore()
+
 export default {
   data() {
     return {
+      error: '',
       username: null,
       password: null
+    }
+  },
+  methods: {
+    async handleSubmit() {
+      try {
+        await userStore.logUserIn(this.username, this.password)
+      } catch (error) {
+        this.error = error.message
+      }
     }
   }
 }
@@ -26,7 +35,7 @@ export default {
       <h1>tokenly</h1>
     </RouterLink>
     <div class="login">
-      <form @submit.prevent="userStore.logUserIn(username, password)">
+      <form @submit.prevent="handleSubmit()">
         <input type="text" placeholder="Username" v-model="username"/>
         <input type="password" placeholder="Password" v-model="password"/>
         <button type="submit">Login</button>

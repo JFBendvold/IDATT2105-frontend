@@ -3,21 +3,40 @@ import { RouterLink } from 'vue-router'
 import '../../assets/css/login/signup.css'
 import { useUserStore } from '@/stores/UserStore.js'
 
-let error = ''
-
-const userStore = useUserStore()
-
 </script>
 
 <script>
+
+const userStore = useUserStore()
+
   export default {
     data() {
       return {
+        error: '',
         username: null,
         password: null,
+        confirmPassword: null,
         firstName: null,
         lastName: null,
         email: null
+      }
+    },
+    computed: {
+      matchingPasswords() {
+        return this.password === this.confirmPassword
+      }
+    },
+    methods: {
+      async handleSubmit() {
+        if (this.matchingPasswords) {
+          try {
+            await userStore.createUserProfile(this.username, this.password, this.firstName, this.lastName, this.email)
+          } catch (error) {
+            this.error = error.message
+          }
+        } else {
+          this.error = 'Passwords do not have matching values'
+        }
       }
     }
   }
@@ -29,7 +48,7 @@ const userStore = useUserStore()
       <h1>tokenly</h1>
     </RouterLink>
     <div class="login">
-      <form @submit.prevent="userStore.createUserProfile(username, password, firstName, lastName, email)">
+      <form @submit.prevent="handleSubmit()">
         <div>
           <input type="text" placeholder="First Name" v-model="firstName"/>
           <input type="text" placeholder="Last Name" v-model="lastName"/>
@@ -38,7 +57,7 @@ const userStore = useUserStore()
         <input class="largeInput" type="text" placeholder="Email" v-model="email"/>
         <div>
           <input type="password" placeholder="Password" v-model="password"/>
-          <input type="password" placeholder="Confirm Password"/>
+          <input type="password" placeholder="Confirm Password" v-model="confirmPassword"/>
         </div>
         <button type="submit">Sign up</button>
         <p class="error" v-if="error">{{ error }}</p>
