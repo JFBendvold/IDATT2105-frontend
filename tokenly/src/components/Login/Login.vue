@@ -28,8 +28,8 @@ export default {
     </RouterLink>
     <div class="login">
       <form @submit.prevent="userStore.tempLogUserIn(username, password)">
-        <input type="text" :placeholder="$t('Username')" v-model="username"/>
-        <input type="password" :placeholder="$t('Password')" v-model="password"/>
+        <input type="text" :placeholder="$t('Username')" v-model="username" />
+        <input type="password" :placeholder="$t('Password')" v-model="password" />
         <button type="submit">{{ $t('Login') }}</button>
         <p class="error" v-if="error">{{ error }}</p>
       </form>

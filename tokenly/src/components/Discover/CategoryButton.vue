@@ -1,46 +1,46 @@
 <script setup>
-import "../../assets/css/discover/categoryButton.css"
-import { RouterLink } from "vue-router";
-import { ref } from "vue";
+import '../../assets/css/discover/categoryButton.css'
+import { RouterLink } from 'vue-router'
+import { ref } from 'vue'
 
-import Photography from "../../assets/img/category/Photography.jpg";
-import Animation from "../../assets/img/category/Animation.gif";
-import Wallpaper from "../../assets/img/category/Wallpaper.jpg";
-import Animal from "../../assets/img/category/Animal.jpg";
-import People from "../../assets/img/category/People.jpg";
-import Cartoon from "../../assets/img/category/Cartoon.jpg";
-import Art from "../../assets/img/category/Art.jpg";
-import Collectibles from "../../assets/img/category/Collectibles.jpg";
+import Photography from '../../assets/img/category/Photography.jpg'
+import Animation from '../../assets/img/category/Animation.gif'
+import Wallpaper from '../../assets/img/category/Wallpaper.jpg'
+import Animal from '../../assets/img/category/Animal.jpg'
+import People from '../../assets/img/category/People.jpg'
+import Cartoon from '../../assets/img/category/Cartoon.jpg'
+import Art from '../../assets/img/category/Art.jpg'
+import Collectibles from '../../assets/img/category/Collectibles.jpg'
 
 const { category } = defineProps({
-    category: {
-        type: String,
-        required: true
-    }
-});
+  category: {
+    type: String,
+    required: true
+  }
+})
 
-const categoryButton = ref(null);
+const categoryButton = ref(null)
 
-let image = null;
+let image = null
 
-if (category == "Photography") {
-    image = Photography;
-} else if (category == "Animation") {
-    image = Animation;
-} else if (category == "Wallpaper") {
-    image = Wallpaper;
-} else if (category == "Animal") {
-    image = Animal;
-} else if (category == "People") {
-    image = People;
-} else if (category == "Cartoon") {
-    image = Cartoon;
-} else if (category == "Art") {
-    image = Art;
-} else if (category == "Collectibles") {
-    image = Collectibles;
+if (category == 'Photography') {
+  image = Photography
+} else if (category == 'Animation') {
+  image = Animation
+} else if (category == 'Wallpaper') {
+  image = Wallpaper
+} else if (category == 'Animal') {
+  image = Animal
+} else if (category == 'People') {
+  image = People
+} else if (category == 'Cartoon') {
+  image = Cartoon
+} else if (category == 'Art') {
+  image = Art
+} else if (category == 'Collectibles') {
+  image = Collectibles
 } else {
-    image = Art;
+  image = Art
 }
 
 const onMouseOver = (event) => {
@@ -51,29 +51,28 @@ const onMouseOver = (event) => {
   const height = event.target.offsetHeight
   const xPercent = (x / width) * 100 * 2
   const yPercent = (-y / height) * 100 * 4
-  event.target.style.transform = `perspective(200px) rotateY(${
-    (xPercent - 50) / 100
-  }deg) rotateX(${(yPercent - 50) / 100}deg)`
+  event.target.style.transform = `perspective(200px) rotateY(${(xPercent - 50) / 100}deg) rotateX(${
+    (yPercent - 50) / 100
+  }deg)`
 }
 
 const onMouseOut = (event) => {
   event.target.style.transform = 'none'
 }
-
 </script>
 
 <template>
-    <RouterLink to="discover">
-        <div 
-        class="category-button" 
-        ref="categoryButton" 
-        :style="{ backgroundImage: 'url(' + image + ')' }"
-        @mousemove="onMouseOver"
-        @mouseout="onMouseOut"
-        >
-            <div class="category-button-text">
-                {{ category }}
-            </div>
-        </div>
-    </RouterLink>
+  <RouterLink to="discover#content">
+    <div
+      class="category-button"
+      ref="categoryButton"
+      :style="{ backgroundImage: 'url(' + image + ')' }"
+      @mousemove="onMouseOver"
+      @mouseout="onMouseOut"
+    >
+      <div class="category-button-text">
+        {{ category }}
+      </div>
+    </div>
+  </RouterLink>
 </template>

@@ -37,7 +37,9 @@ window.addEventListener('scroll', () => {
             <RouterLink to="/favorites"> {{ $t('Favorites') }}</RouterLink>
           </li>
           <li>
-            <RouterLink to="/login"> {{ $t('Login') }}</RouterLink>
+            <RouterLink to="/login">
+               {{ $t('Login') }}
+            </RouterLink>
           </li>
         </ul>
       </nav>
