@@ -4,15 +4,13 @@ import { fetchUserToken, registerUser } from '../services/UserService'
 export const useUserStore = defineStore({
   id: 'UserStore',
   state: () => ({
-    mockUser: {
-      username: 'mock',
-      password: 'mock',
-      admin: true
-    },
     userToken: null,
-    username: null,
-    admin: false
+    username: null
   }),
+  persist: {
+    //sessionStorage is used to store the userToken and username in the browser's session storage
+    storage: sessionStorage, 
+  },
   actions: {
     //Sends an api call to backend via post call which validates the user credentials (username, password)
     async logUserIn(username, password) {
@@ -46,9 +44,9 @@ export const useUserStore = defineStore({
         const response = await registerUser({
           username: username,
           password: password,
-          /*firstname: firstname,
+          firstname: firstname,
           lastname: lastname,
-          email: email*/
+          email: email
         })
         console.log(response)
         //Occurs if the response is returned with a status code 200 (OK)
@@ -65,29 +63,10 @@ export const useUserStore = defineStore({
         console.error(error)
       }
     },
-
-    //Temp function to log in a mock user
-    tempLogUserIn(username, password) {
-      if (username === '' || password === '') {
-        return false
-      }
-
-      if (username === this.mockUser.username && password === this.mockUser.password) {
-        this.userToken = "TESTTESTTESTTESTTEST"
-        this.username = this.mockUser.username
-        this.password = this.mockUser.password
-        this.admin = this.mockUser.admin
-        return true //"The mock user was successfully logged in!"
-      } else {
-        return false //"The login failed, please provide the correct username and password for the mock user."
-      }
-    },
-
     //Logs the current user out, and resets state to default
     logUserOut() {
       this.userToken = null
       this.username = null
-      this.admin = false
       //TODO: push to home?
     }
     //TODO: add methods to update username, password, name etc...
