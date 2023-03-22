@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { fetchUserId } from '../services/UserService'
+import { fetchUserToken } from '../services/UserService'
 
 export const useUserStore = defineStore({
   id: 'UserStore',
@@ -18,19 +18,14 @@ export const useUserStore = defineStore({
     async logUserIn(username, password) {
       try {
         //Tries to store the response of the call to the constant 'response'
-        const response = await fetchUserId({
+        const response = await fetchUserToken({
           username: username,
           password: password
         })
         //Occurs if the response is returned with a status code 200 (OK)
         if (response.status === 200) {
-          this.userToken = response.data.userToken
+          this.userToken = response.data
           this.username = username
-          //Additional check to validate if the user is supposed to be an admin
-          if (response.data.admin) {
-            //TODO: must be updated
-            this.admin = true
-          }
         } else {
           throw new Error(
             'The username and/or password did not match any registered users, please try again.'
@@ -70,7 +65,7 @@ export const useUserStore = defineStore({
   },
   getters: {
     isLoggedIn() {
-      return this.userId != null
+      return this.userToken != null
     }
   }
 })

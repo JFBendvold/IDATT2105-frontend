@@ -1,8 +1,23 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import '../../assets/css/login/login.css'
+import { useUserStore } from '@/stores/UserStore.js'
 
 let error = ''
+
+const userStore = useUserStore()
+
+</script>
+
+<script>
+export default {
+  data() {
+    return {
+      username: null,
+      password: null
+    }
+  }
+}
 </script>
 
 <template>
@@ -11,9 +26,9 @@ let error = ''
       <h1>tokenly</h1>
     </RouterLink>
     <div class="login">
-      <form>
-        <input type="text" placeholder="Username" />
-        <input type="password" placeholder="Password" />
+      <form @submit.prevent="userStore.logUserIn(username, password)">
+        <input type="text" placeholder="Username" v-model="username"/>
+        <input type="password" placeholder="Password" v-model="password"/>
         <button type="submit">Login</button>
         <p class="error" v-if="error">{{ error }}</p>
       </form>
