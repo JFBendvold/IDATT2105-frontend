@@ -2,21 +2,22 @@
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
 import CategorySelector from '../components/Discover/CategorySelector.vue'
+import NFTTable from '../components/Discover/NFTTable.vue'
 </script>
 
 <template>
     <Header />
     <main>
         <CategorySelector />
-        <div class="placeholder">
-            <h1>Placeholder</h1>
+        <div class="content">
+            <NFTTable />
         </div>
     </main>
     <Footer />
 </template>
 
 <style scoped>
-.placeholder {
+.content {
     height: 100vh;
     width: 100%;
     background-color: #F1F2F6;
