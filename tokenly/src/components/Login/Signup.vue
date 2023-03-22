@@ -1,8 +1,26 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import '../../assets/css/login/signup.css'
+import { useUserStore } from '@/stores/UserStore.js'
 
 let error = ''
+
+const userStore = useUserStore()
+
+</script>
+
+<script>
+  export default {
+    data() {
+      return {
+        username: null,
+        password: null,
+        firstName: null,
+        lastName: null,
+        email: null
+      }
+    }
+  }
 </script>
 
 <template>
@@ -11,16 +29,16 @@ let error = ''
       <h1>tokenly</h1>
     </RouterLink>
     <div class="login">
-      <form>
+      <form @submit.prevent="userStore.createUserProfile(username, password, firstName, lastName, email)">
         <div>
-          <input type="text" placeholder="First Name" />
-          <input type="text" placeholder="Last Name" />
+          <input type="text" placeholder="First Name" v-model="firstName"/>
+          <input type="text" placeholder="Last Name" v-model="lastName"/>
         </div>
-        <input class="largeInput" type="text" placeholder="Username (min 6 characters)" />
-        <input class="largeInput" type="text" placeholder="Email" />
+        <input class="largeInput" type="text" placeholder="Username (min 6 characters)" v-model="username"/>
+        <input class="largeInput" type="text" placeholder="Email" v-model="email"/>
         <div>
-          <input type="password" placeholder="Password" />
-          <input type="password" placeholder="Confirm Password" />
+          <input type="password" placeholder="Password" v-model="password"/>
+          <input type="password" placeholder="Confirm Password"/>
         </div>
         <button type="submit">Sign up</button>
         <p class="error" v-if="error">{{ error }}</p>

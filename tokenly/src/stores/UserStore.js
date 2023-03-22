@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { fetchUserToken } from '../services/UserService'
+import { fetchUserToken, registerUser } from '../services/UserService'
 
 export const useUserStore = defineStore({
   id: 'UserStore',
@@ -26,6 +26,7 @@ export const useUserStore = defineStore({
         if (response.status === 200) {
           this.userToken = response.data
           this.username = username
+          console.log(this.userToken)
         } else {
           throw new Error(
             'The username and/or password did not match any registered users, please try again.'
@@ -37,6 +38,34 @@ export const useUserStore = defineStore({
         console.error(error)
       }
     },
+
+    //Sends an api call to backend via post call which creates a new user as well as a new user profile
+    async createUserProfile(username, password, firstname, lastname, email) {
+      try {
+        //Tries to store the response of the call to the constant 'response'
+        const response = await registerUser({
+          username: username,
+          password: password,
+          /*firstname: firstname,
+          lastname: lastname,
+          email: email*/
+        })
+        console.log(response)
+        //Occurs if the response is returned with a status code 200 (OK)
+        if (response.status === 201) {
+          this.logUserIn(username, password)
+        } else {
+          throw new Error(
+            'The username and/or password did not match any registered users, please try again.'
+          )
+        }
+        //TODO: push to specific page?
+        //Console logs errors
+      } catch (error) {
+        console.error(error)
+      }
+    },
+
     //Temp function to log in a mock user
     tempLogUserIn(username, password) {
       if (username === '' || password === '') {
