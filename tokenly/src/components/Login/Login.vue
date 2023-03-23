@@ -2,8 +2,6 @@
 import { RouterLink } from 'vue-router'
 import '../../assets/css/login/login.css'
 import { useUserStore } from '@/stores/UserStore.js'
-import logo from '../../assets/img/logo.png'
-import { useUserStore } from '@/stores/UserStore.js'
 const userStore = useUserStore()
 
 </script>
