@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useUserStore } from '../stores/UserStore'
 import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
@@ -28,8 +29,26 @@ const router = createRouter({
       path: '/discover',
       name: 'discover',
       component: () => import('../views/DiscoverView.vue')
-    }
+    },
+    {
+      path: '/sell',
+      name: 'sell',
+      component: () => import('../views/SellView.vue')
+    },
   ]
+})
+
+//TODO: works fine, but needs to be implemented
+router.beforeEach(async (to) => {
+  const privatePages = ['nft', 'sell', 'discover']
+  const authorized = useUserStore().isLoggedIn
+  console.log(authorized)
+  if (privatePages.includes(to.name) && !authorized) {
+    return '/login'
+  }
+  else {
+    return true
+  }
 })
 
 export default router

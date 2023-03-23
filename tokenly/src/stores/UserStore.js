@@ -25,11 +25,6 @@ export const useUserStore = defineStore({
         if (response.status === 200) {
           this.userToken = response.data.userToken
           this.username = username
-          //Additional check to validate if the user is supposed to be an admin
-          if (response.data.admin) {
-            //TODO: must be updated
-            this.admin = true
-          }
         } else {
           throw new Error(
             'The username and/or password did not match any registered users, please try again.'
@@ -63,14 +58,13 @@ export const useUserStore = defineStore({
     logUserOut() {
       this.userToken = null
       this.username = null
-      this.admin = false
       //TODO: push to home?
     }
     //TODO: add methods to update username, password, name etc...
   },
   getters: {
     isLoggedIn() {
-      return this.userId != null
+      return this.userToken != null
     }
   }
 })
