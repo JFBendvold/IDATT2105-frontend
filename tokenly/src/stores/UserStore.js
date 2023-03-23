@@ -5,10 +5,6 @@ import router from '@/router/index.js'
 export const useUserStore = defineStore({
   id: 'UserStore',
   state: () => ({
-    mockUser: {
-      username: 'mock',
-      password: 'mock'
-    },
     userToken: null,
     username: null
   }),
@@ -28,13 +24,13 @@ export const useUserStore = defineStore({
         //Occurs if the response is returned with a status code 200 (OK)
         if (response.status === 200) {
           this.userToken = response.data
-          this.username = username
+          this.username = username   
+          router.push({ name: 'home' })
         } else {
           throw new Error(
             'The username and/or password did not match any registered users, please try again.'
           )
         }
-        //TODO: push to specific page?
         //Console logs errors
       } catch (error) {
         console.error(error)
