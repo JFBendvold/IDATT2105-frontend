@@ -83,11 +83,12 @@
 }
 
 .favorites-grid-item a i {
-    font-size: 1.5rem;
+    font-size: 1rem;
     color: #333;
     transition: all 0.1s ease;
     padding: 0.5rem;
     border-radius: 50%;
+    text-shadow: 0 0 2px #F1F2F6;
 }
 
 .favorites-grid-item a i:hover {
@@ -97,3 +98,25 @@
     padding: 0.5rem;
 }
 
+.remove-icon {
+  position: absolute;
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #333;
+  transition: all 0.1s ease;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+  cursor: pointer;
+  text-shadow: 0 0 2px #F1F2F6;
+}
+
+.remove-icon:hover {
+  color: #F1F2F6;
+  background-color: #333;
+  border-radius: 50%;
+}

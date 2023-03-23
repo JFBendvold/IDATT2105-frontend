@@ -9,8 +9,14 @@ const showCategories = ref(false)
 const upload = ref(null)
 const uploadedFile = ref(null)
 const listed = ref(false)
+const errorMsg = ref('')
 
-let selectedCategories = []
+const title = ref('')
+const description = ref('')
+const bidStartPrice = ref('')
+const buyNowPrice = ref('')
+const selectedCategories = ref([])
+
 let categories = [
   'Art',
   'Music',
@@ -32,16 +38,16 @@ let categories = [
 ]
 
 const addCategory = (category) => {
-    if (selectedCategories.includes(category)) {
+    if (selectedCategories.value.includes(category)) {
         return
     }
-    selectedCategories.push(category)
+    selectedCategories.value.push(category)
     showCategories.value = true
     showCategories.value = false
 }
 
 const removeCategory = (category) => {
-    selectedCategories = selectedCategories.filter((c) => c !== category)
+    selectedCategories.value = selectedCategories.value.filter((c) => c !== category)
     showCategories.value = false
 }
 
@@ -77,7 +83,52 @@ const uploadFile = (event) => {
 }
 
 const publish = () => {
-  console.log('publish')
+    if (title.value.length === 0) {
+        errorMsg.value = 'Title is required'
+        return
+    }
+    if (description.value.length === 0) {
+        errorMsg.value = 'Description is required'
+        return
+    }
+    if (selectedCategories.value.length === 0) {
+        errorMsg.value = 'At least one category is required'
+        return
+    }
+    if (uploadedFile.value === null) {
+        errorMsg.value = 'File is required'
+        return
+    }
+    if (listed.value) {
+        if (bidStartPrice.value.length === 0) {
+            errorMsg.value = 'Starting bid is required'
+            return
+        }
+        if (buyNowPrice.value.length === 0) {
+            errorMsg.value = 'Buy now price is required'
+            return
+        }
+    }
+
+    errorMsg.value = ''
+    console.log('Publishing')
+    
+    const mainData = {
+        title: title.value,
+        description: description.value,
+        categories: selectedCategories.value,
+        file: uploadedFile.value
+    }
+
+    console.log(mainData)
+
+    const listingData = {
+        listed: listed.value,
+        bidStartPrice: bidStartPrice.value,
+        buyNowPrice: buyNowPrice.value
+    }
+
+    console.log(listingData)
 }
 
 </script>
@@ -87,14 +138,14 @@ const publish = () => {
         <Title title="Publish" />
         <div class="publish-wrapper">
             <form @submit.prevent="publish">
-            <input type="text" placeholder="Title" class="publish-title" />
-            <textarea placeholder="Description"></textarea>
+            <input type="text" placeholder="Title" class="publish-title" v-model="title" />
+            <textarea placeholder="Description" v-model="description"></textarea>
             <input 
             type="file"
             accept="image/*"
             ref="upload" 
             class="publish-file" 
-            @change="uploadFile($event)" 
+            @change="uploadFile($event)"
             v-if="uploadedFile === null" />
             <button class="publish-upload-button" @click="$refs.upload.click()" v-if="uploadedFile === null">
                 Upload
@@ -140,11 +191,11 @@ const publish = () => {
                 </label>
                 <div class="listed-options-wrapper" v-if="listed">
                     <div class="row">
-                        <input type="text" placeholder="Starting Bid" />
+                        <input type="text" placeholder="Starting Bid" name="starting-bid" v-model="bidStartPrice" />
                         <i class="fab fa-ethereum"></i>
                     </div>
                     <div class="row">
-                        <input type="text" placeholder="Buy now price" />
+                        <input type="text" placeholder="Buy now price" name="buy-now-price" v-model="buyNowPrice" />
                         <i class="fab fa-ethereum"></i>
                     </div>
                 </div>
@@ -153,6 +204,9 @@ const publish = () => {
                 By publishing, you agree to our <RouterLink to="/terms">Terms of Service</RouterLink> and <RouterLink to="/privacy">Privacy Policy</RouterLink>
             </p>
             <button type="submit">Publish</button>
+            <p class="publish-error" v-if="errorMsg.length > 0">
+                {{ errorMsg }}
+            </p>
             </form>
         </div>
     </div>

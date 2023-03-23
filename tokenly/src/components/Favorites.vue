@@ -37,6 +37,11 @@ let nfts = [
         }
 ]
 
+const removeFromFavorites = (nft) => {
+    nfts = nfts.filter((item) => item.title !== nft.title)
+    window.location.reload()
+}
+
 </script>
 
 <template>
@@ -53,6 +58,7 @@ let nfts = [
                 <div class="favorites-grid" v-else>
                     <div class="favorites-grid-item" v-for="nft in nfts" :key="nft.title">
                         <div class="favorites-grid-item-image">
+                            <i class="fas fa-times remove-icon" @click="removeFromFavorites(nft)"></i>
                             <img :src="nft.filename" :alt="nft.alt" />
                         </div>
                         <div class="favorites-grid-item-info">
