@@ -4,6 +4,7 @@ import Signup from '../components/Login/Signup.vue'
 
 <template>
   <main>
-    <Signup /> <!--TODO: change-->
+    <Signup />
+    <!--TODO: change-->
   </main>
 </template>

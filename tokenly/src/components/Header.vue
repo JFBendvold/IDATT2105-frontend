@@ -38,7 +38,7 @@ window.addEventListener('scroll', () => {
           </li>
           <li>
             <RouterLink to="/login">
-               {{ $t('Login') }}
+              {{ $t('Login') }}
             </RouterLink>
           </li>
         </ul>

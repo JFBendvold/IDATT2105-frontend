@@ -15,9 +15,7 @@ export async function fetchTrendingDisplay(amount) {
     const response = await apiClient.post('/trending', amount)
     return response
   } catch (error) {
-    throw new Error(
-      'There was an error while fetching the users saved items: ' + error
-    )
+    throw new Error('There was an error while fetching the users saved items: ' + error)
   }
 }
 
@@ -27,9 +25,7 @@ export async function fetchItemInventory(userId) {
     const response = await apiClient.get('/inventory/' + userId)
     return response
   } catch (error) {
-    throw new Error(
-      "There was an error while fetching the users' saved items: " + error
-    )
+    throw new Error("There was an error while fetching the users' saved items: " + error)
   }
 }
 
@@ -40,9 +36,7 @@ export async function fetchItem(itemId) {
     console.log(response)
     return response
   } catch (error) {
-    throw new Error(
-      'There was an error while fetching the requested item: ' + error
-    )
+    throw new Error('There was an error while fetching the requested item: ' + error)
   }
 }
 
@@ -52,9 +46,7 @@ export async function fetchItemFromPath(sourcePath) {
     const response = await apiClient.get('/')
     return response
   } catch (error) {
-    throw new Error(
-      'There was an error while fetching the requested item: ' + error
-    )
+    throw new Error('There was an error while fetching the requested item: ' + error)
   }
 }
 
@@ -65,9 +57,7 @@ export async function fetchAllItems() {
     console.log(response)
     return response
   } catch (error) {
-    throw new Error(
-      'There was an error while fetching the requested item: ' + error
-    )
+    throw new Error('There was an error while fetching the requested item: ' + error)
   }
 }
 
@@ -77,9 +67,6 @@ export async function postItem(userId, newItem) {
     const response = await apiClient.post('/inventory/' + userId, newItem)
     return response
   } catch (error) {
-    throw new Error(
-      'There was an error while posting a new item to the user inventory: ' +
-        error
-    )
+    throw new Error('There was an error while posting a new item to the user inventory: ' + error)
   }
 }

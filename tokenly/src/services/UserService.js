@@ -16,9 +16,7 @@ export async function fetchUserToken(requestedUser) {
     const response = await apiClient.post('/token', requestedUser) //TODO: response needs to be either a token or null
     return response
   } catch (error) {
-    throw new Error(
-      'There was an error while fetching user information: ' + error.response
-    )
+    throw new Error('There was an error while fetching user information: ' + error.response)
   }
 }
 
@@ -28,9 +26,7 @@ export async function registerUser(userCredentials) {
     const response = await apiClient.post('/register', userCredentials) //TODO: response needs to be either a token or null
     return response
   } catch (error) {
-    throw new Error(
-      'There was an error while creating user: ' + error.response
-    )
+    throw new Error('There was an error while creating user: ' + error.response)
   }
 }
 

@@ -7,9 +7,9 @@ import Title from '../components/Title.vue'
 </script>
 
 <template>
-    <Header />
-    <main>
-        <Publish />
-    </main>
-    <Footer />
+  <Header />
+  <main>
+    <Publish />
+  </main>
+  <Footer />
 </template>

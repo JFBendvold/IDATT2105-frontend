@@ -3,7 +3,6 @@ import { RouterLink } from 'vue-router'
 import '../../assets/css/login/login.css'
 import { useUserStore } from '@/stores/UserStore.js'
 const userStore = useUserStore()
-
 </script>
 
 <script>
@@ -37,8 +36,8 @@ export default {
     </RouterLink>
     <div class="login">
       <form @submit.prevent="handleSubmit()">
-        <input type="text" placeholder="Username" v-model="username"/>
-        <input type="password" placeholder="Password" v-model="password"/>
+        <input type="text" placeholder="Username" v-model="username" />
+        <input type="password" placeholder="Password" v-model="password" />
         <button type="submit">Login</button>
         <p class="error" v-if="error">{{ error }}</p>
       </form>

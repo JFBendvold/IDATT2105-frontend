@@ -4,7 +4,7 @@
   position: sticky;
   top: 80px;
   align-self: flex-start;
-  background-color: #F1F2F6;
+  background-color: #f1f2f6;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
   z-index: 1;
 }
