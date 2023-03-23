@@ -33,6 +33,21 @@ const router = createRouter({
       path: '/favorites',
       name: 'favorites',
       component: () => import('../views/FavoritesView.vue')
+    },
+    {
+      path: '/publish',
+      name: 'publish',
+      component: () => import('../views/PublishView.vue')
+    },
+    {
+      path: '/terms',
+      name: 'terms',
+      component: () => import('../views/docs/TermsView.vue')
+    },
+    {
+      path: '/privacy',
+      name: 'privacy',
+      component: () => import('../views/docs/PrivacyView.vue')
     }
   ]
 })
