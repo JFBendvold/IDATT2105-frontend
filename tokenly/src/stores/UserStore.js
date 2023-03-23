@@ -10,7 +10,7 @@ export const useUserStore = defineStore({
   }),
   persist: {
     //sessionStorage is used to store the userToken and username in the browser's session storage
-    storage: sessionStorage, 
+    storage: sessionStorage
   },
   actions: {
     //Sends an api call to backend via post call which validates the user credentials (username, password)
