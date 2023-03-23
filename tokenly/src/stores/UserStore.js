@@ -7,10 +7,10 @@ export const useUserStore = defineStore({
   state: () => ({
     mockUser: {
       username: 'mock',
-      password: 'mock',
+      password: 'mock'
     },
     userToken: null,
-    username: null,
+    username: null
   }),
   actions: {
     //Sends an api call to backend via post call which validates the user credentials (username, password)
@@ -48,7 +48,7 @@ export const useUserStore = defineStore({
       }
 
       if (username === this.mockUser.username && password === this.mockUser.password) {
-        this.userToken = "TESTTESTTESTTESTTEST"
+        this.userToken = 'TESTTESTTESTTESTTEST'
         this.username = this.mockUser.username
         router.push({ name: 'home' }) //TODO: redirect to logged in page
         console.log(true)

@@ -6,25 +6,26 @@ import NFTTable from '../components/Discover/NFTTable.vue'
 </script>
 
 <template>
-    <Header />
-    <main>
-        <CategorySelector />
-        <div class="content">
-            <NFTTable />
-        </div>
-    </main>
-    <Footer />
+  <Header />
+  <main>
+    <CategorySelector />
+    <div class="content" id="content">
+      <NFTTable />
+    </div>
+  </main>
+  <Footer />
 </template>
 
 <style scoped>
 .content {
-    height: 100vh;
-    width: 100%;
-    background-color: #F1F2F6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0px 0px 100px rgba(0, 0, 0, 0.5);
-    margin-top: 100vh;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f1f2f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: 0px 0px 100px rgba(0, 0, 0, 0.5);
+  margin-top: 100vh;
 }
 </style>

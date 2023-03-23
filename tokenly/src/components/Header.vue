@@ -31,13 +31,15 @@ window.addEventListener('scroll', () => {
             <RouterLink to="/discover"> {{ $t('Discover') }}</RouterLink>
           </li>
           <li>
-            <RouterLink to="/sell"> {{ $t('Publish') }}</RouterLink>
+            <RouterLink to="/publish"> {{ $t('Publish') }}</RouterLink>
           </li>
           <li>
             <RouterLink to="/favorites"> {{ $t('Favorites') }}</RouterLink>
           </li>
           <li>
-            <RouterLink to="/login"> {{ $t('Login') }}</RouterLink>
+            <RouterLink to="/login">
+               {{ $t('Login') }}
+            </RouterLink>
           </li>
         </ul>
       </nav>
