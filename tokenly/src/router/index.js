@@ -25,25 +25,41 @@ const router = createRouter({
       name: 'nft',
       component: () => import('../views/NFTView.vue')
     },
-    ///TODO: needs to actually be implemented
     {
       path: '/discover',
       name: 'discover',
       component: () => import('../views/DiscoverView.vue')
     },
     {
-      path: '/sell',
-      name: 'sell',
-      component: () => import('../views/SellView.vue')
+      path: '/favorites',
+      name: 'favorites',
+      component: () => import('../views/FavoritesView.vue')
     },
+    {
+      path: '/publish',
+      name: 'publish',
+      component: () => import('../views/PublishView.vue')
+    },
+    {
+      path: '/terms',
+      name: 'terms',
+      component: () => import('../views/docs/TermsView.vue')
+    },
+    {
+      path: '/privacy',
+      name: 'privacy',
+      component: () => import('../views/docs/PrivacyView.vue')
+    }
   ]
 })
 
 //TODO: works fine, but needs to be implemented
 router.beforeEach(async (to) => {
-  const privatePages = ['nft', 'sell', 'discover']
+  const privatePages = ['nft', 'publish', 'favorites']
   const authorized = useUserStore().isLoggedIn
-  if (privatePages.includes(to.name) && !authorized) {
+  if(authorized && to.name == login) {
+    return '/'
+  else if (privatePages.includes(to.name) && !authorized) {
     return '/login'
   }
   else {

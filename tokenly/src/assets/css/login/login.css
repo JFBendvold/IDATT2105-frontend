@@ -9,6 +9,19 @@
   color: #333;
 }
 
+.logo-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-container img {
+  width: 100px;
+  height: 100px;
+  margin-right: 10px;
+}
+
 .loginContainer h1 {
   font-size: 6rem;
   font-weight: 700;

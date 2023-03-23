@@ -16,10 +16,11 @@ window.addEventListener('scroll', () => {
   <header>
     <div class="wrapper">
       <RouterLink to="/" class="logo">
+        <img src="@/assets/img/logo.png" alt="logo" />
         <h1>tokenly</h1>
       </RouterLink>
       <div class="search">
-        <input type="text" placeholder="Search" />
+        <input type="text" :placeholder="$t('Search')" />
         <button>
           <i class="fas fa-search fa-sm"></i>
         </button>
@@ -30,13 +31,15 @@ window.addEventListener('scroll', () => {
             <RouterLink to="/discover"> {{ $t('Discover') }}</RouterLink>
           </li>
           <li>
-            <RouterLink to="/sell"> {{ $t('Publish') }}</RouterLink>
+            <RouterLink to="/publish"> {{ $t('Publish') }}</RouterLink>
           </li>
           <li>
             <RouterLink to="/favorites"> {{ $t('Favorites') }}</RouterLink>
           </li>
           <li>
-            <RouterLink to="/login"> {{ $t('Login') }}</RouterLink>
+            <RouterLink to="/login">
+               {{ $t('Login') }}
+            </RouterLink>
           </li>
         </ul>
       </nav>

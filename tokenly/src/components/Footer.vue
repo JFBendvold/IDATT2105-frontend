@@ -15,16 +15,16 @@ const changeLanguage = () => {
   <div class="footer">
     <div class="containers">
       <div class="footer-container">
-        <h2 class="footer-title">Links</h2>
+        <h2 class="footer-title">{{ $t('Links') }}</h2>
         <div class="footer-links">
-          <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/discover">Discover</RouterLink>
-          <RouterLink to="/publish">Publish</RouterLink>
-          <RouterLink to="/profile">Profile</RouterLink>
+          <RouterLink to="/">{{ $t('Home') }}</RouterLink>
+          <RouterLink to="/discover">{{ $t('Discover') }}</RouterLink>
+          <RouterLink to="/publish">{{ $t('Publish') }}</RouterLink>
+          <RouterLink to="/profile">{{ $t('Profile') }}</RouterLink>
         </div>
       </div>
       <div class="footer-container">
-        <h2 class="footer-title">Social</h2>
+        <h2 class="footer-title">{{ $t('Social') }}</h2>
         <div class="footer-links">
           <a href="https://twitter.com/0xNFT" target="_blank">
             <i class="fab fa-twitter"></i>
@@ -49,18 +49,21 @@ const changeLanguage = () => {
         </div>
       </div>
       <div class="footer-container">
-        <h2 class="footer-title">Legal</h2>
+        <h2 class="footer-title">{{ $t('Legal') }}</h2>
         <div class="footer-links">
-          <a href="https://0xNFT.com/terms" target="_blank">Terms of Service</a>
-          <a href="https://0xNFT.com/privacy" target="_blank">Privacy Policy</a>
+          <a href="https://0xNFT.com/terms" target="_blank">{{ $t('Terms') }}</a>
+          <a href="https://0xNFT.com/privacy" target="_blank">{{ $t('Privacy') }}</a>
         </div>
       </div>
     </div>
     <div class="footer-bottom">
-      <select class="footer-language" name="language" id="language" @change="changeLanguage">
-        <option value="" disabled selected>Select Language</option>
+      <img src="@/assets/img/logo.png" alt="logo" />
+      <select class="footer-language" name="language" id="language" v-model="$i18n.locale">
+        <option value="" disabled selected>{{ $t('Select Language') }}</option>
         <option value="en">English</option>
-        <option value="no">Norsk</option>
+        <option value="nb">Norsk bokmål</option>
+        <option value="nn">Nynorsk</option>
+        <option value="es">Español</option>
       </select>
       <p>© 2023 tokenly. All rights reserved.</p>
     </div>

@@ -1,9 +1,14 @@
 import { defineStore } from 'pinia'
 import { fetchUserToken, registerUser } from '../services/UserService'
+import router from '@/router/index.js'
 
 export const useUserStore = defineStore({
   id: 'UserStore',
   state: () => ({
+    mockUser: {
+      username: 'mock',
+      password: 'mock'
+    },
     userToken: null,
     username: null
   }),

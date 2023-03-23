@@ -2,6 +2,9 @@
 import { RouterLink } from 'vue-router'
 import '../../assets/css/login/login.css'
 import { useUserStore } from '@/stores/UserStore.js'
+import logo from '../../assets/img/logo.png'
+import { useUserStore } from '@/stores/UserStore.js'
+const userStore = useUserStore()
 
 </script>
 
@@ -28,9 +31,21 @@ export default {
 }
 </script>
 
+<script>
+export default {
+  data() {
+    return {
+      username: null,
+      password: null
+    }
+  }
+}
+</script>
+
 <template>
   <div class="loginContainer">
-    <RouterLink to="/">
+    <RouterLink to="/" class="logo-container">
+      <img src="@/assets/img/logo.png" alt="logo" />
       <h1>tokenly</h1>
     </RouterLink>
     <div class="login">
@@ -41,8 +56,8 @@ export default {
         <p class="error" v-if="error">{{ error }}</p>
       </form>
       <p>
-        Don't have an account?
-        <RouterLink to="/signup"> Sign up </RouterLink>
+        {{ $t('Not registered?') }}
+        <RouterLink to="/signup"> {{ $t('Sign up') }} </RouterLink>
       </p>
     </div>
   </div>

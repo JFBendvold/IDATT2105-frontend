@@ -1,0 +1,36 @@
+{
+  "__INFO__": "SECTION FOR INFORMATION",
+
+  "Info": "La compra y venta de NFT nunca ha sido más fácil.",
+  "Create Account": "Crea una cuenta para negociar tus NFT favoritos hoy!",
+  "Not registered?": "¿No estás registrado?",
+  "Already registered?": "¿Ya estás registrado?",
+
+  "__KEYWORDS__": "SECTION FOR KEYWORDS",
+
+  "Join": "Unirse",
+  "Trending": "Tendencias",
+  "Discover": "Descubrir",
+  "Publish": "Publicar",
+  "Favorites": "Favoritos",
+  "Login": "Iniciar sesión",
+  "Search": "Buscar",
+  "Sign up": "Registrarse",
+  "Links": "Enlaces",
+  "Home": "Inicio",
+  "Profile": "Perfil",
+  "Social": "Social",
+  "Legal": "Legal",
+  "Terms": "Términos",
+  "Privacy": "Privacidad",
+  "Select Language": "Seleccionar idioma",
+  "Buy": "Comprar ahora",
+  "Bid": "Pujar",
+  "Listed": "Listados recientes",
+  "Username": "Nombre de usuario",
+  "Username min6chars": "Nombre de usuario (mín 6 caracteres)",
+  "Password": "Contraseña",
+  "Confirm Password": "Confirmar contraseña",
+  "First Name": "Nombre",
+  "Last Name": "Apellido"
+}

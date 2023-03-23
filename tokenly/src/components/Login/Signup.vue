@@ -44,27 +44,29 @@ const userStore = useUserStore()
 
 <template>
   <div class="loginContainer">
-    <RouterLink to="/">
+    <RouterLink to="/" class="logo-container">
+      <img src="@/assets/img/logo.png" alt="logo" />
       <h1>tokenly</h1>
     </RouterLink>
     <div class="login">
       <form @submit.prevent="handleSubmit()">
         <div>
-          <input type="text" placeholder="First Name" v-model="firstName"/>
-          <input type="text" placeholder="Last Name" v-model="lastName"/>
+          <input type="text" :placeholder="$t('First Name')" v-model="firstName"/>
+          <input type="text" :placeholder="$t('Last Name')" v-model="lastName"/>
         </div>
-        <input class="largeInput" type="text" placeholder="Username (min 6 characters)" v-model="username"/>
+        <input class="largeInput" type="text" :placeholder="$t('Username min6chars')" v-model="username"/>
         <input class="largeInput" type="text" placeholder="Email" v-model="email"/>
         <div>
-          <input type="password" placeholder="Password" v-model="password"/>
-          <input type="password" placeholder="Confirm Password" v-model="confirmPassword"/>
+          <input type="password" :placeholder="$t('Password')" v-model="password"/>
+          <input type="password" :placeholder="$t('Confirm Password')" v-model="confirmPassword"/>
+
         </div>
-        <button type="submit">Sign up</button>
+        <button type="submit">{{ $t('Sign up') }}</button>
         <p class="error" v-if="error">{{ error }}</p>
       </form>
       <p>
-        Already have an account?
-        <RouterLink to="/login"> Log in </RouterLink>
+        {{ $t('Already registered?') }}
+        <RouterLink to="/login"> {{ $t('Login') }} </RouterLink>
       </p>
     </div>
   </div>

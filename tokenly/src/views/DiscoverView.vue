@@ -1,9 +1,31 @@
 <script setup>
-import Signup from '../components/Login/Signup.vue'
+import Header from '../components/Header.vue'
+import Footer from '../components/Footer.vue'
+import CategorySelector from '../components/Discover/CategorySelector.vue'
+import NFTTable from '../components/Discover/NFTTable.vue'
 </script>
 
 <template>
+  <Header />
   <main>
-    <Signup /> <!--TODO: change-->
+    <CategorySelector />
+    <div class="content" id="content">
+      <NFTTable />
+    </div>
   </main>
+  <Footer />
 </template>
+
+<style scoped>
+.content {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f1f2f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: 0px 0px 100px rgba(0, 0, 0, 0.5);
+  margin-top: 100vh;
+}
+</style>
