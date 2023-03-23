@@ -2,6 +2,9 @@
 import { RouterLink } from 'vue-router'
 import '../assets/css/header.css'
 import '@fortawesome/fontawesome-free/css/all.css'
+import { useUserStore } from '@/stores/UserStore.js'
+
+const userStore = useUserStore()
 
 // Make the background fade in on scroll
 window.addEventListener('scroll', () => {
@@ -36,9 +39,14 @@ window.addEventListener('scroll', () => {
           <li>
             <RouterLink to="/favorites"> {{ $t('Favorites') }}</RouterLink>
           </li>
-          <li>
+          <li v-if="!userStore.isLoggedIn">
             <RouterLink to="/login">
               {{ $t('Login') }}
+            </RouterLink>
+          </li>
+          <li v-if="userStore.isLoggedIn">
+            <RouterLink :to="`/profile?username=${userStore.username}`">
+              {{ userStore.username }}
             </RouterLink>
           </li>
         </ul>
