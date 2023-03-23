@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useUserStore } from '../stores/UserStore'
 import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
@@ -50,6 +51,21 @@ const router = createRouter({
       component: () => import('../views/docs/PrivacyView.vue')
     }
   ]
+})
+
+//TODO: works fine, but needs to be implemented
+router.beforeEach(async (to) => {
+  const privatePages = ['nft', 'publish', 'favorites']
+  const authorized = useUserStore().isLoggedIn
+  if(authorized && to.name == login) {
+    return '/'
+  }
+  else if (privatePages.includes(to.name) && !authorized) {
+    return '/login'
+  }
+  else {
+    return true
+  }
 })
 
 export default router

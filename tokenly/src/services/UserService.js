@@ -13,11 +13,23 @@ const apiClient = axios.create({
 //username and password
 export async function fetchUserToken(requestedUser) {
   try {
-    const response = await apiClient.post('/login', requestedUser) //TODO: response needs to be either a token or null
+    const response = await apiClient.post('/token', requestedUser) //TODO: response needs to be either a token or null
     return response
   } catch (error) {
     throw new Error(
-      'There was an error while fetching user information: ' + error.response.statusText
+      'There was an error while fetching user information: ' + error.response
+    )
+  }
+}
+
+//Attempts to create a new user with the given username and password based on the client's input
+export async function registerUser(userCredentials) {
+  try {
+    const response = await apiClient.post('/register', userCredentials) //TODO: response needs to be either a token or null
+    return response
+  } catch (error) {
+    throw new Error(
+      'There was an error while creating user: ' + error.response
     )
   }
 }
