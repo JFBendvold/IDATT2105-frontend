@@ -16,7 +16,7 @@ export async function fetchTrendingDisplay(amount) {
     return response
   } catch (error) {
     throw new Error(
-      'There was an error while fetching the users saved items: ' + error.response.statusText
+      'There was an error while fetching the users saved items: ' + error
     )
   }
 }
@@ -28,19 +28,45 @@ export async function fetchItemInventory(userId) {
     return response
   } catch (error) {
     throw new Error(
-      "There was an error while fetching the users' saved items: " + error.response.statusText
+      "There was an error while fetching the users' saved items: " + error
     )
   }
 }
 
 //Fetches an item from the database to display on the website
-export async function fetchItem(requestedItem) {
+export async function fetchItem(itemId) {
   try {
-    const response = await apiClient.post('/' + requestedItem.itemId, requestedItem.type)
+    const response = await apiClient.get('/id/' + itemId)
+    console.log(response)
     return response
   } catch (error) {
     throw new Error(
-      'There was an error while fetching the requested item: ' + error.response.statusText
+      'There was an error while fetching the requested item: ' + error
+    )
+  }
+}
+
+//Fetches an item from the database to display on the website
+export async function fetchItemFromPath(sourcePath) {
+  try {
+    const response = await apiClient.get('/')
+    return response
+  } catch (error) {
+    throw new Error(
+      'There was an error while fetching the requested item: ' + error
+    )
+  }
+}
+
+//Fetches an item from the database to display on the website
+export async function fetchAllItems() {
+  try {
+    const response = await apiClient.get('/')
+    console.log(response)
+    return response
+  } catch (error) {
+    throw new Error(
+      'There was an error while fetching the requested item: ' + error
     )
   }
 }
@@ -53,7 +79,7 @@ export async function postItem(userId, newItem) {
   } catch (error) {
     throw new Error(
       'There was an error while posting a new item to the user inventory: ' +
-        error.response.statusText
+        error
     )
   }
 }

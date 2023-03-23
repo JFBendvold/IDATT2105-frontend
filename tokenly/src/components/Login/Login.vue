@@ -1,12 +1,34 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import '../../assets/css/login/login.css'
+import { useUserStore } from '@/stores/UserStore.js'
 import logo from '../../assets/img/logo.png'
-
 import { useUserStore } from '@/stores/UserStore.js'
 const userStore = useUserStore()
 
-let error = ''
+</script>
+
+<script>
+const userStore = useUserStore()
+
+export default {
+  data() {
+    return {
+      error: '',
+      username: null,
+      password: null
+    }
+  },
+  methods: {
+    async handleSubmit() {
+      try {
+        await userStore.logUserIn(this.username, this.password)
+      } catch (error) {
+        this.error = error.message
+      }
+    }
+  }
+}
 </script>
 
 <script>
@@ -27,10 +49,10 @@ export default {
       <h1>tokenly</h1>
     </RouterLink>
     <div class="login">
-      <form @submit.prevent="userStore.tempLogUserIn(username, password)">
-        <input type="text" :placeholder="$t('Username')" v-model="username" />
-        <input type="password" :placeholder="$t('Password')" v-model="password" />
-        <button type="submit">{{ $t('Login') }}</button>
+      <form @submit.prevent="handleSubmit()">
+        <input type="text" placeholder="Username" v-model="username"/>
+        <input type="password" placeholder="Password" v-model="password"/>
+        <button type="submit">Login</button>
         <p class="error" v-if="error">{{ error }}</p>
       </form>
       <p>
