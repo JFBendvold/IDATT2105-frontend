@@ -24,7 +24,6 @@ export const useUserStore = defineStore({
         if (response.status === 200) {
           this.userToken = response.data
           this.username = username
-          console.log(this.userToken)
         } else {
           throw new Error(
             'The username and/or password did not match any registered users, please try again.'
@@ -48,7 +47,6 @@ export const useUserStore = defineStore({
           lastname: lastname,
           email: email
         })
-        console.log(response)
         //Occurs if the response is returned with a status code 200 (OK)
         if (response.status === 201) {
           this.logUserIn(username, password)

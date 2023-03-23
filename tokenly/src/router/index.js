@@ -43,7 +43,6 @@ const router = createRouter({
 router.beforeEach(async (to) => {
   const privatePages = ['nft', 'sell', 'discover']
   const authorized = useUserStore().isLoggedIn
-  console.log(authorized)
   if (privatePages.includes(to.name) && !authorized) {
     return '/login'
   }

@@ -3,7 +3,6 @@ import { RouterLink } from 'vue-router'
 import '../../assets/css/login/login.css'
 import { useUserStore } from '@/stores/UserStore.js'
 
-
 </script>
 
 <script>
@@ -41,7 +40,6 @@ export default {
         <button type="submit">Login</button>
         <p class="error" v-if="error">{{ error }}</p>
       </form>
-      <button @click="userStore.logUserOut()">Logout</button>
       <p>
         Don't have an account?
         <RouterLink to="/signup"> Sign up </RouterLink>
