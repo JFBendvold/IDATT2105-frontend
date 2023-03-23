@@ -57,7 +57,7 @@ const router = createRouter({
 router.beforeEach(async (to) => {
   const privatePages = ['nft', 'publish', 'favorites']
   const authorized = useUserStore().isLoggedIn
-  if (authorized && to.name == login) {
+  if(authorized && (to.name == 'login' || to.name == 'signup')) {
     return '/'
   } else if (privatePages.includes(to.name) && !authorized) {
     return '/login'

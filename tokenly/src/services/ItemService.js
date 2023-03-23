@@ -62,7 +62,7 @@ export async function fetchAllItems() {
 }
 
 //Posts a new item to the logged in users' item inventory
-export async function postItem(userId, newItem) {
+export async function postItem(userToken, newItem) {
   try {
     const response = await apiClient.post('/inventory/' + userId, newItem)
     return response
