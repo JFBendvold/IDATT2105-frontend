@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { createI18n } from 'vue-i18n'
-import piniaPluginPersistedState from "pinia-plugin-persistedstate"
+import piniaPluginPersistedState from 'pinia-plugin-persistedstate'
 
 import App from './App.vue'
 import router from './router'
@@ -26,7 +26,7 @@ const app = createApp(App)
 const pinia = createPinia()
 
 pinia.use(piniaPluginPersistedState)
-    
+
 app.use(pinia)
 app.use(router)
 app.use(i18n)
