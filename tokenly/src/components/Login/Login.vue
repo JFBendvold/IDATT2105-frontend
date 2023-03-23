@@ -31,17 +31,6 @@ export default {
 }
 </script>
 
-<script>
-export default {
-  data() {
-    return {
-      username: null,
-      password: null
-    }
-  }
-}
-</script>
-
 <template>
   <div class="loginContainer">
     <RouterLink to="/" class="logo-container">
