@@ -8,41 +8,46 @@ import { ref, computed } from 'vue'
 const itemsStore = useItemsStore()
 
 function convert(items) {
+
   var nftArray = []
-  for (let i = 0; i < items.length; i++) {
+  console.log("Items length:", items.length)
+    for (let i = 0; i < items.length; i++) {
+      console.log('Processing item:', items[i]) //TODO: remove all console.logs
 
     if(items[i].buyPrice === undefined || items[i].bidPrice === undefined || items[i].listed === undefined) { 
+      let nft = {
+        title: items[i].itemName,
+        description: items[i].description,
+        image: `http://localhost:8080/api/source/${items[i].itemId}`,
+        listed: 'Not listed',
+        bidPrice: '0',
+        buyPrice: '0',
+        categories: '',
+        id: items[i].itemId
+      }
+      nftArray.push(nft)
+    } else {
+      let nft = {
+        title: items[i].itemName,
+        description: items[i].description,
+        image: `http://localhost:8080/api/source/${items[i].itemId}`, 
+        listed: items[i].listed,
+        bidPrice: items[i].bidPrice,
+        buyPrice: items[i].buyPrice,
+        categories: '',
+        id: items[i].itemId
+      }
+      nftArray.push(nft)
+    }
+    console.log("nftArray:", nftArray);
 
-    let nft = {
-      title: items[i].itemName,
-      description: items[i].description,
-      image: `http://localhost:8080/api/source/${items[i].itemId}`,
-      listed: 'Not listed',
-      bidPrice: '0',
-      buyPrice: '0',
-      categories: '',
-      id: items[i].itemId
-    }
-    nftArray.push(nft)
-  } else {
-    let nft = {
-      title: items[i].itemName,
-      description: items[i].description,
-      image: `http://localhost:8080/api/source/${items[i].itemId}`, 
-      listed: items[i].listed,
-      bidPrice: items[i].bidPrice,
-      buyPrice: items[i].buyPrice,
-      categories: '',
-      id: items[i].itemId
-    }
-    nftArray.push(nft)
   }
   return nftArray
-}
 }
 const items = ref(itemsStore.getItems)
 
 let nfts = computed(() => {
+  console.log(items.value)
   return convert(items.value)
 })
 

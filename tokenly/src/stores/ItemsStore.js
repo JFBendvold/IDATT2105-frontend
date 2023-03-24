@@ -12,7 +12,6 @@ export const useItemsStore = defineStore({
   actions: {
     setItems(items) {
         this.items = items
-        console.log("Items set: " + this.items)
     },
     resetItems() {
         this.items = []
