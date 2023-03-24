@@ -16,16 +16,80 @@ export default {
       confirmPassword: null,
       firstName: null,
       lastName: null,
-      email: null
+      email: null,
+      birthDate: null
     }
   },
   computed: {
     matchingPasswords() {
       return this.password === this.confirmPassword
-    }
+    },
+    checkInputs() {
+  const usernameValue = this.username.value.trim()
+  const passwordValue = this.password.value.trim()
+  const confirmPasswordValue = this.confirmPassword.value.trim()
+  const firstNameValue = this.firstName.value.trim()
+  const lastNameValue = this.lastName.value.trim()
+  const emailValue = this.email.value.trim()
+  const birthDateValue = this.birthDate.value.trim()
+
+  if (usernameValue === '') {
+    setErrorFor(username, 'Username cannot be blank')
+  } else {
+    return false
+  }
+
+  if (passwordValue === '') {
+    setErrorFor(password, 'Password cannot be blank')
+  } else {
+    return false
+  }
+
+  if (confirmPasswordValue === '') {
+    setErrorFor(confirmPassword, 'Confirm password cannot be blank')
+  } else {
+    return false
+  }
+
+  if (firstNameValue === '') {
+    setErrorFor(firstName, 'First name cannot be blank')
+  } else {
+    return false
+  }
+
+  if (lastNameValue === '') {
+    setErrorFor(lastName, 'Last name cannot be blank')
+  } else {
+    return false
+  }
+
+  if (emailValue === '') {
+    setErrorFor(email, 'Email cannot be blank')
+  } else {
+    return false
+  }
+
+  if (birthDateValue === '') {
+    setErrorFor(birthDate, 'Birth date cannot be blank')
+  } else {
+    return false
+  }
+
+  return true
+}
   },
   methods: {
     async handleSubmit() {
+      try {
+        if (!this.checkInputs) {
+        return
+        }
+      } catch (error) {
+        this.error = "Please fill in all fields"
+        return
+      }
+
+      
       if (this.matchingPasswords) {
         try {
           await userStore.createUserProfile(
@@ -33,7 +97,8 @@ export default {
             this.password,
             this.firstName,
             this.lastName,
-            this.email
+            this.email,
+            this.birthDate
           )
         } catch (error) {
           this.error = error.message
@@ -68,6 +133,9 @@ export default {
         <div>
           <input type="password" :placeholder="$t('Password')" v-model="password" />
           <input type="password" :placeholder="$t('Confirm Password')" v-model="confirmPassword" />
+        </div>
+        <div>
+          <input type="date" v-model="birthDate" />
         </div>
         <button type="submit">{{ $t('Sign up') }}</button>
         <p class="error" v-if="error">{{ error }}</p>
