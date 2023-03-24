@@ -2,12 +2,55 @@
 import '@/assets/css/discover/nftTable.css'
 import NFTTableHeader from './NFTTableHeader.vue'
 import { RouterLink } from 'vue-router'
+import { useItemsStore } from '@/stores/ItemsStore.js'
+import { ref, computed } from 'vue'
 
-let nfts = [
+const itemsStore = useItemsStore()
+
+function convert(items) {
+  var nftArray = []
+  for (let i = 0; i < items.length; i++) {
+
+    if(items[i].buyPrice === undefined || items[i].bidPrice === undefined || items[i].listed === undefined) { 
+
+    let nft = {
+      title: items[i].itemName,
+      description: items[i].description,
+      image: `http://localhost:8080/api/source/${items[i].itemId}`,
+      listed: 'Not listed',
+      bidPrice: '0',
+      buyPrice: '0',
+      categories: '',
+      id: items[i].itemId
+    }
+    nftArray.push(nft)
+  } else {
+    let nft = {
+      title: items[i].itemName,
+      description: items[i].description,
+      image: `http://localhost:8080/api/source/${items[i].itemId}`, 
+      listed: items[i].listed,
+      bidPrice: items[i].bidPrice,
+      buyPrice: items[i].buyPrice,
+      categories: '',
+      id: items[i].itemId
+    }
+    nftArray.push(nft)
+  }
+  return nftArray
+}
+}
+const items = ref(itemsStore.getItems)
+
+let nfts = computed(() => {
+  return convert(items.value)
+})
+
+  /*
   {
     title: 'NFT Title',
     description: 'NFT Description',
-    image: 'https://picsum.photos/200/300',
+    image: 'http://localhost:8080/api/source/2',
     listed: '2021-09-01',
     bidPrice: '0.1',
     buyPrice: '0.5',
@@ -85,6 +128,7 @@ let nfts = [
     id: 1
   }
 ]
+*/
 </script>
 
 <template>

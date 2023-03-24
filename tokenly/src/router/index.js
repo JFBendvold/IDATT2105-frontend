@@ -3,10 +3,6 @@ import { useUserStore } from '../stores/UserStore'
 import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
-  //Returns the user to the top of the page when navigating to a new page
-  scrollBehavior() {
-    return { top: 0 }
-  },
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {

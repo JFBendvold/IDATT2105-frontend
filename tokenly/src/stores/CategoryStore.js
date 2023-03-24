@@ -14,6 +14,7 @@ export const useCategoryStore = defineStore({
     async setCategory(category) {
       const response = await fetchItemsFromCategory(category)
       this.currentCategory = response.data
+      return response.data
     },
     resetCategory() {
       this.currentCategory = ''

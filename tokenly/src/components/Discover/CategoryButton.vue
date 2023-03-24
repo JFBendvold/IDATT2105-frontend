@@ -1,7 +1,7 @@
 <script setup>
 import '../../assets/css/discover/categoryButton.css'
 import { RouterLink } from 'vue-router'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 import Photography from '../../assets/img/category/Photography.jpg'
 import Animation from '../../assets/img/category/Animation.gif'
@@ -12,8 +12,10 @@ import Cartoon from '../../assets/img/category/Cartoon.jpg'
 import Art from '../../assets/img/category/Art.jpg'
 import Collectibles from '../../assets/img/category/Collectibles.jpg'
 import { useCategoryStore } from '@/stores/CategoryStore.js'
+import { useItemsStore } from '@/stores/ItemsStore.js'
 
 const categoryStore = useCategoryStore()
+const itemsStore = useItemsStore()
 
 const { category } = defineProps({
   category: {
@@ -64,13 +66,17 @@ const onMouseOut = (event) => {
 }
 
 const handleClick = async (category) => {
-  await categoryStore.setCategory(category)
+  categoryStore.resetCategory
+  itemsStore.resetItems
+  const responsedata = await categoryStore.setCategory(category)
+  itemsStore.setItems(responsedata)
+  window.location.reload()
 }
 
 </script>
 
 <template>
-  <RouterLink to="discover#content" @click="handleClick('Clothing')">
+  <RouterLink to="/discover?search=true" @click="handleClick('Electronics')"> <!--TODO: change to actually -->
     <div
       class="category-button"
       ref="categoryButton"
