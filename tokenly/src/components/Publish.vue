@@ -6,6 +6,7 @@ import { ref } from 'vue'
 import { postFile } from '@/services/PublishService.js'
 import { postUserItem, fetchAllItems } from '@/services/ItemService.js'
 import { useUserStore } from '@/stores/UserStore.js'
+import router from '../router'
 
 const categorySuggestion = ref('')
 const showCategories = ref(false)
@@ -119,8 +120,6 @@ const publish = async () => {
   }
 
   errorMsg.value = ''
-  console.log('Publishing')
-
   const mainData = { //TODO: use all of these
     title: title.value,
     description: description.value,
@@ -144,6 +143,8 @@ const publish = async () => {
     }
 
     const publishItem = await postUserItem(item)
+    
+    router.push("/") //TODO: redirect to item page
   }
   catch (error) {
     console.log(error)
