@@ -34,6 +34,7 @@ export const useUserStore = defineStore({
         //Console logs errors
       } catch (error) {
         console.error(error)
+        throw new Error("There was an error while creating user")
       }
     },
 
@@ -60,6 +61,7 @@ export const useUserStore = defineStore({
         //Console logs errors
       } catch (error) {
         console.error(error)
+        throw new Error("There was an error while creating the user")
       }
     },
     //Logs the current user out, and resets state to default
