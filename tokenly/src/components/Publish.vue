@@ -3,6 +3,10 @@ import '@/assets/css/publish.css'
 import { RouterLink } from 'vue-router'
 import Title from '../components/Title.vue'
 import { ref } from 'vue'
+import { postFile } from '@/services/PublishService.js'
+import { postUserItem, fetchAllItems } from '@/services/ItemService.js'
+import { useUserStore } from '@/stores/UserStore.js'
+import router from '../router'
 
 const categorySuggestion = ref('')
 const showCategories = ref(false)
@@ -15,6 +19,8 @@ const title = ref('')
 const description = ref('')
 const bidStartPrice = ref('')
 const buyNowPrice = ref('')
+let file = ref(null)
+let formData = ref(null)
 const selectedCategories = ref([])
 
 let categories = [
@@ -70,7 +76,10 @@ const uploadFile = (event) => {
     return
   }
 
-  const file = event.target.files[0]
+  file = event.target.files[0]
+  formData = new FormData()
+  formData.append('file', file)
+  
   if (file) {
     const reader = new FileReader()
     reader.onload = (e) => {
@@ -82,7 +91,7 @@ const uploadFile = (event) => {
   }
 }
 
-const publish = () => {
+const publish = async () => {
   if (title.value.length === 0) {
     errorMsg.value = 'Title is required'
     return
@@ -111,24 +120,40 @@ const publish = () => {
   }
 
   errorMsg.value = ''
-  console.log('Publishing')
-
-  const mainData = {
+  const mainData = { //TODO: use all of these
     title: title.value,
     description: description.value,
     categories: selectedCategories.value,
     file: uploadedFile.value
   }
 
-  console.log(mainData)
-
-  const listingData = {
+  const listingData = { //TODO: use all of these
     listed: listed.value,
     bidStartPrice: bidStartPrice.value,
     buyNowPrice: buyNowPrice.value
   }
 
-  console.log(listingData)
+  try {
+    const response = (await postFile(formData)).data
+
+    const item = {
+        itemName: title.value,
+        ownerName: useUserStore().username,
+        description: description.value
+    }
+
+    const publishItem = await postUserItem(item)
+    
+    router.push("/") //TODO: redirect to item page
+  }
+  catch (error) {
+    console.log(error)
+    errorMsg.value = "Could not publish item"
+    return
+  }
+
+
+
 }
 </script>
 
