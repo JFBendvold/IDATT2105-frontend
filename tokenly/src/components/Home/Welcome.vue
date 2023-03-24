@@ -5,7 +5,6 @@ import '@fortawesome/fontawesome-free/css/all.css'
 import { useUserStore } from '@/stores/UserStore.js'
 
 const userStore = useUserStore()
-
 </script>
 
 <template>
@@ -18,7 +17,8 @@ const userStore = useUserStore()
         {{ $t('Create Account') }}
       </p>
       <p v-if="userStore.isLoggedIn">
-        {{ $t('Welcome back') }} {{ userStore.username }}, {{ $t('Greeting') }} <!-- TODO: ADD greeting! -->
+        {{ $t('Welcome back') }} {{ userStore.username }}, {{ $t('Greeting') }}
+        <!-- TODO: ADD greeting! -->
       </p>
       <RouterLink to="/login" v-if="!userStore.isLoggedIn">
         <button class="register">
