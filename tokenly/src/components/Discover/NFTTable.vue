@@ -42,7 +42,7 @@ let nfts = [
     bidPrice: '0.1',
     buyPrice: '0.5',
     categories: ['Art', 'Music'],
-    id: 1
+    id: 69
   },
   {
     title: 'NFT Title 5',
@@ -120,7 +120,7 @@ let nfts = [
       <div class="nft-table-cell nft-table-cell-categories">Categories</div>
     </div>
     <div v-for="nft in nfts" :key="nft.title" class="nft-table-row item">
-      <RouterLink :to="{ name: 'nft', params: { id: nft.id } }">
+      <RouterLink :to="'/nft?id='+nft.id">
         <div class="nft-table-cell nft-table-cell-title">{{ nft.title }}</div>
         <div class="nft-table-cell nft-table-cell-description">{{ nft.description }}</div>
         <div class="nft-table-cell nft-table-cell-image">
