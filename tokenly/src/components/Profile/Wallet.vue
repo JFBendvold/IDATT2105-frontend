@@ -12,6 +12,7 @@ const depositAmount = ref(0.00)
 const withdrawAmount = ref(0.00)
 const balance = ref(0.00)
 
+// Deposit to wallet
 const deposit = () => {
     if (!checkDepositAmount()) {
         return
@@ -29,6 +30,7 @@ const deposit = () => {
     console.log('Deposit: ' + depositAmount.value)
 }
 
+// Withdraw from wallet
 const withdraw = () => {
     if (!checkWithdrawAmount()) {
         return
