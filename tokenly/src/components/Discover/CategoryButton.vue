@@ -11,6 +11,9 @@ import People from '../../assets/img/category/People.jpg'
 import Cartoon from '../../assets/img/category/Cartoon.jpg'
 import Art from '../../assets/img/category/Art.jpg'
 import Collectibles from '../../assets/img/category/Collectibles.jpg'
+import { useCategoryStore } from '@/stores/CategoryStore.js'
+
+const categoryStore = useCategoryStore()
 
 const { category } = defineProps({
   category: {
@@ -59,10 +62,15 @@ const onMouseOver = (event) => {
 const onMouseOut = (event) => {
   event.target.style.transform = 'none'
 }
+
+const handleClick = async (category) => {
+  await categoryStore.setCategory(category)
+}
+
 </script>
 
 <template>
-  <RouterLink to="discover#content">
+  <RouterLink to="discover#content" @click="handleClick('Clothing')">
     <div
       class="category-button"
       ref="categoryButton"

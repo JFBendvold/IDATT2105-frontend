@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8080/api/itemsCategories',
+  baseURL: 'http://localhost:8080/api/listings',
   withCredentials: false,
   headers: {
     Accept: 'application/json',
@@ -9,10 +9,10 @@ const apiClient = axios.create({
   }
 })
 
-//Fetches all categories from the database
-export async function fetchItemsFromCategory(categoryName) {
+//Fetches all listings from the database
+export async function fetchListingsFromCategory(categoryName) {
     try {
-      const response = await apiClient.get('/items/' + categoryName)
+      const response = await apiClient.get('/category/' + categoryName)
       console.log(response)
       return response
     } catch (error) {
