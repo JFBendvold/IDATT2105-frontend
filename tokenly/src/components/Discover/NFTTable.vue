@@ -83,6 +83,26 @@ let nfts = [
     buyPrice: '0.5',
     categories: ['Art', 'Music'],
     id: 1
+  },
+  {
+    title: 'NFT Title',
+    description: 'NFT Description',
+    image: 'https://picsum.photos/200/300',
+    listed: '2021-09-01',
+    bidPrice: '0.1',
+    buyPrice: '0.5',
+    categories: ['Art', 'Music'],
+    id: 1
+  },
+  {
+    title: 'NFT Title 2',
+    description: 'NFT Description 2',
+    image: 'https://picsum.photos/200/300',
+    listed: '2021-09-01',
+    bidPrice: '0.1',
+    buyPrice: '0.5',
+    categories: ['Art', 'Sports', 'Music', 'Fashion', 'Art', 'Sports', 'Music', 'Fashion'],
+    id: 1
   }
 ]
 </script>
