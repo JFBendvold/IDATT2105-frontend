@@ -53,3 +53,27 @@
   height: 20vh;
   background: linear-gradient(rgba(0, 0, 0, 0), rgb(241, 242, 246));
 }
+
+@media screen and (max-width: 768px) {
+  .category-selector {
+    flex-direction: column;
+    padding-top: 100px;
+    position: relative;
+    z-index: 0;
+  }
+
+  .category-row {
+    flex-direction: column;
+    max-width: 100%;
+    margin-bottom: 0;
+  }
+
+  .category-wrapper {
+    flex-direction: column;
+    max-width: 100%;
+  }
+
+  .category-background-fade {
+    display: none;
+  }
+}

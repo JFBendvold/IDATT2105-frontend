@@ -224,3 +224,31 @@ hr {
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
+
+@media screen and (max-width: 768px) {
+    .profile-settings-wrapper {
+        width: 100%;
+        max-width: 100%;
+    }
+    .profile-settings-row {
+      flex-direction: column;
+        width: 100%;
+        max-width: 100%;
+    }
+    .profile-settings-column {
+        width: 100%;
+        max-width: 100%;
+    }
+    .profile-settings-button {
+        width: 100%;
+        max-width: 100%;
+    }
+    .profile-settings-error {
+        width: 100%;
+        max-width: 100%;
+    }
+    hr {
+        width: 100%;
+        max-width: 100%;
+    }
+}

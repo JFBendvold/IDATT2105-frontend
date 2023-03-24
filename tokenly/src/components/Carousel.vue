@@ -1,6 +1,7 @@
-<script>
+<script setup>
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import SwiperCore, { Autoplay } from 'swiper'
+import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import 'swiper/swiper-bundle.css'
 import '@fortawesome/fontawesome-free/css/all.css'
@@ -8,14 +9,14 @@ import '../assets/css/carousel.css'
 
 SwiperCore.use([Autoplay])
 
-export default {
-  components: {
-    Swiper,
-    SwiperSlide
-  },
-  data() {
-    return {
-      images: [
+const slidesPerView = ref("4")
+
+//If the screen is less than 768px, the number of slides displayed should be 2
+if (window.innerWidth < 768) {
+  slidesPerView.value = "2"
+}
+
+const images = [
         {
           filename:
             'https://images.unsplash.com/photo-1676501334781-30ac3973dbef?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80',
@@ -80,15 +81,16 @@ export default {
           price: '20',
           link: 'nft'
         }
-      ]
-    }
-  }
-}
+]
 </script>
 
 <template>
   <div class="swiper">
-    <swiper slides-per-view="4" :autoplay="{ delay: 5000 }" loop>
+    <swiper 
+    :slides-per-view="slidesPerView"
+    :autoplay="{ delay: 5000 }" 
+    loop
+    >
       <swiper-slide v-for="(image, index) in images" :key="index">
         <RouterLink :to="image.link">
           <div class="swiperImg" :style="{ backgroundImage: `url('${image.filename}'` }">

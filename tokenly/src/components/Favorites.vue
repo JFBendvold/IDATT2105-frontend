@@ -1,6 +1,7 @@
 <script setup>
 import '@/assets/css/favorites.css'
 import { RouterLink } from 'vue-router'
+import Title from '@/components/Title.vue'
 
 let nfts = [
   {
@@ -45,6 +46,7 @@ const removeFromFavorites = (nft) => {
 
 <template>
   <div class="favorites-wrapper">
+    <Title title="Favorites" />
     <div class="favorites">
       <div class="favorites-empty" v-if="nfts.length === 0">
         <h2>There are no favorites yet</h2>
