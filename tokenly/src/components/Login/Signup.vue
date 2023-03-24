@@ -25,71 +25,65 @@ export default {
       return this.password === this.confirmPassword
     },
     checkInputs() {
-  const usernameValue = this.username.value.trim()
-  const passwordValue = this.password.value.trim()
-  const confirmPasswordValue = this.confirmPassword.value.trim()
-  const firstNameValue = this.firstName.value.trim()
-  const lastNameValue = this.lastName.value.trim()
-  const emailValue = this.email.value.trim()
-  const birthDateValue = this.birthDate.value.trim()
+      const usernameValue = this.username.value
+      const passwordValue = this.password.value
+      const confirmPasswordValue = this.confirmPassword.value
+      const firstNameValue = this.firstName.value
+      const lastNameValue = this.lastName.value
+      const emailValue = this.email.value
+      const birthDateValue = this.birthDate.value
 
-  if (usernameValue === '') {
-    setErrorFor(username, 'Username cannot be blank')
-  } else {
-    return false
-  }
+      if (usernameValue == '') {
+        setErrorFor(username, 'Username cannot be blank')
+        return false
+      }
 
-  if (passwordValue === '') {
-    setErrorFor(password, 'Password cannot be blank')
-  } else {
-    return false
-  }
+      if (passwordValue == '') {
+        setErrorFor(password, 'Password cannot be blank')
+        return false
+      }
 
-  if (confirmPasswordValue === '') {
-    setErrorFor(confirmPassword, 'Confirm password cannot be blank')
-  } else {
-    return false
-  }
+      if (confirmPasswordValue == '') {
+        setErrorFor(confirmPassword, 'Confirm password cannot be blank')
+        return false
+      }
 
-  if (firstNameValue === '') {
-    setErrorFor(firstName, 'First name cannot be blank')
-  } else {
-    return false
-  }
+      if (firstNameValue == '') {
+        setErrorFor(firstName, 'First name cannot be blank')
+        return false
+      }
 
-  if (lastNameValue === '') {
-    setErrorFor(lastName, 'Last name cannot be blank')
-  } else {
-    return false
-  }
+      if (lastNameValue == '') {
+        setErrorFor(lastName, 'Last name cannot be blank')
+        return false
+      }
 
-  if (emailValue === '') {
-    setErrorFor(email, 'Email cannot be blank')
-  } else {
-    return false
-  }
+      if (emailValue == '') {
+        setErrorFor(email, 'Email cannot be blank')
+        return false
+      }
 
-  if (birthDateValue === '') {
-    setErrorFor(birthDate, 'Birth date cannot be blank')
-  } else {
-    return false
-  }
+      if (birthDateValue == '') {
+        setErrorFor(birthDate, 'Birth date cannot be blank')
+        return false
+      }
 
-  return true
-}
+      return true
+    }
   },
   methods: {
     async handleSubmit() {
       try {
         if (!this.checkInputs) {
-        return
+          console.log('Something went wrong')
+          return
         }
       } catch (error) {
-        this.error = "Please fill in all fields"
+        this.error = 'Please fill in all fields'
+        console.log(error)
         return
       }
 
-      
       if (this.matchingPasswords) {
         try {
           await userStore.createUserProfile(

@@ -51,7 +51,7 @@ header .logo:hover {
 
 header .search {
   flex: 2;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
 }
@@ -97,6 +97,7 @@ header .search button:hover i {
 
 header .links {
   flex: 1;
+  max-width: 500px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
