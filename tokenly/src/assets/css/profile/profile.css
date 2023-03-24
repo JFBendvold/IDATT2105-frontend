@@ -23,6 +23,13 @@
   height: 200px;
   border-radius: 50%;
   object-fit: cover;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  transition: all 0.5s ease;
+}
+
+.profile-pic:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 }
 
 .profile-username {

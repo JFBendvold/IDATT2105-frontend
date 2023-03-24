@@ -3,6 +3,7 @@ import '@/assets/css/profile/profile.css'
 import { ref } from 'vue'
 import Title from '@/components/Title.vue'
 import ProfileSettings from './ProfileSettings.vue'
+import Wallet from './Wallet.vue'
 import { useUserStore } from '@/stores/UserStore.js'
 import picon1 from '@/assets/img/profile_icons/picon1.jpg'
 
@@ -58,6 +59,7 @@ const NFTs = ref([
       <img class="profile-pic" :src="profilePic" alt="Profile Picture" />
       <h1 class="profile-username">{{ username }}</h1>
       <p class="profile-creation-date">{{ creatoinDate }}</p>
+      <Wallet v-if="userStore.username === username" />
       <Title title="NFTs" />
       <div class="nfts-empty" v-if="NFTs.length === 0">
         <p class="nfts-empty-text">No NFTs to show</p>
