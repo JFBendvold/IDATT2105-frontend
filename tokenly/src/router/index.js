@@ -60,7 +60,7 @@ const router = createRouter({
 
 //TODO: works fine, but needs to be implemented
 router.beforeEach(async (to) => {
-  const privatePages = ['nft', 'publish', 'favorites']
+  const privatePages = ['publish', 'favorites', 'chat']
   const authorized = useUserStore().isLoggedIn
   if(authorized && (to.name == 'login' || to.name == 'signup')) {
     return '/'
