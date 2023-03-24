@@ -52,26 +52,34 @@ function signOut() {
         <div class="profile-settings-row">
             <div class="profile-settings-column">
                 <button class="profile-settings-button" @click="signOut">
-                    Sign Out
+                    {{ $t('Sign Out') }}
                 </button>
             </div>
         </div>
         <hr />
-        <h3>Change password</h3>
+        <h3>
+            {{ $t('Change password') }}
+        </h3>
         <div class="profile-settings-row">
             <div class="profile-settings-column">
-                <label for="old-password">Old Password</label>
-                <input type="password" id="old-password" placeholder="Old Password" />
+                <label for="old-password">
+                    {{ $t('Old Password') }}
+                </label>
+                <input type="password" id="old-password" :placeholder="$t('Old Password')" />
             </div>
         </div>
         <div class="profile-settings-row">
             <div class="profile-settings-column">
-                <label for="new-password">New Password</label>
-                <input type="password" id="new-password" placeholder="New Password" />
+                <label for="new-password">
+                    {{ $t('New Password') }}
+                </label>
+                <input type="password" id="new-password" :placeholder="$t('New Password')" />
             </div>  
             <div class="profile-settings-column">
-                <label for="confirm-password">Confirm Password</label>
-                <input type="password" id="confirm-password" placeholder="Confirm Password" />
+                <label for="confirm-password">
+                    {{ $t('Confirm Password') }}
+                </label>
+                <input type="password" id="confirm-password" :placeholder="$t('Confirm Password')" />
             </div>
         </div>
         <div class="profile-settings-row">
@@ -80,20 +88,26 @@ function signOut() {
                     {{ errorMsgPassword }}
                 </p>
                 <button class="profile-settings-button" @click="changePassword">
-                    Change Password
+                    {{ $t('Change Password') }}
                 </button>
             </div>
         </div>
         <hr />
-        <h3>Change name</h3>
+        <h3>
+            {{ $t('Change name') }}
+        </h3>
         <div class="profile-settings-row">
             <div class="profile-settings-column">
-                <label for="new-first-name">First Name</label>
-                <input type="text" id="new-first-name" placeholder="First Name" />
+                <label for="new-first-name">
+                    {{ $t('First Name') }}
+                </label>
+                <input type="text" id="new-first-name" :placeholder="$t('First Name')" />
             </div>
             <div class="profile-settings-column">
-                <label for="new-last-name">Last Name</label>
-                <input type="text" id="new-last-name" placeholder="Last Name" />
+                <label for="new-last-name">
+                    {{ $t('Last Name') }}
+                </label>
+                <input type="text" id="new-last-name" :placeholder="$t('Last Name')" />
             </div>
         </div>
         <div class="profile-settings-row">
@@ -102,7 +116,7 @@ function signOut() {
                     {{ errorMsgName }}
                 </p>
                 <button class="profile-settings-button" @click="changeName">
-                    Change Name
+                    {{ $t('Change Name') }}
                 </button>
             </div>
         </div>
