@@ -80,7 +80,8 @@ const checkWithdrawAmount = () => {
     <div class="wallet-container">
         <div class="wallet-status">
             <h1 class="wallet-balance">
-                Balance: {{ balance }}
+                {{ $t('Balance') }}
+                : {{ balance }}
                 <i class="fab fa-ethereum"></i>
             </h1>
         </div>
@@ -88,22 +89,25 @@ const checkWithdrawAmount = () => {
             <button class="wallet-action" @click="displayDepositPopup = true">
                 <i class="fas fa-arrow-alt-to-left"></i>
                 <span class="wallet-action-text">
-                    Deposit
+                    {{ $t('Deposit') }}
                 </span>
             </button>
             <button class="wallet-action" @click="displayWithdrawPopup = true">
                 <i class="fas fa-arrow-alt-from-left"></i>
                 <span class="wallet-action-text">
-                    Withdraw
+                    {{ $t('Withdraw') }}
                 </span>
             </button>
         </div>
     </div>
     <div class="deposit-popup wallet-popup" v-if="displayDepositPopup">
         <i class="fas fa-times popup-close" @click="displayDepositPopup = false"></i>
-        <h1 class="popup-title">Deposit</h1>
+        <h1 class="popup-title">
+            {{ $t('Deposit') }}
+        </h1>
         <div class="popup-input">
-            <label class="popup-input-label">Amount to deposit in 
+            <label class="popup-input-label">
+                {{ $t('Amount to deposit in') }}
                 <i class="fab fa-ethereum"></i>
             </label>
             <input type="text" class="popup-input-field" placeholder="Amount" v-model="depositAmount" />
@@ -114,15 +118,18 @@ const checkWithdrawAmount = () => {
         <button class="popup-button" @click="deposit">
             <i class="fas fa-arrow-alt-to-left"></i>
             <span class="popup-button-text">
-                Deposit
+                {{ $t('Deposit') }}
             </span>
         </button>
     </div>
     <div class="withdraw-popup wallet-popup" v-if="displayWithdrawPopup">
         <i class="fas fa-times popup-close" @click="displayWithdrawPopup = false"></i>
-        <h1 class="popup-title">Withdraw</h1>
+        <h1 class="popup-title">
+            {{ $t('Withdraw') }}
+        </h1>
         <div class="popup-input">
-            <label class="popup-input-label">Amount to withdraw in 
+            <label class="popup-input-label">
+                {{ $t('Amount to withdraw in') }}
                 <i class="fab fa-ethereum"></i>
             </label>
             <input type="text" class="popup-input-field" placeholder="Amount" v-model="withdrawAmount" />
@@ -133,7 +140,7 @@ const checkWithdrawAmount = () => {
         <button class="popup-button" @click="withdraw">
             <i class="fas fa-arrow-alt-to-left"></i>
             <span class="popup-button-text">
-                Withdraw
+                {{ $t('Withdraw') }}
             </span>
         </button>
     </div>
@@ -142,7 +149,8 @@ const checkWithdrawAmount = () => {
             <div class="loading-background">
                 <div class="loading-spinner" />
                 <span class="loading-text">
-                    Loading...
+                    {{ $t('Loading') }}
+                    ...
                 </span>
             </div>
         </div>

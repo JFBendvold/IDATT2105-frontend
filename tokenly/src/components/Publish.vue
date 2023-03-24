@@ -137,8 +137,8 @@ const publish = () => {
     <Title title="Publish" />
     <div class="publish-wrapper">
       <form @submit.prevent="publish">
-        <input type="text" placeholder="Title" class="publish-title" v-model="title" />
-        <textarea placeholder="Description" v-model="description"></textarea>
+        <input type="text" :placeholder="$t('Title')" class="publish-title" v-model="title" />
+        <textarea :placeholder="$t('Description')" v-model="description"></textarea>
         <input
           type="file"
           accept="image/*"
@@ -152,7 +152,7 @@ const publish = () => {
           @click="$refs.upload.click()"
           v-if="uploadedFile === null"
         >
-          Upload
+          {{ $t('Upload') }}
         </button>
         <div class="publish-upload-preview" v-if="uploadedFile">
           <img :src="uploadedFile" />
@@ -160,7 +160,7 @@ const publish = () => {
         <div class="publish-categories">
           <input
             type="text"
-            placeholder="Enter Category"
+            :placeholder="$t('Enter Category')"
             class="publish-category-input"
             @keyup.enter="addCategory($event.target.value)"
             @keyup="suggestCategoryInput($event)"
@@ -178,14 +178,16 @@ const publish = () => {
           @click="showCategories = !showCategories"
           v-if="!showCategories"
         >
-          Show Categories ({{ selectedCategories.length }})
+          {{ $t('Show Categories') }}
+          ({{ selectedCategories.length }})
         </button>
         <button
           class="show-categories-button"
           @click="showCategories = !showCategories"
           v-if="showCategories"
         >
-          Hide Categories ({{ selectedCategories.length }})
+          {{ $t('Hide Categories') }}
+          ({{ selectedCategories.length }})
         </button>
         <div class="publish-selected-categories" v-if="showCategories">
           <span
@@ -198,12 +200,14 @@ const publish = () => {
         </div>
         <div class="listed-options">
           <input type="checkbox" id="listed" v-model="listed" />
-          <label for="listed"> For sale </label>
+          <label for="listed"> 
+             {{ $t('For sale') }}
+          </label>
           <div class="listed-options-wrapper" v-if="listed">
             <div class="row">
               <input
                 type="text"
-                placeholder="Starting Bid"
+                :placeholder="$t('Starting bid')"
                 name="starting-bid"
                 v-model="bidStartPrice"
               />
@@ -212,7 +216,7 @@ const publish = () => {
             <div class="row">
               <input
                 type="text"
-                placeholder="Buy now price"
+                :placeholder="$t('Buy now price')"
                 name="buy-now-price"
                 v-model="buyNowPrice"
               />
@@ -221,10 +225,16 @@ const publish = () => {
           </div>
         </div>
         <p class="publish-terms">
-          By publishing, you agree to our <RouterLink to="/terms">Terms of Service</RouterLink> and
-          <RouterLink to="/privacy">Privacy Policy</RouterLink>
+          {{ $t('By publishing, you agree to our') }} <RouterLink to="/terms"> 
+            {{ $t('Terms of Service') }}
+          </RouterLink> {{ $t('and') }}
+          <RouterLink to="/privacy">
+            {{ $t('Privacy Policy') }}
+          </RouterLink>
         </p>
-        <button type="submit">Publish</button>
+        <button type="submit">
+          {{ $t('Publish') }}
+        </button>
         <p class="publish-error" v-if="errorMsg.length > 0">
           {{ errorMsg }}
         </p>
