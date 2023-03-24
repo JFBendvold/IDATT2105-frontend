@@ -51,8 +51,8 @@ const changeLanguage = () => {
       <div class="footer-container">
         <h2 class="footer-title">{{ $t('Legal') }}</h2>
         <div class="footer-links">
-          <a href="https://0xNFT.com/terms" target="_blank">{{ $t('Terms') }}</a>
-          <a href="https://0xNFT.com/privacy" target="_blank">{{ $t('Privacy') }}</a>
+          <RouterLink to="/terms">{{ $t('Terms') }}</RouterLink>
+          <RouterLink to="/privacy">{{ $t('Privacy') }}</RouterLink>
         </div>
       </div>
     </div>

@@ -117,3 +117,9 @@
   color: #ff0000;
   font-size: 1.2rem;
 }
+
+.loginContainer .login form div input[type='date'] {
+  width: 100%;
+}
+
+
