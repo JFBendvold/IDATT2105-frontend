@@ -85,7 +85,7 @@ let nfts = computed(() => {
     bidPrice: '0.1',
     buyPrice: '0.5',
     categories: ['Art', 'Music'],
-    id: 1
+    id: 69
   },
   {
     title: 'NFT Title 5',
@@ -126,6 +126,26 @@ let nfts = computed(() => {
     buyPrice: '0.5',
     categories: ['Art', 'Music'],
     id: 1
+  },
+  {
+    title: 'NFT Title',
+    description: 'NFT Description',
+    image: 'https://picsum.photos/200/300',
+    listed: '2021-09-01',
+    bidPrice: '0.1',
+    buyPrice: '0.5',
+    categories: ['Art', 'Music'],
+    id: 1
+  },
+  {
+    title: 'NFT Title 2',
+    description: 'NFT Description 2',
+    image: 'https://picsum.photos/200/300',
+    listed: '2021-09-01',
+    bidPrice: '0.1',
+    buyPrice: '0.5',
+    categories: ['Art', 'Sports', 'Music', 'Fashion', 'Art', 'Sports', 'Music', 'Fashion'],
+    id: 1
   }
 ]
 */
@@ -144,7 +164,7 @@ let nfts = computed(() => {
       <div class="nft-table-cell nft-table-cell-categories">Categories</div>
     </div>
     <div v-for="nft in nfts" :key="nft.title" class="nft-table-row item">
-      <RouterLink :to="{ name: 'nft', params: { id: nft.id } }">
+      <RouterLink :to="'/nft?id='+nft.id">
         <div class="nft-table-cell nft-table-cell-title">{{ nft.title }}</div>
         <div class="nft-table-cell nft-table-cell-description">{{ nft.description }}</div>
         <div class="nft-table-cell nft-table-cell-image">

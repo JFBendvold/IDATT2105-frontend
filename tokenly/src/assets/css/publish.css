@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: flex-start;
   background: linear-gradient(180deg, #758bfd 0%, #f1f2f6 100%);
-  padding-top: 100px;
+  padding-top: 60px;
   padding-bottom: 50px;
 }
 
@@ -241,4 +241,14 @@
   font-size: 1.2rem;
   font-weight: 700;
   color: #ff3e3e;
+}
+
+@media screen and (max-width: 768px) {
+  .publish-wrapper {
+    width: 90%;
+  }
+
+  .publish-wrapper form {
+    width: 90%;
+  }
 }

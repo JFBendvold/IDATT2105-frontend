@@ -22,5 +22,13 @@ export async function fetchItemsFromCategory(categoryName) {
     }
   }
 
-
+export async function fetchAllItems() {
+  try {
+    const response = await apiClient.get('/')
+    console.log(response)
+    return response
+  } catch (error) {
+    throw new Error('There was an error while fetching the requested item: ' + error)
+  }
+}
 

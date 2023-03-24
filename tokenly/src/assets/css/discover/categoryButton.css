@@ -32,3 +32,15 @@
 .category-button:hover .category-button-text {
   font-size: 1.75rem;
 }
+
+@media screen and (max-width: 768px) {
+  .category-button {
+    width: 80vw;
+    height: 150px;
+    margin: 5px;
+  }
+
+  .category-button-text {
+    font-size: 1.25rem;
+  }
+}
