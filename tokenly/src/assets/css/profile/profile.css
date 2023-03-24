@@ -73,6 +73,7 @@
   margin: 1rem;
   background-color: #f1f2f6;
   border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .nft-img {
@@ -109,4 +110,117 @@
   background-color: #333;
   border-radius: 50%;
   padding: 0.5rem;
+}
+
+.profile-settings-btn {
+    width: 200px;
+    height: 50px;
+    background-color: #333;
+    color: #f1f2f6;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    transition: all 0.1s ease;
+    cursor: pointer;
+}
+
+.profile-settings-btn:hover {
+    background-color: #758BFD;
+    color: #f1f2f6;
+}
+
+.profile-settings-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 800px;
+}
+
+.profile-settings-wrapper h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.profile-settings-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 1rem;
+}
+
+.profile-settings-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 800px;
+}
+
+.profile-settings-column label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.profile-settings-column input {
+    height: 50px;
+    border: none;
+    border-radius: 5px;
+    padding: 0 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #333;
+    background-color: #F1F2F6;
+    margin-bottom: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.profile-settings-column input:focus {
+    outline: none;
+}
+
+.profile-settings-button {
+    width: 200px;
+    height: 50px;
+    background-color: #333;
+    color: #f1f2f6;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.1s ease;
+    cursor: pointer;
+}
+
+.profile-settings-button:hover {
+    background-color: #FF8600;
+    color: #f1f2f6;
+}
+
+.profile-settings-error {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #FF0000;
+}
+
+hr {
+    width: 100%;
+    max-width: 800px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
