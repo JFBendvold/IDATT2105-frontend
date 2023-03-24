@@ -8,6 +8,7 @@ const showCategoryDropdown = ref(false)
 
 const orderDropdownText = ref('Sort by')
 const statusDropdownText = ref('Status')
+
 const categorySuggestion = ref('')
 
 let selectedCategories = []

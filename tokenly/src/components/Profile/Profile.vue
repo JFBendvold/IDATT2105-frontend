@@ -2,13 +2,19 @@
 import '@/assets/css/profile/profile.css'
 import { ref } from 'vue'
 import Title from '@/components/Title.vue'
+import ProfileSettings from './ProfileSettings.vue'
+import { useUserStore } from '@/stores/UserStore.js'
 import picon1 from '@/assets/img/profile_icons/picon1.jpg'
+
+const userStore = useUserStore()
 
 // Get params from url
 const params = new URLSearchParams(window.location.search)
 const username = ref(params.get('username'))
 const profilePic = ref(picon1)
 const creatoinDate = ref('2021-09-01')
+
+const viewSettings = ref(false)
 
 const NFTs = ref([
   {
@@ -70,6 +76,10 @@ const NFTs = ref([
           </div>
         </div>
       </div>
+      <button class="profile-settings-btn" @click="viewSettings = !viewSettings" v-if="userStore.username === username">
+        Settings <i class="fas fa-cog"></i>
+      </button>
+      <ProfileSettings v-if="viewSettings" />
     </div>
   </div>
 </template>
