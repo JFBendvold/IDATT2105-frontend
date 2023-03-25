@@ -21,7 +21,7 @@ export async function postUserItem(item) {
 
 export async function fetchAllItems(){
   try {
-  const response = await apiClient.get('itemListing/?size=100')
+  const response = await apiClient.get('itemListing/?size=6')
   return response
   } catch (error) {
     throw new Error('There was an error while getting all items: ' + error)
@@ -43,5 +43,14 @@ export async function fetchAllItemsByCategory(category){
   return response
   } catch (error) {
     throw new Error('There was an error while getting all items: ' + error)
+  }
+}
+
+export async function fetchItemsByOwner(ownerName){
+  try {
+  const response = await apiClient.get('itemListing/owner?username=' + ownerName)
+  return response
+  } catch (error) {
+    throw new Error('There was an error while getting all items belonging to the user: ' + error)
   }
 }

@@ -8,6 +8,7 @@ import { fetchAllItems } from '@/services/ItemService.js'
 import { useItemsStore } from '@/stores/ItemsStore.js'
 import { useFavoritesStore } from '@/stores/FavoritesStore.js'
 import { fetchAllFavorites } from '@/services/FavoritesService.js'
+import { fetchItemsByOwner } from '@/services/ItemService.js'
 
 const itemsStore = useItemsStore()
 const favoritesStore = useFavoritesStore()
@@ -34,6 +35,11 @@ function toggleMenu() {
 
 async function fetchItems() {
   const items = await fetchAllItems()
+  itemsStore.setItems(items.data)
+}
+
+async function fetchUsersItems() {
+  const items = await fetchItemsByOwner(userStore.username)
   itemsStore.setItems(items.data)
 }
 
@@ -76,7 +82,7 @@ async function fetchFavorites() {
             </RouterLink>
           </li>
           <li v-if="userStore.isLoggedIn">
-            <RouterLink :to="`/profile?username=${userStore.username}`">
+            <RouterLink :to="`/profile?username=${userStore.username}`" @click="fetchUsersItems()">
               {{ userStore.username }}
             </RouterLink>
           </li>

@@ -6,6 +6,15 @@ import ProfileSettings from './ProfileSettings.vue'
 import Wallet from './Wallet.vue'
 import { useUserStore } from '@/stores/UserStore.js'
 import picon1 from '@/assets/img/profile_icons/picon1.jpg'
+import { useItemsStore } from '@/stores/ItemsStore.js'
+import { storeToRefs } from 'pinia'
+import { computed } from 'vue'
+import imageListFormat from '@/utils/ImageListFormatter.js'
+
+
+const itemsStore = useItemsStore()
+
+const { items } = storeToRefs(itemsStore) 
 
 const userStore = useUserStore()
 
@@ -17,6 +26,12 @@ const creatoinDate = ref('2021-09-01')
 
 const viewSettings = ref(false)
 
+let NFTs = computed(() => {
+  return imageListFormat(items.value)
+})
+
+
+/*
 const NFTs = ref([
   {
     filename:
@@ -51,6 +66,7 @@ const NFTs = ref([
     link: 'nft'
   }
 ])
+*/
 </script>
 
 <template>
