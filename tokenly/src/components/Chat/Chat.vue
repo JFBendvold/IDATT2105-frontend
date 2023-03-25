@@ -1,5 +1,6 @@
 <script setup>
 import "@/assets/css/chat/chat.css"
+import Message from './Message.vue';
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/UserStore.js'
 
@@ -160,12 +161,7 @@ function toggleChat() {
                     </button>
                 </div>
                 <div class="chat-content-body">
-                    <div class="chat-content-message" v-for="message in chatData.find(chat => chat.username === chatToOpen).messages" :key="message.time">
-                        <div class="chat-content-message-item" :class="{ 'chat-content-message-item-me': message.isMe }">
-                            <p class="chat-content-message-text">{{ message.message }}</p>
-                            <p class="chat-content-message-time">{{ message.time }}</p>
-                        </div>
-                    </div>
+                    <Message v-for="message in chatData.find(chat => chat.username === chatToOpen).messages" :key="message.time" :message="message" />
                 </div>
                 <div class="chat-content-footer">
                     <input type="text" class="form-control" placeholder="Type a message..." v-model="chatToSend" @keyup.enter="sendChat">
