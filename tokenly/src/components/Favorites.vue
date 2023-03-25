@@ -6,8 +6,11 @@ import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { useFavoritesStore } from '@/stores/FavoritesStore.js'
 import imageListFormat from '@/utils/ImageListFormatter.js'
+import { removeItemFromFavorites, fetchAllFavorites } from '@/services/FavoritesService.js'
+import { useUserStore } from '@/stores/UserStore.js'
 
 const favoritesStore = useFavoritesStore()
+const userStore = useUserStore()
 
 const { favorites } = storeToRefs(favoritesStore)
 
@@ -52,9 +55,20 @@ let nfts = [
   }
 ]
 */
-const removeFromFavorites = (nft) => {
-  nfts = nfts.filter((item) => item.title !== nft.title)
-  window.location.reload()
+
+
+async function fetchFavorites() { //TODO UTIL
+  const favorites = await fetchAllFavorites(userStore.username)
+  console.log(favorites.data)
+  favoritesStore.setFavorites(favorites.data)
+  
+}
+
+const removeFromFavorites = async (nft) => {
+  const params = { "username": userStore.username, "itemId": nft.itemId }
+  console.log(params)
+  await removeItemFromFavorites(params)
+  await fetchFavorites()
 }
 </script>
 

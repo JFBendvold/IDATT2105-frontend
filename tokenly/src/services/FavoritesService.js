@@ -27,3 +27,15 @@ export async function fetchAllFavorites(username) {
         throw new Error('There was an error while fetching favorites: ' + error)
     }
 }
+
+export async function removeItemFromFavorites(params) {
+    try {
+        const response = await apiClient.delete('/wishlists/wishlist/item', 
+        {
+             data: params 
+            })
+        return response
+    } catch (error) {
+        throw new Error('There was an error while deleting favorite: ' + error)
+    }
+}

@@ -11,7 +11,8 @@ export default function imageListFormat(imageList) {
             alt: imageList[i].itemName,
             title: imageList[i].itemName,
             price: 'Not listed',
-            link: 'nft?id=' + imageList[i].itemId 
+            link: 'nft?id=' + imageList[i].itemId, 
+            itemId: imageList[i].itemId
             }
             imageArray.push(img)
         } else {
@@ -20,7 +21,8 @@ export default function imageListFormat(imageList) {
             alt: imageList[i].itemName,
             title: imageList[i].itemName,
             price: imageList[i].maxPrice,
-            link: 'nft?id=' + imageList[i].itemId
+            link: 'nft?id=' + imageList[i].itemId,
+            itemId: imageList[i].itemId
             }
             imageArray.push(img)
         }
