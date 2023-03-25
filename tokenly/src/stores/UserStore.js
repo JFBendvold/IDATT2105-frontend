@@ -5,8 +5,8 @@ import router from '@/router/index.js'
 export const useUserStore = defineStore({
   id: 'UserStore',
   state: () => ({
-    userToken: "dkjfjd",
-    username: "tom",
+    userToken: null,
+    username: null,
   }),
   persist: {
     //sessionStorage is used to store the userToken and username in the browser's session storage
