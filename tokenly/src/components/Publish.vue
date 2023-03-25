@@ -3,6 +3,10 @@ import '@/assets/css/publish.css'
 import { RouterLink } from 'vue-router'
 import Title from '../components/Title.vue'
 import { ref } from 'vue'
+import { postFile } from '@/services/PublishService.js'
+import { postUserItem, fetchAllItems } from '@/services/ItemService.js'
+import { useUserStore } from '@/stores/UserStore.js'
+import router from '../router'
 
 const categorySuggestion = ref('')
 const showCategories = ref(false)
@@ -15,6 +19,8 @@ const title = ref('')
 const description = ref('')
 const bidStartPrice = ref('')
 const buyNowPrice = ref('')
+let file = ref(null)
+let formData = ref(null)
 const selectedCategories = ref([])
 
 let categories = [
@@ -70,7 +76,10 @@ const uploadFile = (event) => {
     return
   }
 
-  const file = event.target.files[0]
+  file = event.target.files[0]
+  formData = new FormData()
+  formData.append('file', file)
+  
   if (file) {
     const reader = new FileReader()
     reader.onload = (e) => {
@@ -82,7 +91,7 @@ const uploadFile = (event) => {
   }
 }
 
-const publish = () => {
+const publish = async () => {
   if (title.value.length === 0) {
     errorMsg.value = 'Title is required'
     return
@@ -111,24 +120,40 @@ const publish = () => {
   }
 
   errorMsg.value = ''
-  console.log('Publishing')
-
-  const mainData = {
+  const mainData = { //TODO: use all of these
     title: title.value,
     description: description.value,
     categories: selectedCategories.value,
     file: uploadedFile.value
   }
 
-  console.log(mainData)
-
-  const listingData = {
+  const listingData = { //TODO: use all of these
     listed: listed.value,
     bidStartPrice: bidStartPrice.value,
     buyNowPrice: buyNowPrice.value
   }
 
-  console.log(listingData)
+  try {
+    const response = (await postFile(formData)).data
+
+    const item = {
+        itemName: title.value,
+        ownerName: useUserStore().username,
+        description: description.value
+    }
+
+    const publishItem = await postUserItem(item)
+    
+    router.push("/") //TODO: redirect to item page
+  }
+  catch (error) {
+    console.log(error)
+    errorMsg.value = "Could not publish item"
+    return
+  }
+
+
+
 }
 </script>
 
@@ -137,8 +162,8 @@ const publish = () => {
     <Title title="Publish" />
     <div class="publish-wrapper">
       <form @submit.prevent="publish">
-        <input type="text" placeholder="Title" class="publish-title" v-model="title" />
-        <textarea placeholder="Description" v-model="description"></textarea>
+        <input type="text" :placeholder="$t('Title')" class="publish-title" v-model="title" />
+        <textarea :placeholder="$t('Description')" v-model="description"></textarea>
         <input
           type="file"
           accept="image/*"
@@ -152,7 +177,7 @@ const publish = () => {
           @click="$refs.upload.click()"
           v-if="uploadedFile === null"
         >
-          Upload
+          {{ $t('Upload') }}
         </button>
         <div class="publish-upload-preview" v-if="uploadedFile">
           <img :src="uploadedFile" />
@@ -160,7 +185,7 @@ const publish = () => {
         <div class="publish-categories">
           <input
             type="text"
-            placeholder="Enter Category"
+            :placeholder="$t('Enter Category')"
             class="publish-category-input"
             @keyup.enter="addCategory($event.target.value)"
             @keyup="suggestCategoryInput($event)"
@@ -178,14 +203,16 @@ const publish = () => {
           @click="showCategories = !showCategories"
           v-if="!showCategories"
         >
-          Show Categories ({{ selectedCategories.length }})
+          {{ $t('Show Categories') }}
+          ({{ selectedCategories.length }})
         </button>
         <button
           class="show-categories-button"
           @click="showCategories = !showCategories"
           v-if="showCategories"
         >
-          Hide Categories ({{ selectedCategories.length }})
+          {{ $t('Hide Categories') }}
+          ({{ selectedCategories.length }})
         </button>
         <div class="publish-selected-categories" v-if="showCategories">
           <span
@@ -198,12 +225,14 @@ const publish = () => {
         </div>
         <div class="listed-options">
           <input type="checkbox" id="listed" v-model="listed" />
-          <label for="listed"> For sale </label>
+          <label for="listed"> 
+             {{ $t('For sale') }}
+          </label>
           <div class="listed-options-wrapper" v-if="listed">
             <div class="row">
               <input
                 type="text"
-                placeholder="Starting Bid"
+                :placeholder="$t('Starting bid')"
                 name="starting-bid"
                 v-model="bidStartPrice"
               />
@@ -212,7 +241,7 @@ const publish = () => {
             <div class="row">
               <input
                 type="text"
-                placeholder="Buy now price"
+                :placeholder="$t('Buy now price')"
                 name="buy-now-price"
                 v-model="buyNowPrice"
               />
@@ -221,10 +250,16 @@ const publish = () => {
           </div>
         </div>
         <p class="publish-terms">
-          By publishing, you agree to our <RouterLink to="/terms">Terms of Service</RouterLink> and
-          <RouterLink to="/privacy">Privacy Policy</RouterLink>
+          {{ $t('By publishing, you agree to our') }} <RouterLink to="/terms"> 
+            {{ $t('Terms of Service') }}
+          </RouterLink> {{ $t('and') }}
+          <RouterLink to="/privacy">
+            {{ $t('Privacy Policy') }}
+          </RouterLink>
         </p>
-        <button type="submit">Publish</button>
+        <button type="submit">
+          {{ $t('Publish') }}
+        </button>
         <p class="publish-error" v-if="errorMsg.length > 0">
           {{ errorMsg }}
         </p>
