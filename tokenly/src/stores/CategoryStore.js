@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { fetchItemsFromCategory } from '@/services/CategoryService.js'
 
 export const useCategoryStore = defineStore({
   id: 'CategoryStore',

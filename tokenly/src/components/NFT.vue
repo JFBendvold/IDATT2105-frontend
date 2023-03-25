@@ -3,8 +3,12 @@ import '../assets/css/nft.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 import picon1 from '../assets/img/profile_icons/picon1.jpg'
 import { useItemsStore } from '@/stores/ItemsStore.js'
+import { useUserStore } from '@/stores/UserStore.js'
+import { addToFavorites } from '@/services/FavoritesService.js'
 
 const itemsStore = useItemsStore()
+ 
+const userStore = useUserStore()
 
 const params = new URLSearchParams(window.location.search)
 const id = params.get('id')
@@ -47,6 +51,19 @@ const onMouseOver = (event) => {
   }deg) rotateX(${(yPercent - 50) / 100}deg)`
 }
 
+async function addItemToFavorites() {
+  const favorite = {
+    "username": userStore.getUsername(),
+    "itemId": id
+  }
+  console.log(favorite)
+  try {
+  await addToFavorites(favorite)
+  } catch (error) {
+    console.log(error) //TODO: print?
+  }
+}
+
 const onMouseOut = (event) => {
   event.target.style.transform = 'none'
 }
@@ -81,7 +98,7 @@ const onMouseOut = (event) => {
             </div>
           </button>
         </div>
-        <button class="favourite-button">
+        <button class="favourite-button" @click="addItemToFavorites()">
           <i class="far fa-heart"></i>
         </button>
       </div>

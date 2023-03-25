@@ -2,6 +2,53 @@
 import '@/assets/css/favorites.css'
 import { RouterLink } from 'vue-router'
 import Title from '@/components/Title.vue'
+import { storeToRefs } from 'pinia'
+import { computed } from 'vue'
+import { useFavoritesStore } from '@/stores/FavoritesStore.js'
+
+const favoritesStore = useFavoritesStore()
+
+const { favorites } = storeToRefs(favoritesStore)
+
+function convert(favorites) {
+  if(!favorites) return []
+
+  var imageArray = []
+  console.log("Items length:", favorites.length)
+  for (let i = 0; i < favorites.length; i++) {
+
+  if(favorites[i].minPrice === undefined || favorites[i].maxPrice === undefined || favorites[i].listingId === undefined || favorites[i].publicationTime === null) { 
+    let img = {
+      filename: `http://localhost:8080/api/source/${favorites[i].itemId}`,
+      alt: favorites[i].itemName,
+      title: favorites[i].itemName,
+      price: 'Not listed',
+      link: `nft?id=` + favorites[i].itemId
+    }
+    imageArray.push(img)
+  } else {
+    let img = {
+      filename: `http://localhost:8080/api/source/${favorites[i].itemId}`,
+      alt: favorites[i].itemName,
+      title: favorites[i].itemName,
+      price: favorites[i].maxPrice,
+      link: `nft?id=` + favorites[i].itemId
+    }
+    imageArray.push(img)
+  }
+}
+console.log(imageArray)
+  return imageArray
+}
+
+let nfts = computed(() => {
+  return convert(favorites.value)
+})
+
+
+
+
+/*
 
 let nfts = [
   {
@@ -37,6 +84,7 @@ let nfts = [
     link: 'nft'
   }
 ]
+*/
 
 const removeFromFavorites = (nft) => {
   nfts = nfts.filter((item) => item.title !== nft.title)
@@ -69,7 +117,7 @@ const removeFromFavorites = (nft) => {
             </p>
           </div>
           <div class="favorites-grid-item-link">
-            <RouterLink :to="{ name: nft.link }">
+            <RouterLink :to="nft.link">
               <i class="fas fa-arrow-right"></i>
             </RouterLink>
           </div>

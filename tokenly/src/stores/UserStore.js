@@ -70,7 +70,10 @@ export const useUserStore = defineStore({
       this.userToken = null
       this.username = null
       //TODO: push to home?
-    }
+    },
+    getUsername() {
+      return this.username
+    },
     //TODO: add methods to update username, password, name etc...
   },
   getters: {

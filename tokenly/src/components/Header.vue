@@ -6,9 +6,11 @@ import '@fortawesome/fontawesome-free/css/all.css'
 import { useUserStore } from '@/stores/UserStore.js'
 import { fetchAllItems } from '@/services/ItemService.js' 
 import { useItemsStore } from '@/stores/ItemsStore.js'
+import { useFavoritesStore } from '@/stores/FavoritesStore.js'
+import { fetchAllFavorites } from '@/services/FavoritesService.js'
 
 const itemsStore = useItemsStore()
-
+const favoritesStore = useFavoritesStore()
 const userStore = useUserStore()
 const displayMenu = ref(null)
 
@@ -35,6 +37,13 @@ async function fetchItems() {
   itemsStore.setItems(items.data)
 }
 
+async function fetchFavorites() {
+  const favorites = await fetchAllFavorites(userStore.username)
+  console.log(favorites.data)
+  favoritesStore.setFavorites(favorites.data)
+  
+}
+
 </script>
 
 <template>
@@ -59,7 +68,7 @@ async function fetchItems() {
             <RouterLink to="/publish"> {{ $t('Publish') }}</RouterLink>
           </li>
           <li>
-            <RouterLink to="/favorites"> {{ $t('Favorites') }}</RouterLink>
+            <RouterLink to="/favorites" @click="fetchFavorites()"> {{ $t('Favorites') }}</RouterLink>
           </li>
           <li v-if="!userStore.isLoggedIn">
             <RouterLink to="/login">
