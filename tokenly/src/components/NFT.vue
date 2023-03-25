@@ -2,20 +2,35 @@
 import '../assets/css/nft.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 import picon1 from '../assets/img/profile_icons/picon1.jpg'
+import { useItemsStore } from '@/stores/ItemsStore.js'
+
+const itemsStore = useItemsStore()
+
+const params = new URLSearchParams(window.location.search)
+const id = params.get('id')
+
+const targetItems = itemsStore.getItems
+var item = null
+
+for(let i = 0; i < targetItems.length; i++) {
+  if(targetItems[i].itemId == id) {
+    item = targetItems[i]
+  }
+}
 
 let image = {
   filename:
-    'https://images.unsplash.com/photo-1676501334781-30ac3973dbef?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80',
-  alt: 'Image 1',
-  title: 'Windows Explorer',
+    'http://localhost:8080/api/source/' + id,
+  alt: 'Image displayed in the NFT card',
+  title: item.itemName,
   description:
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut aliquam ultricies, nisl nisl aliquam nisl, eget aliquam nisl nunc ut nisl. Sed euismod, nunc ut aliquam ultricies, nisl nisl aliquam nisl, eget aliquam nisl nunc ut nisl.',
-  price: '10',
-  bidPrice: '5'
+    item.description,
+  price: item.maxPrice,
+  bidPrice: item.minPrice
 }
 
 let user = {
-  name: 'JFBendvold',
+  name: item.ownerName,
   image: picon1
 }
 

@@ -65,10 +65,12 @@ const onMouseOut = (event) => {
   event.target.style.transform = 'none'
 }
 
-const handleClick = async (category) => {
+const handleClick = async (event) => {
+
+  const selectedCategory = event.target.innerText;
   categoryStore.resetCategory
   itemsStore.resetItems
-  const responsedata = await categoryStore.setCategory(category)
+  const responsedata = await categoryStore.setCategory(selectedCategory)
   itemsStore.setItems(responsedata)
   window.location.reload()
 }
@@ -76,7 +78,7 @@ const handleClick = async (category) => {
 </script>
 
 <template>
-  <RouterLink to="/discover?search=true" @click="handleClick('Electronics')"> <!--TODO: change to actually -->
+  <RouterLink to="/discover?search=true" @click="handleClick($event)">
     <div
       class="category-button"
       ref="categoryButton"

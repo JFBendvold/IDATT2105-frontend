@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8080/api/items',
+  baseURL: 'http://localhost:8080/api/itemListing',
   withCredentials: false,
   headers: {
     Accept: 'application/json',
@@ -72,7 +72,7 @@ export async function postUserItem(item) {
 
 export async function fetchAllItems(){
   try {
-  const response = await apiClient.get('/')
+  const response = await apiClient.get('/?size=6')
   return response
   } catch (error) {
     throw new Error('There was an error while getting all items: ' + error)

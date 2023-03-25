@@ -12,9 +12,8 @@ function convert(items) {
   var nftArray = []
   console.log("Items length:", items.length)
   for (let i = 0; i < items.length; i++) {
-    console.log('Processing item:', items[i]) //TODO: remove all console.logs
 
-  if(items[i].buyPrice === undefined || items[i].bidPrice === undefined || items[i].listed === undefined) { 
+  if(items[i].minPrice === undefined || items[i].maxPrice === undefined || items[i].listingId === undefined) { 
     let nft = {
       title: items[i].itemName,
       description: items[i].description,
@@ -31,23 +30,20 @@ function convert(items) {
       title: items[i].itemName,
       description: items[i].description,
       image: `http://localhost:8080/api/source/${items[i].itemId}`, 
-      listed: items[i].listed,
-      bidPrice: items[i].bidPrice,
-      buyPrice: items[i].buyPrice,
-      categories: '',
+      listed: items[i].publicationTime.slice(0, 10),
+      bidPrice: items[i].minPrice,
+      buyPrice: items[i].maxPrice,
+      categories: ['IMPLEMENT'],
       id: items[i].itemId
     }
     nftArray.push(nft)
   }
-  console.log("nftArray:", nftArray);
-
 }
   return nftArray
 }
 const items = ref(itemsStore.getItems)
 
 let nfts = computed(() => {
-  console.log(items.value)
   return convert(items.value)
 })
   /*
@@ -162,7 +158,7 @@ let nfts = computed(() => {
       <div class="nft-table-cell nft-table-cell-title">Title</div>
       <div class="nft-table-cell nft-table-cell-description">Description</div>
       <div class="nft-table-cell nft-table-cell-image">Image</div>
-      <div class="nft-table-cell nft-table-cell-listed">Listed</div>
+      <div class="nft-table-cell nft-table-cell-listed">Date Published</div>
       <div class="nft-table-cell nft-table-cell-bid-price">Bid Price</div>
       <div class="nft-table-cell nft-table-cell-buy-price">Buy Price</div>
       <div class="nft-table-cell nft-table-cell-categories">Categories</div>
@@ -172,7 +168,7 @@ let nfts = computed(() => {
         <div class="nft-table-cell nft-table-cell-title">{{ nft.title }}</div>
         <div class="nft-table-cell nft-table-cell-description">{{ nft.description }}</div>
         <div class="nft-table-cell nft-table-cell-image">
-          <img :src="nft.image" alt="NFT Image" />
+          <img :src="nft.image" alt="NFT Image" height="100" width="100" />
         </div>
         <div class="nft-table-cell nft-table-cell-listed">{{ nft.listed }}</div>
         <div class="nft-table-cell nft-table-cell-bid-price">
