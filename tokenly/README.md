@@ -80,7 +80,7 @@ For example, a bid message would look like this:
 
 ```json
 {
-  "message": "{type:'bid',amount:0.02,bidId:'1234',itemId:'123'}",
+  "message": "{'type':'bid','amount':0.02,'bidId':'1234','itemId':'123'}",
   "time": "2021-05-01T12:00:00.000Z",
   "isMe": false,
   "seen": false
@@ -91,7 +91,7 @@ Accepted bid messages would look like this:
 
 ```json
 {
-  "message": "{type:'acceptance/decline',amount:0.02,bidId:'1234',itemId:'123',accepted:true}",
+  "message": "{'type':'acceptance/decline','amount':0.02,'bidId':'1234','itemId':'123','accepted':true}",
   "time": "2021-05-01T12:00:00.000Z",
   "isMe": true,
   "seen": true
@@ -102,7 +102,7 @@ Purchase messages would look like this:
 
 ```json
 {
-  "message": "{type:'purchase',amount:0.02,itemId:'123'}",
+  "message": "{'type':'purchase','amount':0.02,'itemId':'123'}",
   "time": "2021-05-01T12:00:00.000Z",
   "isMe": false,
   "seen": true

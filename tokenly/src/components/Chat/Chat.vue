@@ -108,7 +108,13 @@ const chatData = ref([
                 time: "12:00",
                 isMe: false,
                 seen: false
-            }
+            },
+            2: {
+                message: "{'type':'bid','amount':0.02,'bidId':'1234','itemId':'123'}",
+                time: "12:01",
+                isMe: false,
+                seen: false
+            },
         },
     }
 ])
