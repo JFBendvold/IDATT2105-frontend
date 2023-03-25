@@ -6,6 +6,17 @@ import { useItemsStore } from '@/stores/ItemsStore.js'
 import { ref, computed } from 'vue'
 
 const itemsStore = useItemsStore()
+const page = ref(1)
+
+function nextPage() {
+  page.value++
+}
+
+function prevPage() {
+  if (page.value > 1) {
+    page.value--
+  }
+}
 
 function convert(items) {
   var nftArray = []
@@ -183,6 +194,15 @@ let nfts = computed(() => {
           </div>
         </div>
       </RouterLink>
+    </div>
+    <div class="page-buttons">
+      <button class="page-button" @click="prevPage">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <p class="page-number">{{ page }}</p>
+      <button class="page-button" @click="nextPage">
+        <i class="fas fa-arrow-right"></i>
+      </button>
     </div>
   </div>
 </template>
