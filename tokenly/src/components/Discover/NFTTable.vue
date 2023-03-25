@@ -13,7 +13,7 @@ function convert(items) {
   console.log("Items length:", items.length)
   for (let i = 0; i < items.length; i++) {
 
-  if(items[i].minPrice === undefined || items[i].maxPrice === undefined || items[i].listingId === undefined) { 
+  if(items[i].minPrice === undefined || items[i].maxPrice === undefined || items[i].listingId === undefined || items[i].publicationTime === null) { 
     let nft = {
       title: items[i].itemName,
       description: items[i].description,

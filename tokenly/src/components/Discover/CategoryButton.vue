@@ -1,7 +1,7 @@
 <script setup>
 import '../../assets/css/discover/categoryButton.css'
 import { RouterLink } from 'vue-router'
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 
 import Photography from '../../assets/img/category/Photography.jpg'
 import Animation from '../../assets/img/category/Animation.gif'
@@ -11,10 +11,9 @@ import People from '../../assets/img/category/People.jpg'
 import Cartoon from '../../assets/img/category/Cartoon.jpg'
 import Art from '../../assets/img/category/Art.jpg'
 import Collectibles from '../../assets/img/category/Collectibles.jpg'
-import { useCategoryStore } from '@/stores/CategoryStore.js'
 import { useItemsStore } from '@/stores/ItemsStore.js'
+import { fetchAllItemsByCategory } from '@/services/ItemService.js'
 
-const categoryStore = useCategoryStore()
 const itemsStore = useItemsStore()
 
 const { category } = defineProps({
@@ -67,11 +66,10 @@ const onMouseOut = (event) => {
 
 const handleClick = async (event) => {
 
-  const selectedCategory = event.target.innerText;
-  categoryStore.resetCategory
+  const selectedCategory = event.target.innerText
   itemsStore.resetItems
-  const responsedata = await categoryStore.setCategory(selectedCategory)
-  itemsStore.setItems(responsedata)
+  const response = await fetchAllItemsByCategory(selectedCategory)
+  itemsStore.setItems(response.data)
   window.location.reload()
 }
 
