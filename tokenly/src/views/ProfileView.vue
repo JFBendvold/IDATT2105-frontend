@@ -2,6 +2,7 @@
 import Profile from '@/components/Profile/Profile.vue'
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
+import Chat from '@/components/Chat/Chat.vue'
 </script>
 
 <template>
@@ -9,5 +10,6 @@ import Footer from '@/components/Footer.vue'
   <main>
     <Profile />
   </main>
+  <Chat />
   <Footer />
 </template>

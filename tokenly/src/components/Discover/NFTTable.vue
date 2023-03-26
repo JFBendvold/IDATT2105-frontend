@@ -3,12 +3,23 @@ import '@/assets/css/discover/nftTable.css'
 import NFTTableHeader from './NFTTableHeader.vue'
 import { RouterLink } from 'vue-router'
 import { useItemsStore } from '@/stores/ItemsStore.js'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { fetchAllItems } from '@/services/ItemService.js'
 import { storeToRefs } from 'pinia'
 
 
 const itemsStore = useItemsStore()
+const page = ref(1)
+
+function nextPage() {
+  page.value++
+}
+
+function prevPage() {
+  if (page.value > 1) {
+    page.value--
+  }
+}
 
 async function fetchItems() {
   const items = await fetchAllItems()
@@ -196,6 +207,15 @@ let nfts = computed(() => {
           </div>
         </div>
       </RouterLink>
+    </div>
+    <div class="page-buttons">
+      <button class="page-button" @click="prevPage">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <p class="page-number">{{ page }}</p>
+      <button class="page-button" @click="nextPage">
+        <i class="fas fa-arrow-right"></i>
+      </button>
     </div>
   </div>
 </template>
