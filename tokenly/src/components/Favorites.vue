@@ -2,45 +2,35 @@
 import '@/assets/css/favorites.css'
 import { RouterLink } from 'vue-router'
 import Title from '@/components/Title.vue'
+import { storeToRefs } from 'pinia'
+import { computed, onMounted } from 'vue'
+import { useFavoritesStore } from '@/stores/FavoritesStore.js'
+import imageListFormat from '@/utils/ImageListFormatter.js'
+import { removeItemFromFavorites, fetchAllFavorites } from '@/services/FavoritesService.js'
+import { useUserStore } from '@/stores/UserStore.js'
 
-let nfts = [
-  {
-    filename:
-      'https://images.unsplash.com/photo-1676501334781-30ac3973dbef?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80',
-    alt: 'Image 1',
-    title: 'Image 1',
-    price: '10',
-    link: 'nft'
-  },
-  {
-    filename:
-      'https://images.unsplash.com/photo-1678446332674-27e494ebe44e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80',
-    alt: 'Image 2',
-    title: 'Image 2',
-    price: '20',
-    link: 'nft'
-  },
-  {
-    filename:
-      'https://images.unsplash.com/photo-1678537378341-f9a017d75515?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80',
-    alt: 'Image 3',
-    title: 'Image 3',
-    price: '30',
-    link: 'nft'
-  },
-  {
-    filename:
-      'https://images.unsplash.com/photo-1678446332674-27e494ebe44e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80',
-    alt: 'Image 2',
-    title: 'Image 2',
-    price: '20',
-    link: 'nft'
-  }
-]
+onMounted(async () => {
+  await fetchFavorites()
+})
 
-const removeFromFavorites = (nft) => {
-  nfts = nfts.filter((item) => item.title !== nft.title)
-  window.location.reload()
+const favoritesStore = useFavoritesStore()
+const userStore = useUserStore()
+
+const { favorites } = storeToRefs(favoritesStore)
+
+let nfts = computed(() => {
+  return imageListFormat(favorites.value)
+})
+
+async function fetchFavorites() { //TODO UTIL
+  const favorites = await fetchAllFavorites(userStore.username)
+  favoritesStore.setFavorites(favorites.data)
+}
+
+const removeFromFavorites = async (nft) => {
+  const params = { "username": userStore.username, "itemId": nft.itemId }
+  await removeItemFromFavorites(params)
+  await fetchFavorites()
 }
 </script>
 
@@ -69,7 +59,7 @@ const removeFromFavorites = (nft) => {
             </p>
           </div>
           <div class="favorites-grid-item-link">
-            <RouterLink :to="{ name: nft.link }">
+            <RouterLink :to="nft.link">
               <i class="fas fa-arrow-right"></i>
             </RouterLink>
           </div>

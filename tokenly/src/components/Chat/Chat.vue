@@ -12,6 +12,36 @@ const chatOpen = ref(false)
 const chatToOpen = ref("")
 const chatToSend = ref("")
 
+function formatPreviewMessage(message) {
+    let rawMessage = message
+    let messageJson = null
+
+    if (message.startsWith("{")) {
+        // Replace all ' with "
+        message = message.replace(/'/g, '"')
+
+        // Convert message to JSON
+        messageJson = JSON.parse(message)
+        console.log(messageJson)
+
+        if (messageJson.type === "bid") {
+            return "Bid placed on a NFT"
+        } else if (messageJson.type === "acceptance") {
+            return "Bid accepted"
+        } else if (messageJson.type === "decline") {
+            return "Bid declined"
+        } else if (messageJson.type === "purchase") {
+            return "NFT purchased"
+        }
+    }
+
+    if (message.length > 20) {
+        return message.substring(0, 20) + "..."
+    } else {
+        return message
+    }
+}
+
 function openChat() {
     // Set all messages to seen
     chatData.value.find(chat => chat.username === chatToOpen.value).messages[Object.keys(chatData.value.find(chat => chat.username === chatToOpen.value).messages)[Object.keys(chatData.value.find(chat => chat.username === chatToOpen.value).messages).length - 1]].seen = true
@@ -108,7 +138,31 @@ const chatData = ref([
                 time: "12:00",
                 isMe: false,
                 seen: false
-            }
+            },
+            2: {
+                message: "{'type':'bid','amount':0.02,'bidId':'1234','itemId':'123'}",
+                time: "12:01",
+                isMe: false,
+                seen: false
+            },
+            3: {
+                message: "{'type':'acceptance','amount':0.02,'bidId':'1234','itemId':'123'}",
+                time: "12:02",
+                isMe: true,
+                seen: true
+            },
+            4: {
+                message: "{'type':'decline','amount':0.02,'bidId':'1234','itemId':'123'}",
+                time: "12:03",
+                isMe: true,
+                seen: true
+            },
+            5: {
+                message: "{'type':'purchase','amount':0.02, 'itemId':'123'}",
+                time: "12:04",
+                isMe: true,
+                seen: true
+            },
         },
     }
 ])
@@ -148,7 +202,9 @@ function toggleChat() {
                         <i class="fas fa-circle notification" v-if="chat.messages[Object.keys(chat.messages)[Object.keys(chat.messages).length - 1]].seen === false"></i>
                     </div>
                     <div class="chat-item-body">
-                        <p class="chat-item-message">{{ chat.messages[Object.keys(chat.messages)[Object.keys(chat.messages).length - 1]].message }}</p>
+                        <p class="chat-item-message">
+                            {{ formatPreviewMessage(chat.messages[Object.keys(chat.messages)[Object.keys(chat.messages).length - 1]].message) }}
+                        </p>
                         <p class="chat-item-time">{{ chat.messages[Object.keys(chat.messages)[Object.keys(chat.messages).length - 1]].time }}</p>
                     </div>
                 </div>

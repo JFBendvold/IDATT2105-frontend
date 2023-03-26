@@ -120,29 +120,37 @@ const publish = async () => {
   }
 
   errorMsg.value = ''
-  const mainData = { //TODO: use all of these
-    title: title.value,
-    description: description.value,
-    categories: selectedCategories.value,
-    file: uploadedFile.value
-  }
-
-  const listingData = { //TODO: use all of these
-    listed: listed.value,
-    bidStartPrice: bidStartPrice.value,
-    buyNowPrice: buyNowPrice.value
-  }
 
   try {
     const response = (await postFile(formData)).data
 
-    const item = {
+    let item = {}
+    let forSale = listed.value
+
+    if(forSale) {
+      item = {
         itemName: title.value,
         ownerName: useUserStore().username,
-        description: description.value
+        description: description.value,
+        sourcePath: response,
+        minPrice: bidStartPrice.value,
+        maxPrice: buyNowPrice.value,
+        isListed: true        
+      }
     }
+    else {
+      item = {
+        itemName: title.value,
+        ownerName: useUserStore().username,
+        description: description.value,
+        sourcePath: response,
+        isListed: false        
+      }
+    }
+    console.log(item)
 
     const publishItem = await postUserItem(item)
+    console.log(publishItem)
     
     router.push("/") //TODO: redirect to item page
   }
