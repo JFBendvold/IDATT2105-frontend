@@ -2,107 +2,102 @@
 import { RouterLink } from 'vue-router'
 import '../../assets/css/login/signup.css'
 import { useUserStore } from '@/stores/UserStore.js'
-</script>
+import { ref, computed } from 'vue'
 
-<script>
 const userStore = useUserStore()
 
-export default {
-  data() {
-    return {
-      error: '',
-      username: null,
-      password: null,
-      confirmPassword: null,
-      firstName: null,
-      lastName: null,
-      email: null,
-      birthDate: null
+const error = ref('')
+const username = ref(null)
+const password = ref(null)
+const confirmPassword = ref(null)
+const firstName = ref(null)
+const lastName = ref(null)
+const email = ref(null)
+const birthDate = ref(null)
+
+const matchingPasswords = computed(() => password.value === confirmPassword.value)
+
+const isEmail = (email) => {
+  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  return re.test(String(email).toLowerCase())
+}
+
+const checkInputs = computed(() => {
+  const setErrorFor = (input, message) => {
+    error.value = message
+  }
+
+  if (username.value == '') {
+    setErrorFor(username, 'Username cannot be blank')
+    return false
+  }
+
+  if (password.value == '') {
+    setErrorFor(password, 'Password cannot be blank')
+    return false
+  }
+
+  if (confirmPassword.value == '') {
+    setErrorFor(confirmPassword, 'Confirm password cannot be blank')
+    return false
+  }
+
+  if (firstName.value == '') {
+    setErrorFor(firstName, 'First name cannot be blank')
+    return false
+  }
+
+  if (lastName.value == '') {
+    setErrorFor(lastName, 'Last name cannot be blank')
+    return false
+  }
+
+  if (email.value == '') {
+    setErrorFor(email, 'Email cannot be blank')
+    return false
+  } else if (!isEmail(email.value)) {
+    setErrorFor(email, 'Not a valid email')
+    return false
+  }
+
+  if (birthDate.value == '') {
+    setErrorFor(birthDate, 'Birth date cannot be blank')
+    return false
+  }
+
+  return true
+})
+
+async function handleSubmit() {
+  try {
+    if (!checkInputs.value) {
+      console.log('Something went wrong')
+      return
     }
-  },
-  computed: {
-    matchingPasswords() {
-      return this.password === this.confirmPassword
-    },
-    checkInputs() {
-      const usernameValue = this.username.value
-      const passwordValue = this.password.value
-      const confirmPasswordValue = this.confirmPassword.value
-      const firstNameValue = this.firstName.value
-      const lastNameValue = this.lastName.value
-      const emailValue = this.email.value
-      const birthDateValue = this.birthDate.value
+  } catch (error) {
+    error.value = 'Please fill in all fields'
+    console.log(error)
+    return
+  }
 
-      if (usernameValue == '') {
-        setErrorFor(username, 'Username cannot be blank')
-        return false
-      }
-
-      if (passwordValue == '') {
-        setErrorFor(password, 'Password cannot be blank')
-        return false
-      }
-
-      if (confirmPasswordValue == '') {
-        setErrorFor(confirmPassword, 'Confirm password cannot be blank')
-        return false
-      }
-
-      if (firstNameValue == '') {
-        setErrorFor(firstName, 'First name cannot be blank')
-        return false
-      }
-
-      if (lastNameValue == '') {
-        setErrorFor(lastName, 'Last name cannot be blank')
-        return false
-      }
-
-      if (emailValue == '') {
-        setErrorFor(email, 'Email cannot be blank')
-        return false
-      }
-
-      if (birthDateValue == '') {
-        setErrorFor(birthDate, 'Birth date cannot be blank')
-        return false
-      }
-
-      return true
+  if (matchingPasswords.value) {
+    try {
+      await userStore.createUserProfile(
+        username.value,
+        password.value,
+        firstName.value,
+        lastName.value,
+        email.value,
+        birthDate.value
+      )
+    } catch (error) {
+      error.value = error.message
     }
-  },
-  methods: {
-    async handleSubmit() {
-      try {
-        if (!this.checkInputs) {
-          console.log('Something went wrong')
-          return
-        }
-      } catch (error) {
-        this.error = 'Please fill in all fields'
-        console.log(error)
-        return
-      }
-
-      if (this.matchingPasswords) {
-        try {
-          await userStore.createUserProfile(
-            this.username,
-            this.password,
-            this.firstName,
-            this.lastName,
-            this.email,
-            this.birthDate
-          )
-        } catch (error) {
-          this.error = error.message
-        }
-      } else {
-        this.error = 'Passwords do not have matching values'
-      }
-    }
+  } else {
+    error.value = 'Passwords do not have matching values'
   }
 }
+
 </script>
 
 <template>
