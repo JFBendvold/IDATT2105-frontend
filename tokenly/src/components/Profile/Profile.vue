@@ -14,7 +14,7 @@ import { fetchItemsByOwner } from '@/services/ItemService.js'
 
 const itemsStore = useItemsStore()
 
-const { items } = storeToRefs(itemsStore) 
+const { items } = storeToRefs(itemsStore)
 
 const userStore = useUserStore()
 
@@ -38,7 +38,6 @@ const viewSettings = ref(false)
 let NFTs = computed(() => {
   return imageListFormat(items.value)
 })
-
 </script>
 
 <template>
@@ -66,7 +65,11 @@ let NFTs = computed(() => {
           </div>
         </div>
       </div>
-      <button class="profile-settings-btn" @click="viewSettings = !viewSettings" v-if="userStore.username === username">
+      <button
+        class="profile-settings-btn"
+        @click="viewSettings = !viewSettings"
+        v-if="userStore.username === username"
+      >
         Settings <i class="fas fa-cog"></i>
       </button>
       <ProfileSettings v-if="viewSettings" />

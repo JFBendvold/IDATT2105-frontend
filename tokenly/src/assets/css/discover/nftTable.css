@@ -124,11 +124,11 @@
 }
 
 .page-buttons .page-button:hover {
-  background-color: #FF8600;
+  background-color: #ff8600;
 }
 
 .page-buttons .page-button:focus {
-  background-color: #27187E;
+  background-color: #27187e;
   outline: none;
 }
 

@@ -11,16 +11,11 @@ const apiClient = axios.create({
 
 //Fetches all listings from the database
 export async function fetchListingsFromCategory(categoryName) {
-    try {
-      const response = await apiClient.get('/category/' + categoryName)
-      console.log(response)
-      return response
-    } catch (error) {
-      throw new Error(
-        'There was an error while fetching the requested category: ' + error
-      )
-    }
+  try {
+    const response = await apiClient.get('/category/' + categoryName)
+    console.log(response)
+    return response
+  } catch (error) {
+    throw new Error('There was an error while fetching the requested category: ' + error)
   }
-
-
-
+}

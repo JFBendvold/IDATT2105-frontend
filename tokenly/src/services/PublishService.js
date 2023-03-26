@@ -12,32 +12,37 @@ const apiClient = axios.create({
   }
 })
 
-export async function getSource(){
-    const response= await apiClient.get("",  {
-         headers: {
-            'Authorization' : `Bearer ${userStore.userToken}`
-        }})
-    return response
+export async function getSource() {
+  const response = await apiClient.get('', {
+    headers: {
+      Authorization: `Bearer ${userStore.userToken}`
+    }
+  })
+  return response
 }
-export async function postFile(file){
-    const response= await apiClient.post("post", file ,{
-        headers: {
-            'Content-Type': 'multipart/form-data',
-            'Authorization' : `Bearer ${userStore.userToken}`
-        }
-    })
-    return response
+export async function postFile(file) {
+  const response = await apiClient.post('post', file, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${userStore.userToken}`
+    }
+  })
+  return response
 }
 
-    //Fetches the file associated with the given itemId
-export async function getFile(itemId){
-    const response= await apiClient.get("" + itemId, {
-        responseType: 'blob',
-    }, 
+//Fetches the file associated with the given itemId
+export async function getFile(itemId) {
+  const response = await apiClient.get(
+    '' + itemId,
     {
-        headers: {
-            'Authorization' : `Bearer ${userStore.userToken}`
-        }})
-        
-    return response
+      responseType: 'blob'
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${userStore.userToken}`
+      }
+    }
+  )
+
+  return response
 }

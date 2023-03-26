@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 export const useCategoryStore = defineStore({
   id: 'CategoryStore',
   state: () => ({
-    currentCategory: '',
+    currentCategory: ''
   }),
   persist: {
     //sessionStorage is used to store current category in the browser's session storage
@@ -17,6 +17,5 @@ export const useCategoryStore = defineStore({
       this.currentCategory = ''
     }
   },
-  getters: {
-  }
+  getters: {}
 })

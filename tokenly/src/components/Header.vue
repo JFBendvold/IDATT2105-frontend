@@ -25,7 +25,6 @@ function toggleMenu() {
   displayMenu.value.classList.toggle('hide')
   displayMenu.value.classList.toggle('show')
 }
-
 </script>
 
 <template>
