@@ -4,7 +4,7 @@ export const useItemsStore = defineStore({
   id: 'ItemsStore',
   state: () => ({
     items: [],
-    newItems: [],
+    newItems: []
   }),
   persist: {
     //sessionStorage is used to store current category in the browser's session storage
@@ -12,23 +12,22 @@ export const useItemsStore = defineStore({
   },
   actions: {
     setItems(items) {
-        this.items = items
+      this.items = items
     },
     setNewItems(items) {
-        this.newItems = items
+      this.newItems = items
     },
     resetItems() {
-        this.items = []
-        this.newItems = []
+      this.items = []
+      this.newItems = []
     }
-
   },
   getters: {
     getItems() {
-        return this.items
+      return this.items
     },
     getNewItems() {
-        return this.newItems
-    } 
+      return this.newItems
+    }
   }
 })

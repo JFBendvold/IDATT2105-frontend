@@ -6,7 +6,7 @@ export const useUserStore = defineStore({
   id: 'UserStore',
   state: () => ({
     userToken: null,
-    username: null,
+    username: null
   }),
   persist: {
     //sessionStorage is used to store the userToken and username in the browser's session storage
@@ -73,7 +73,7 @@ export const useUserStore = defineStore({
     },
     getUsername() {
       return this.username
-    },
+    }
     //TODO: add methods to update username, password, name etc...
   },
   getters: {

@@ -7,7 +7,6 @@ import { computed, onMounted, ref } from 'vue'
 import { fetchAllItems } from '@/services/ItemService.js'
 import { storeToRefs } from 'pinia'
 
-
 const itemsStore = useItemsStore()
 const page = ref(1)
 
@@ -31,37 +30,40 @@ onMounted(async () => {
 })
 
 function convert(items) {
-
   var nftArray = []
-  console.log("Items length:", items.length)
+  console.log('Items length:', items.length)
   for (let i = 0; i < items.length; i++) {
-
-  if(items[i].minPrice === undefined || items[i].maxPrice === undefined || items[i].listingId === undefined || items[i].publicationTime === null) { 
-    let nft = {
-      title: items[i].itemName,
-      description: items[i].description,
-      image: `http://localhost:8080/api/source/${items[i].itemId}`,
-      listed: 'Not listed',
-      bidPrice: '0',
-      buyPrice: '0',
-      categories: '',
-      id: items[i].itemId
+    if (
+      items[i].minPrice === undefined ||
+      items[i].maxPrice === undefined ||
+      items[i].listingId === undefined ||
+      items[i].publicationTime === null
+    ) {
+      let nft = {
+        title: items[i].itemName,
+        description: items[i].description,
+        image: `http://localhost:8080/api/source/${items[i].itemId}`,
+        listed: 'Not listed',
+        bidPrice: '0',
+        buyPrice: '0',
+        categories: '',
+        id: items[i].itemId
+      }
+      nftArray.push(nft)
+    } else {
+      let nft = {
+        title: items[i].itemName,
+        description: items[i].description,
+        image: `http://localhost:8080/api/source/${items[i].itemId}`,
+        listed: items[i].publicationTime.slice(0, 10),
+        bidPrice: items[i].minPrice,
+        buyPrice: items[i].maxPrice,
+        categories: ['IMPLEMENT'],
+        id: items[i].itemId
+      }
+      nftArray.push(nft)
     }
-    nftArray.push(nft)
-  } else {
-    let nft = {
-      title: items[i].itemName,
-      description: items[i].description,
-      image: `http://localhost:8080/api/source/${items[i].itemId}`, 
-      listed: items[i].publicationTime.slice(0, 10),
-      bidPrice: items[i].minPrice,
-      buyPrice: items[i].maxPrice,
-      categories: ['IMPLEMENT'],
-      id: items[i].itemId
-    }
-    nftArray.push(nft)
   }
-}
   return nftArray
 }
 
@@ -70,7 +72,7 @@ const { items } = storeToRefs(itemsStore)
 let nfts = computed(() => {
   return convert(items.value)
 })
-  /*
+/*
   {
     title: 'NFT Title',
     description: 'NFT Description',
@@ -188,7 +190,7 @@ let nfts = computed(() => {
       <div class="nft-table-cell nft-table-cell-categories">Categories</div>
     </div>
     <div v-for="nft in nfts" :key="nft.title" class="nft-table-row item">
-      <RouterLink :to="'/nft?id='+nft.id">
+      <RouterLink :to="'/nft?id=' + nft.id">
         <div class="nft-table-cell nft-table-cell-title">{{ nft.title }}</div>
         <div class="nft-table-cell nft-table-cell-description">{{ nft.description }}</div>
         <div class="nft-table-cell nft-table-cell-image">

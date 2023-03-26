@@ -22,13 +22,14 @@ let nfts = computed(() => {
   return imageListFormat(favorites.value)
 })
 
-async function fetchFavorites() { //TODO UTIL
+async function fetchFavorites() {
+  //TODO UTIL
   const favorites = await fetchAllFavorites(userStore.username)
   favoritesStore.setFavorites(favorites.data)
 }
 
 const removeFromFavorites = async (nft) => {
-  const params = { "username": userStore.username, "itemId": nft.itemId }
+  const params = { username: userStore.username, itemId: nft.itemId }
   await removeItemFromFavorites(params)
   await fetchFavorites()
 }

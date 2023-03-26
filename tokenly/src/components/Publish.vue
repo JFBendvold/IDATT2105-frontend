@@ -79,7 +79,7 @@ const uploadFile = (event) => {
   file = event.target.files[0]
   formData = new FormData()
   formData.append('file', file)
-  
+
   if (file) {
     const reader = new FileReader()
     reader.onload = (e) => {
@@ -127,7 +127,7 @@ const publish = async () => {
     let item = {}
     let forSale = listed.value
 
-    if(forSale) {
+    if (forSale) {
       item = {
         itemName: title.value,
         ownerName: useUserStore().username,
@@ -135,33 +135,28 @@ const publish = async () => {
         sourcePath: response,
         minPrice: bidStartPrice.value,
         maxPrice: buyNowPrice.value,
-        isListed: true        
+        isListed: true
       }
-    }
-    else {
+    } else {
       item = {
         itemName: title.value,
         ownerName: useUserStore().username,
         description: description.value,
         sourcePath: response,
-        isListed: false        
+        isListed: false
       }
     }
     console.log(item)
 
     const publishItem = await postUserItem(item)
     console.log(publishItem)
-    
-    router.push("/") //TODO: redirect to item page
-  }
-  catch (error) {
+
+    router.push('/') //TODO: redirect to item page
+  } catch (error) {
     console.log(error)
-    errorMsg.value = "Could not publish item"
+    errorMsg.value = 'Could not publish item'
     return
   }
-
-
-
 }
 </script>
 
@@ -233,8 +228,8 @@ const publish = async () => {
         </div>
         <div class="listed-options">
           <input type="checkbox" id="listed" v-model="listed" />
-          <label for="listed"> 
-             {{ $t('For sale') }}
+          <label for="listed">
+            {{ $t('For sale') }}
           </label>
           <div class="listed-options-wrapper" v-if="listed">
             <div class="row">
@@ -258,9 +253,11 @@ const publish = async () => {
           </div>
         </div>
         <p class="publish-terms">
-          {{ $t('By publishing, you agree to our') }} <RouterLink to="/terms"> 
+          {{ $t('By publishing, you agree to our') }}
+          <RouterLink to="/terms">
             {{ $t('Terms of Service') }}
-          </RouterLink> {{ $t('and') }}
+          </RouterLink>
+          {{ $t('and') }}
           <RouterLink to="/privacy">
             {{ $t('Privacy Policy') }}
           </RouterLink>

@@ -7,8 +7,7 @@ export const useFilterStore = defineStore({
     status: '',
     orderBy: '',
     minPrice: '',
-    maxPrice: '',
-    
+    maxPrice: ''
   }),
   persist: {
     //sessionStorage is used to store current filter in the browser's session storage
@@ -19,24 +18,23 @@ export const useFilterStore = defineStore({
       this.categories = categories
     },
     setStatus(status) {
-        this.status = status
+      this.status = status
     },
     setOrderBy(orderBy) {
-        this.orderBy = orderBy
+      this.orderBy = orderBy
     },
     setMinPrice(minPrice) {
-        this.minPrice = minPrice
+      this.minPrice = minPrice
     },
     setMaxPrice(maxPrice) {
-        this.maxPrice = maxPrice
+      this.maxPrice = maxPrice
     },
     resetFilter() {
-        this.categories = []
-        this.status = ''
-        this.minPrice = ''
-        this.maxPrice = ''
+      this.categories = []
+      this.status = ''
+      this.minPrice = ''
+      this.maxPrice = ''
     }
   },
-  getters: {
-  }
+  getters: {}
 })
