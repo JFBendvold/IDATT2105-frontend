@@ -3,11 +3,15 @@ import '@/assets/css/favorites.css'
 import { RouterLink } from 'vue-router'
 import Title from '@/components/Title.vue'
 import { storeToRefs } from 'pinia'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useFavoritesStore } from '@/stores/FavoritesStore.js'
 import imageListFormat from '@/utils/ImageListFormatter.js'
 import { removeItemFromFavorites, fetchAllFavorites } from '@/services/FavoritesService.js'
 import { useUserStore } from '@/stores/UserStore.js'
+
+onMounted(async () => {
+  await fetchFavorites()
+})
 
 const favoritesStore = useFavoritesStore()
 const userStore = useUserStore()
@@ -21,7 +25,6 @@ let nfts = computed(() => {
 async function fetchFavorites() { //TODO UTIL
   const favorites = await fetchAllFavorites(userStore.username)
   favoritesStore.setFavorites(favorites.data)
-  
 }
 
 const removeFromFavorites = async (nft) => {

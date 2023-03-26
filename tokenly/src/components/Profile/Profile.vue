@@ -8,14 +8,24 @@ import { useUserStore } from '@/stores/UserStore.js'
 import picon1 from '@/assets/img/profile_icons/picon1.jpg'
 import { useItemsStore } from '@/stores/ItemsStore.js'
 import { storeToRefs } from 'pinia'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import imageListFormat from '@/utils/ImageListFormatter.js'
+import { fetchItemsByOwner } from '@/services/ItemService.js'
 
 const itemsStore = useItemsStore()
 
 const { items } = storeToRefs(itemsStore) 
 
 const userStore = useUserStore()
+
+async function fetchUsersItems() {
+  const items = await fetchItemsByOwner(userStore.username)
+  itemsStore.setItems(items.data)
+}
+
+onMounted(async () => {
+  await fetchUsersItems()
+})
 
 // Get params from url
 const params = new URLSearchParams(window.location.search)

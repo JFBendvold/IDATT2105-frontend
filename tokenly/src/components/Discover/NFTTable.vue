@@ -3,9 +3,21 @@ import '@/assets/css/discover/nftTable.css'
 import NFTTableHeader from './NFTTableHeader.vue'
 import { RouterLink } from 'vue-router'
 import { useItemsStore } from '@/stores/ItemsStore.js'
-import { ref, computed } from 'vue'
+import { computed, onMounted } from 'vue'
+import { fetchAllItems } from '@/services/ItemService.js'
+import { storeToRefs } from 'pinia'
+
 
 const itemsStore = useItemsStore()
+
+async function fetchItems() {
+  const items = await fetchAllItems()
+  itemsStore.setItems(items.data)
+}
+
+onMounted(async () => {
+  await fetchItems()
+})
 
 function convert(items) {
 
@@ -41,7 +53,8 @@ function convert(items) {
 }
   return nftArray
 }
-const items = ref(itemsStore.getItems)
+
+const { items } = storeToRefs(itemsStore)
 
 let nfts = computed(() => {
   return convert(items.value)

@@ -4,14 +4,7 @@ import { ref } from 'vue'
 import '../assets/css/header.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 import { useUserStore } from '@/stores/UserStore.js'
-import { fetchAllItems } from '@/services/ItemService.js' 
-import { useItemsStore } from '@/stores/ItemsStore.js'
-import { useFavoritesStore } from '@/stores/FavoritesStore.js'
-import { fetchAllFavorites } from '@/services/FavoritesService.js'
-import { fetchItemsByOwner } from '@/services/ItemService.js'
 
-const itemsStore = useItemsStore()
-const favoritesStore = useFavoritesStore()
 const userStore = useUserStore()
 const displayMenu = ref(null)
 
@@ -33,23 +26,6 @@ function toggleMenu() {
   displayMenu.value.classList.toggle('show')
 }
 
-async function fetchItems() {
-  const items = await fetchAllItems()
-  itemsStore.setItems(items.data)
-}
-
-async function fetchUsersItems() {
-  const items = await fetchItemsByOwner(userStore.username)
-  itemsStore.setItems(items.data)
-}
-
-async function fetchFavorites() {
-  const favorites = await fetchAllFavorites(userStore.username)
-  console.log(favorites.data)
-  favoritesStore.setFavorites(favorites.data)
-  
-}
-
 </script>
 
 <template>
@@ -68,13 +44,13 @@ async function fetchFavorites() {
       <nav class="links">
         <ul>
           <li>
-            <RouterLink to="/discover" @click="fetchItems()"> {{ $t('Discover') }}</RouterLink>
+            <RouterLink to="/discover"> {{ $t('Discover') }}</RouterLink>
           </li>
           <li>
             <RouterLink to="/publish"> {{ $t('Publish') }}</RouterLink>
           </li>
           <li>
-            <RouterLink to="/favorites" @click="fetchFavorites()"> {{ $t('Favorites') }}</RouterLink>
+            <RouterLink to="/favorites"> {{ $t('Favorites') }}</RouterLink>
           </li>
           <li v-if="!userStore.isLoggedIn">
             <RouterLink to="/login">
@@ -82,7 +58,7 @@ async function fetchFavorites() {
             </RouterLink>
           </li>
           <li v-if="userStore.isLoggedIn">
-            <RouterLink :to="`/profile?username=${userStore.username}`" @click="fetchUsersItems()">
+            <RouterLink :to="`/profile?username=${userStore.username}`">
               {{ userStore.username }}
             </RouterLink>
           </li>
