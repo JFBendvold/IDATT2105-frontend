@@ -49,15 +49,20 @@ const router = createRouter({
       path: '/privacy',
       name: 'privacy',
       component: () => import('../views/docs/PrivacyView.vue')
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('../views/ProfileView.vue')
     }
   ]
 })
 
 //TODO: works fine, but needs to be implemented
 router.beforeEach(async (to) => {
-  const privatePages = ['nft', 'publish', 'favorites']
+  const privatePages = ['publish', 'favorites', 'chat']
   const authorized = useUserStore().isLoggedIn
-  if(authorized && (to.name == 'login' || to.name == 'signup')) {
+  if (authorized && (to.name == 'login' || to.name == 'signup')) {
     return '/'
   } else if (privatePages.includes(to.name) && !authorized) {
     return '/login'

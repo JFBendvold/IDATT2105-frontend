@@ -127,3 +127,27 @@
   height: 50px;
   margin-right: 1rem;
 }
+
+@media screen and (max-width: 768px) {
+  .footer {
+    height: auto;
+  }
+
+  .footer .containers {
+    flex-direction: column;
+  }
+  .footer .containers .footer-container {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 1rem;
+  }
+  .footer .containers .footer-container .footer-title {
+    font-size: 1.5rem;
+  }
+  .footer .containers .footer-container .footer-links a {
+    font-size: 1rem;
+  }
+  .footer .footer-bottom select {
+    width: 50%;
+  }
+}

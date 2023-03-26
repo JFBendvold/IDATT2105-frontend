@@ -8,6 +8,7 @@ const showCategoryDropdown = ref(false)
 
 const orderDropdownText = ref('Sort by')
 const statusDropdownText = ref('Status')
+
 const categorySuggestion = ref('')
 
 let selectedCategories = []
@@ -70,7 +71,7 @@ const applyFilters = () => {
 </script>
 
 <template>
-  <div class="nft-table-header">
+  <div class="nft-table-header" id="items">
     <div class="filters">
       <div class="left">
         <button class="filter-text-button">Trending</button>

@@ -2,12 +2,66 @@
 import '@/assets/css/discover/nftTable.css'
 import NFTTableHeader from './NFTTableHeader.vue'
 import { RouterLink } from 'vue-router'
+import { useItemsStore } from '@/stores/ItemsStore.js'
+import { ref, computed } from 'vue'
 
-let nfts = [
+const itemsStore = useItemsStore()
+const page = ref(1)
+
+function nextPage() {
+  page.value++
+}
+
+function prevPage() {
+  if (page.value > 1) {
+    page.value--
+  }
+}
+
+function convert(items) {
+  var nftArray = []
+  for (let i = 0; i < items.length; i++) {
+
+    if(items[i].buyPrice === undefined || items[i].bidPrice === undefined || items[i].listed === undefined) { 
+
+    let nft = {
+      title: items[i].itemName,
+      description: items[i].description,
+      image: `http://localhost:8080/api/source/${items[i].itemId}`,
+      listed: 'Not listed',
+      bidPrice: '0',
+      buyPrice: '0',
+      categories: '',
+      id: items[i].itemId
+    }
+    nftArray.push(nft)
+  } else {
+    let nft = {
+      title: items[i].itemName,
+      description: items[i].description,
+      image: `http://localhost:8080/api/source/${items[i].itemId}`, 
+      listed: items[i].listed,
+      bidPrice: items[i].bidPrice,
+      buyPrice: items[i].buyPrice,
+      categories: '',
+      id: items[i].itemId
+    }
+    nftArray.push(nft)
+  }
+  return nftArray
+}
+}
+const items = ref(itemsStore.getItems)
+
+let nfts = computed(() => {
+  return convert(items.value)
+})
+
+  /*
   {
     title: 'NFT Title',
     description: 'NFT Description',
-    image: 'https://picsum.photos/200/300',
+    image: 'http://localhost:8080/api/source/2',
     listed: '2021-09-01',
     bidPrice: '0.1',
     buyPrice: '0.5',
@@ -42,7 +96,7 @@ let nfts = [
     bidPrice: '0.1',
     buyPrice: '0.5',
     categories: ['Art', 'Music'],
-    id: 1
+    id: 69
   },
   {
     title: 'NFT Title 5',
@@ -83,8 +137,29 @@ let nfts = [
     buyPrice: '0.5',
     categories: ['Art', 'Music'],
     id: 1
+  },
+  {
+    title: 'NFT Title',
+    description: 'NFT Description',
+    image: 'https://picsum.photos/200/300',
+    listed: '2021-09-01',
+    bidPrice: '0.1',
+    buyPrice: '0.5',
+    categories: ['Art', 'Music'],
+    id: 1
+  },
+  {
+    title: 'NFT Title 2',
+    description: 'NFT Description 2',
+    image: 'https://picsum.photos/200/300',
+    listed: '2021-09-01',
+    bidPrice: '0.1',
+    buyPrice: '0.5',
+    categories: ['Art', 'Sports', 'Music', 'Fashion', 'Art', 'Sports', 'Music', 'Fashion'],
+    id: 1
   }
 ]
+*/
 </script>
 
 <template>
@@ -100,7 +175,7 @@ let nfts = [
       <div class="nft-table-cell nft-table-cell-categories">Categories</div>
     </div>
     <div v-for="nft in nfts" :key="nft.title" class="nft-table-row item">
-      <RouterLink :to="{ name: 'nft', params: { id: nft.id } }">
+      <RouterLink :to="'/nft?id='+nft.id">
         <div class="nft-table-cell nft-table-cell-title">{{ nft.title }}</div>
         <div class="nft-table-cell nft-table-cell-description">{{ nft.description }}</div>
         <div class="nft-table-cell nft-table-cell-image">
@@ -119,6 +194,15 @@ let nfts = [
           </div>
         </div>
       </RouterLink>
+    </div>
+    <div class="page-buttons">
+      <button class="page-button" @click="prevPage">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <p class="page-number">{{ page }}</p>
+      <button class="page-button" @click="nextPage">
+        <i class="fas fa-arrow-right"></i>
+      </button>
     </div>
   </div>
 </template>
