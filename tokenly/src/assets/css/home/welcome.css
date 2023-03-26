@@ -66,15 +66,3 @@
   position: relative;
   bottom: 0;
 }
-
-@media screen and (max-width: 768px) {
-  .welcome .title h1 {
-    font-size: 2rem;
-  }
-  .welcome .title p {
-    font-size: 1rem;
-  }
-  .welcome .title .register {
-    font-size: 1rem;
-  }
-}

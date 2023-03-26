@@ -2,9 +2,6 @@
 import { RouterLink } from 'vue-router'
 import '../../assets/css/home/welcome.css'
 import '@fortawesome/fontawesome-free/css/all.css'
-import { useUserStore } from '@/stores/UserStore.js'
-
-const userStore = useUserStore()
 </script>
 
 <template>
@@ -13,14 +10,10 @@ const userStore = useUserStore()
       <h1>
         {{ $t('Info') }}
       </h1>
-      <p v-if="!userStore.isLoggedIn">
+      <p>
         {{ $t('Create Account') }}
       </p>
-      <p v-if="userStore.isLoggedIn">
-        {{ $t('Welcome back') }} {{ userStore.username }}, {{ $t('Greeting') }}
-        <!-- TODO: ADD greeting! -->
-      </p>
-      <RouterLink to="/login" v-if="!userStore.isLoggedIn">
+      <RouterLink to="/login">
         <button class="register">
           {{ $t('Join') }}
         </button>

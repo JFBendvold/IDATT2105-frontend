@@ -5,8 +5,8 @@ import router from '@/router/index.js'
 export const useUserStore = defineStore({
   id: 'UserStore',
   state: () => ({
-    userToken: "dkjfjd",
-    username: "tom",
+    userToken: null,
+    username: null
   }),
   persist: {
     //sessionStorage is used to store the userToken and username in the browser's session storage
@@ -24,7 +24,7 @@ export const useUserStore = defineStore({
         //Occurs if the response is returned with a status code 200 (OK)
         if (response.status === 200) {
           this.userToken = response.data
-          this.username = username
+          this.username = username   
           router.push({ name: 'home' })
         } else {
           throw new Error(
@@ -34,12 +34,11 @@ export const useUserStore = defineStore({
         //Console logs errors
       } catch (error) {
         console.error(error)
-        throw new Error('There was an error while creating user')
       }
     },
 
     //Sends an api call to backend via post call which creates a new user as well as a new user profile
-    async createUserProfile(username, password, firstname, lastname, email, birthdate) {
+    async createUserProfile(username, password, firstname, lastname, email) {
       try {
         //Tries to store the response of the call to the constant 'response'
         const response = await registerUser({
@@ -47,8 +46,7 @@ export const useUserStore = defineStore({
           password: password,
           firstname: firstname,
           lastname: lastname,
-          email: email,
-          birthdate: birthdate
+          email: email
         })
         //Occurs if the response is returned with a status code 200 (OK)
         if (response.status === 201) {
@@ -62,7 +60,6 @@ export const useUserStore = defineStore({
         //Console logs errors
       } catch (error) {
         console.error(error)
-        throw new Error('There was an error while creating the user')
       }
     },
     //Logs the current user out, and resets state to default

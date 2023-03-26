@@ -1,7 +1,6 @@
 <script setup>
 import '@/assets/css/favorites.css'
 import { RouterLink } from 'vue-router'
-import Title from '@/components/Title.vue'
 
 let nfts = [
   {
@@ -46,13 +45,12 @@ const removeFromFavorites = (nft) => {
 
 <template>
   <div class="favorites-wrapper">
-    <Title title="Favorites" />
     <div class="favorites">
       <div class="favorites-empty" v-if="nfts.length === 0">
-        <h2>{{ $t('No favorites') }}</h2>
+        <h2>There are no favorites yet</h2>
         <p>
-          {{ $t('No favorites text') }}
-          <i class="fas fa-heart"></i>.
+          You can add NFTs to your favorites by clicking on the
+          <i class="fas fa-heart"></i>- icon on the NFT page.
         </p>
       </div>
       <div class="favorites-grid" v-else>
