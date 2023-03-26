@@ -1,6 +1,4 @@
 import { defineStore } from 'pinia'
-import { fetchAllFavorites } from '@/services/FavoritesService'
-import router from '@/router/index.js'
 
 export const useFavoritesStore = defineStore({
   id: 'FavoritesStore',
@@ -20,6 +18,8 @@ export const useFavoritesStore = defineStore({
     }
   },
   getters: {
-
+    getFavorites() {
+        return this.favorites
+    }
   }
 })

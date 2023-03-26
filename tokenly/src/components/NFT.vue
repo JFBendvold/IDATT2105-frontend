@@ -5,6 +5,9 @@ import picon1 from '../assets/img/profile_icons/picon1.jpg'
 import { useItemsStore } from '@/stores/ItemsStore.js'
 import { useUserStore } from '@/stores/UserStore.js'
 import { addToFavorites } from '@/services/FavoritesService.js'
+import { useFavoritesStore } from '@/stores/FavoritesStore.js'
+
+const favoritesStore = useFavoritesStore()
 
 const itemsStore = useItemsStore()
  
@@ -14,12 +17,22 @@ const params = new URLSearchParams(window.location.search)
 const id = params.get('id')
 
 const targetItems = itemsStore.getItems
+const targetFavorites = favoritesStore.getFavorites
 var item = null
 
 for(let i = 0; i < targetItems.length; i++) {
   if(targetItems[i].itemId == id) {
     item = targetItems[i]
+    break
   }
+}
+if (!item) {
+  for(let i = 0; i < targetFavorites.length; i++) {
+  if(targetFavorites[i].itemId == id) {
+    item = targetFavorites[i]
+    break
+  }
+}
 }
 
 let image = {
