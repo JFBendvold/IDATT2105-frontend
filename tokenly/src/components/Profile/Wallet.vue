@@ -1,6 +1,18 @@
 <script setup>
 import '@/assets/css/profile/wallet.css'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import {useBalanceStore} from '@/stores/BalanceStore.js'
+import {fetchUserProfile, addBalance} from '@/services/ProfileService.js'
+import {useUserStore} from '@/stores/UserStore.js'
+
+const balanceStore = useBalanceStore()
+
+onMounted(async () => {
+  const response = await fetchUserProfile(useUserStore().username)
+  balanceStore.setUserId(response.data.id)
+  balanceStore.setBalance(response.data.balance)
+  balance.value = balanceStore.currentBalance
+})
 
 const displayDepositPopup = ref(false)
 const displayWithdrawPopup = ref(false)
@@ -10,15 +22,17 @@ const loading = ref(false)
 
 const depositAmount = ref(0.0)
 const withdrawAmount = ref(0.0)
-const balance = ref(0.0)
+const balance = ref(balanceStore.currentBalance)
 
 // Deposit to wallet
-const deposit = () => {
+const deposit = async () => {
   if (!checkDepositAmount()) {
     return
   }
 
   //Do call to backend to deposit
+  const response = await addBalance(balanceStore.userId, depositAmount.value)
+  console.log(response)
 
   //Set loading to true to show loading animation for 5 seconds
   loading.value = true
@@ -27,16 +41,20 @@ const deposit = () => {
     loading.value = false
   }, 5000)
 
+  updateBalance()
+
   console.log('Deposit: ' + depositAmount.value)
 }
 
 // Withdraw from wallet
-const withdraw = () => {
+const withdraw = async () => {
   if (!checkWithdrawAmount()) {
     return
   }
 
   //Do call to backend to withdraw
+  const response = await addBalance(balanceStore.userId, -withdrawAmount.value)
+  console.log(response)
 
   //Set loading to true to show loading animation for 5 seconds
   loading.value = true
@@ -44,6 +62,8 @@ const withdraw = () => {
   setTimeout(() => {
     loading.value = false
   }, 5000)
+
+  updateBalance()
 
   console.log('Withdraw: ' + withdrawAmount.value)
 }
@@ -73,6 +93,14 @@ const checkWithdrawAmount = () => {
     return true
   }
 }
+
+async function updateBalance() {
+  const response = await fetchUserProfile(useUserStore().username)
+  balanceStore.setUserId(response.data.id)
+  balanceStore.setBalance(response.data.balance)
+  balance.value = balanceStore.currentBalance
+}
+
 </script>
 
 <template>
