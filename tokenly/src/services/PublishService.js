@@ -19,13 +19,6 @@ export async function getSource(){
         }})
     return response
 }
-export async function postSource(text){
-    const response= await apiClient.post("post", text, {
-        headers: {
-            'Authorization' : `Bearer ${userStore.userToken}`
-        }})
-    return response
-}
 export async function postFile(file){
     const response= await apiClient.post("post", file ,{
         headers: {

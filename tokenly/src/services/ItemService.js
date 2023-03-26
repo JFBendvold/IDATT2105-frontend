@@ -12,7 +12,7 @@ const apiClient = axios.create({
 //Posts a new item
 export async function postUserItem(item) {
   try {
-  const response = await apiClient.post('items/post', item)
+  const response = await apiClient.post('itemListing/post', item)
   return response
   } catch (error) {
     throw new Error('There was an error while posting a new item: ' + error)
