@@ -3,7 +3,7 @@ import '@/assets/css/discover/nftTable.css'
 import NFTTableHeader from './NFTTableHeader.vue'
 import { RouterLink } from 'vue-router'
 import { useItemsStore } from '@/stores/ItemsStore.js'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { fetchAllItems } from '@/services/ItemService.js'
 import { storeToRefs } from 'pinia'
 
