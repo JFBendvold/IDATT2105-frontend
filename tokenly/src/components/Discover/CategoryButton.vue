@@ -70,7 +70,6 @@ const handleClick = async (event) => {
   itemsStore.resetItems
   const response = await fetchAllItemsByCategory(selectedCategory)
   itemsStore.setItems(response.data)
-  window.location.reload()
 }
 
 </script>
