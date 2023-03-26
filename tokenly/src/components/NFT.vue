@@ -6,6 +6,7 @@ import { useItemsStore } from '@/stores/ItemsStore.js'
 import { useUserStore } from '@/stores/UserStore.js'
 import { addToFavorites, removeItemFromFavorites, fetchAllFavorites } from '@/services/FavoritesService.js'
 import { useFavoritesStore } from '@/stores/FavoritesStore.js'
+import { fetchItemById } from '@/services/ItemService.js'
 import { ref, onMounted } from 'vue'
 import router from '../router'
 
@@ -62,8 +63,10 @@ if (!item) {
 }
 }
 
+/** TODO: implement this
 if (!item) {
   try {
+    console.log("Fetching item from server" + id)
     const responseItem = await fetchItemById(id)
     item = responseItem.data
   } catch (error) {
@@ -72,6 +75,7 @@ if (!item) {
     router.push('/')
   }
 }
+*/
 
 //TODO: If the item is still not found, make a request to the server to get the item
 
