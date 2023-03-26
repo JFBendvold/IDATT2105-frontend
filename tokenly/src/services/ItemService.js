@@ -54,3 +54,12 @@ export async function fetchItemsByOwner(ownerName){
     throw new Error('There was an error while getting all items belonging to the user: ' + error)
   }
 }
+
+export async function fetchItemById(itemId){
+  try {
+  const response = await apiClient.get('itemListing/item/' + itemId)
+  return response
+  } catch (error) {
+    throw new Error('There was an error while getting all items belonging to the user: ' + error)
+  }
+}

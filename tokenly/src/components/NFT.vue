@@ -7,6 +7,7 @@ import { useUserStore } from '@/stores/UserStore.js'
 import { addToFavorites, removeItemFromFavorites, fetchAllFavorites } from '@/services/FavoritesService.js'
 import { useFavoritesStore } from '@/stores/FavoritesStore.js'
 import { ref, onMounted } from 'vue'
+import router from '../router'
 
 const favoritesStore = useFavoritesStore()
 
@@ -59,6 +60,17 @@ if (!item) {
     break
   }
 }
+}
+
+if (!item) {
+  try {
+    const responseItem = await fetchItemById(id)
+    item = responseItem.data
+  } catch (error) {
+    console.log(error)
+    
+    router.push('/')
+  }
 }
 
 //TODO: If the item is still not found, make a request to the server to get the item
