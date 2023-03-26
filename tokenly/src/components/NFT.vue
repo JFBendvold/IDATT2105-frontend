@@ -4,7 +4,7 @@ import '@fortawesome/fontawesome-free/css/all.css'
 import picon1 from '../assets/img/profile_icons/picon1.jpg'
 import { useItemsStore } from '@/stores/ItemsStore.js'
 import { useUserStore } from '@/stores/UserStore.js'
-import { addToFavorites } from '@/services/FavoritesService.js'
+import { addToFavorites, removeItemFromFavorites } from '@/services/FavoritesService.js'
 import { useFavoritesStore } from '@/stores/FavoritesStore.js'
 
 const favoritesStore = useFavoritesStore()
@@ -25,7 +25,8 @@ for(let i = 0; i < targetItems.length; i++) {
     item = targetItems[i]
     break
   }
-}
+} 
+ //TODO: make method
 if (!item) {
   for(let i = 0; i < targetFavorites.length; i++) {
   if(targetFavorites[i].itemId == id) {
@@ -64,16 +65,32 @@ const onMouseOver = (event) => {
   }deg) rotateX(${(yPercent - 50) / 100}deg)`
 }
 
-async function addItemToFavorites() {
-  const favorite = {
-    "username": userStore.getUsername(),
-    "itemId": id
+async function handleFavoriteClick() {
+
+  let isPresent = false
+
+  const targetFavorites = favoritesStore.getFavorites
+
+  for(let i = 0; i < targetFavorites.length; i++) {
+    if(targetFavorites[i].itemId == id) {
+      isPresent = true
+      break
+    }
   }
-  console.log(favorite)
-  try {
-  await addToFavorites(favorite)
-  } catch (error) {
-    console.log(error) //TODO: print?
+  if(isPresent) {
+      const params = { "username": userStore.username, "itemId": id }
+      await removeItemFromFavorites(params)
+  }
+  else {
+    const favorite = {
+      "username": userStore.getUsername(),
+      "itemId": id
+    }
+    try {
+    await addToFavorites(favorite)
+    } catch (error) {
+      console.log(error) //TODO: print?
+    }
   }
 }
 
@@ -111,7 +128,7 @@ const onMouseOut = (event) => {
             </div>
           </button>
         </div>
-        <button class="favourite-button" @click="addItemToFavorites()">
+        <button class="favourite-button" @click="handleFavoriteClick()">
           <i class="far fa-heart"></i>
         </button>
       </div>
