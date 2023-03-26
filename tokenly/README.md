@@ -91,7 +91,7 @@ Accepted bid messages would look like this:
 
 ```json
 {
-  "message": "{'type':'acceptance/decline','amount':0.02,'bidId':'1234','itemId':'123','accepted':true}",
+  "message": "{'type':'acceptance','amount':0.02,'bidId':'1234','itemId':'123'}",
   "time": "2021-05-01T12:00:00.000Z",
   "isMe": true,
   "seen": true
