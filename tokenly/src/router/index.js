@@ -62,7 +62,13 @@ const router = createRouter({
 })
 
 //TODO: works fine, but needs to be implemented
-router.beforeEach(async (to) => {
+router.beforeEach(async (from, to) => {
+  if (from.name == 'profile' && to.name == 'profile') {
+    // Reload the page
+    window.location.href = from.fullPath
+    return true
+  }
+
   const privatePages = ['publish', 'favorites', 'chat']
   const authorized = useUserStore().isLoggedIn
   if (authorized && (to.name == 'login' || to.name == 'signup')) {

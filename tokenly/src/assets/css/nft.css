@@ -39,6 +39,7 @@
 .nft-wrapper .nft-container .nft-image {
   max-width: 100%;
   height: 400px;
+  object-fit: cover;
   margin-bottom: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -183,6 +184,13 @@
 
 .nft-wrapper .nft-container .user-tag:hover {
   cursor: pointer;
+}
+
+.nft-wrapper .nft-container .nft-views {
+  font-size: 24px;
+  font-weight: 400;
+  color: #333;
+  margin-bottom: 20px;
 }
 
 @media screen and (max-width: 768px) {

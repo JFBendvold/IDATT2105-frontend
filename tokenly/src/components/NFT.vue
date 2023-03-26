@@ -10,7 +10,7 @@ import {
   fetchAllFavorites
 } from '@/services/FavoritesService.js'
 import { useFavoritesStore } from '@/stores/FavoritesStore.js'
-import { fetchItemById } from '@/services/ItemService.js'
+import { fetchItemById, addVisitById } from '@/services/ItemService.js'
 import { ref, onMounted } from 'vue'
 import { throwErrorPopup } from '@/utils/ErrorController.js'
 import router from '../router'
@@ -34,6 +34,8 @@ const user = ref({
   image: ''
 })
 
+const visits = ref(0)
+
 const params = new URLSearchParams(window.location.search)
 const id = params.get('id')
 
@@ -48,15 +50,16 @@ const isFavorite = ref(false)
 onMounted(async () => {
   if (useUserStore().isLoggedIn) {
     await fetchFavorites()
-    console.log(isFavorite.value)
   }
 
   if (!item) {
     try {
-      console.log('Fetching item from server' + id)
       const responseItem = await fetchItemById(id)
+      if (responseItem.data.listingId != null) {
+        const responseListing = await addVisitById(responseItem.data.listingId)
+        visits.value = responseListing.data
+      }
       item = responseItem.data
-      console.log(item)
       image.value = {
         filename: 'http://localhost:8080/api/source/' + id,
         alt: 'Image displayed in the NFT card',
@@ -71,7 +74,7 @@ onMounted(async () => {
       }
     } catch (error) {
       console.log(error)
-
+      throwErrorPopup("NFT not found")
       router.push('/')
     }
   } else {
@@ -104,10 +107,6 @@ async function fetchFavorites() {
     }
   }
 }
-
-
-
-//TODO: If the item is still not found, make a request to the server to get the item
 
 //Image tilt on hover effect
 const onMouseOver = (event) => {
@@ -198,6 +197,9 @@ async function handleFavoriteClick() {
         </button>
       </div>
       <h1 class="nft-title">{{ image.title }}</h1>
+      <p class="nft-views">{{ visits }} 
+        <i class="far fa-eye"></i>
+      </p>
       <p class="nft-description">{{ image.description }}</p>
       <div class="user-tag">
         <img :src="user.image" :alt="user.name" />

@@ -16,7 +16,7 @@ export async function fetchUserProfile(username) {
       return response
     } catch (error) {
       throw new Error(
-        'There was an error while fetching user information: ' + error.response.statusText
+        "Insufficinet funds"
       )
   }
 }

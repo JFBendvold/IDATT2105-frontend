@@ -4,6 +4,7 @@ import { ref, onMounted } from 'vue'
 import {useBalanceStore} from '@/stores/BalanceStore.js'
 import {fetchUserProfile, addBalance} from '@/services/ProfileService.js'
 import {useUserStore} from '@/stores/UserStore.js'
+import { throwErrorPopup } from '@/utils/ErrorController.js'
 
 const balanceStore = useBalanceStore()
 
@@ -32,7 +33,7 @@ const deposit = async () => {
 
   //Do call to backend to deposit
   const response = await addBalance(balanceStore.userId, depositAmount.value)
-  console.log(response)
+  throwErrorPopup(response.data)
 
   //Set loading to true to show loading animation for 5 seconds
   loading.value = true
@@ -53,8 +54,13 @@ const withdraw = async () => {
   }
 
   //Do call to backend to withdraw
-  const response = await addBalance(balanceStore.userId, -withdrawAmount.value)
-  console.log(response)
+  try {
+    const response = await addBalance(balanceStore.userId, -withdrawAmount.value)
+    throwErrorPopup(response.data)
+  } catch (error) {
+    throwErrorPopup(error)
+    return
+  }
 
   //Set loading to true to show loading animation for 5 seconds
   loading.value = true
