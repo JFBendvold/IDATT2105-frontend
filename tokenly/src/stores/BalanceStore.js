@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 export const useBalanceStore = defineStore({
   id: 'BalanceStore',
   state: () => ({
-    currentBalace: '',
+    currentBalace: ''
   }),
   persist: {
     //sessionStorage is used to store current balance in the browser's session storage
@@ -13,16 +13,16 @@ export const useBalanceStore = defineStore({
     setBalance(balance) {
       this.currentBalance = balance
     },
-    increaseBalance(balance) { //TODO: Add checks
-        this.currentBalance += balance
+    increaseBalance(balance) {
+      //TODO: Add checks
+      this.currentBalance += balance
     },
     decreaseBalance(balance) {
-        this.currentBalance -= balance
+      this.currentBalance -= balance
     },
     resetBalance() {
       this.currentCategory = 0
     }
   },
-  getters: {
-  }
+  getters: {}
 })

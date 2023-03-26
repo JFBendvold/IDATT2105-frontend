@@ -65,13 +65,11 @@ const onMouseOut = (event) => {
 }
 
 const handleClick = async (event) => {
-
   const selectedCategory = event.target.innerText
   itemsStore.resetItems
   const response = await fetchAllItemsByCategory(selectedCategory)
   itemsStore.setItems(response.data)
 }
-
 </script>
 
 <template>

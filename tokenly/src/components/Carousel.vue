@@ -6,7 +6,7 @@ import 'swiper/swiper-bundle.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 import '../assets/css/carousel.css'
 import { useItemsStore } from '@/stores/ItemsStore.js'
-import { ref, computed, onMounted  } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { fetchAllItems } from '@/services/ItemService.js'
 import { storeToRefs } from 'pinia'
 import imageListFormat from '@/utils/ImageListFormatter'
@@ -31,22 +31,17 @@ let images = computed(() => {
 
 SwiperCore.use([Autoplay])
 
-const slidesPerView = ref("4")
+const slidesPerView = ref('4')
 
 //If the screen is less than 768px, the number of slides displayed should be 2
 if (window.innerWidth < 768) {
-  slidesPerView.value = "2"
+  slidesPerView.value = '2'
 }
-
 </script>
 
 <template>
   <div class="swiper">
-    <swiper 
-    :slides-per-view="slidesPerView"
-    :autoplay="{ delay: 5000 }" 
-    loop
-    >
+    <swiper :slides-per-view="slidesPerView" :autoplay="{ delay: 5000 }" loop>
       <swiper-slide v-for="(image, index) in images" :key="index">
         <RouterLink :to="image.link">
           <div class="swiperImg" :style="{ backgroundImage: `url('${image.filename}'` }">

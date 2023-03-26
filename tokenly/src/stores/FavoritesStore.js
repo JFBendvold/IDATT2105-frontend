@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 export const useFavoritesStore = defineStore({
   id: 'FavoritesStore',
   state: () => ({
-    favorites: [],
+    favorites: []
   }),
   persist: {
     //sessionStorage is used to store the favorites of the logged in user in the browser's session storage
@@ -11,15 +11,15 @@ export const useFavoritesStore = defineStore({
   },
   actions: {
     async setFavorites(favorites) {
-        this.favorites = favorites
+      this.favorites = favorites
     },
     resetFavorites() {
-        this.favorites = []
+      this.favorites = []
     }
   },
   getters: {
     getFavorites() {
-        return this.favorites
+      return this.favorites
     }
   }
 })
