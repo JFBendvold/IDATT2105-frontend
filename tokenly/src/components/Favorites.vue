@@ -8,6 +8,7 @@ import { useFavoritesStore } from '@/stores/FavoritesStore.js'
 import imageListFormat from '@/utils/ImageListFormatter.js'
 import { removeItemFromFavorites, fetchAllFavorites } from '@/services/FavoritesService.js'
 import { useUserStore } from '@/stores/UserStore.js'
+import { throwErrorPopup } from '@/utils/ErrorController.js'
 
 onMounted(async () => {
   await fetchFavorites()
@@ -32,6 +33,7 @@ const removeFromFavorites = async (nft) => {
   const params = { username: userStore.username, itemId: nft.itemId }
   await removeItemFromFavorites(params)
   await fetchFavorites()
+  throwErrorPopup("Removed from favorites")
 }
 </script>
 
@@ -43,7 +45,7 @@ const removeFromFavorites = async (nft) => {
         <h2>{{ $t('No favorites') }}</h2>
         <p>
           {{ $t('No favorites text') }}
-          <i class="fas fa-heart"></i>.
+          <i class="fas fa-heart"></i>
         </p>
       </div>
       <div class="favorites-grid" v-else>
