@@ -7,6 +7,7 @@ import { postFile } from '@/services/PublishService.js'
 import { postUserItem, fetchAllItems } from '@/services/ItemService.js'
 import { useUserStore } from '@/stores/UserStore.js'
 import router from '../router'
+import { throwErrorPopup } from '@/utils/ErrorController.js'
 
 const categorySuggestion = ref('')
 const showCategories = ref(false)
@@ -50,11 +51,15 @@ const addCategory = (category) => {
   selectedCategories.value.push(category)
   showCategories.value = true
   showCategories.value = false
+  
+  throwErrorPopup("Added category")
 }
 
 const removeCategory = (category) => {
   selectedCategories.value = selectedCategories.value.filter((c) => c !== category)
   showCategories.value = false
+
+  throwErrorPopup("Removed category")
 }
 
 const suggestCategoryInput = (event) => {
@@ -152,10 +157,22 @@ const publish = async () => {
     const publishItem = await postUserItem(item)
     console.log(publishItem)
     
+    throwErrorPopup("NFT published")
     router.push("/") //TODO: redirect to item page
   }
   catch (error) {
-    console.log(error)
+    error += ""
+
+    if(error.includes("401")) {
+      throwErrorPopup("You are not logged in")
+      useUserStore().logUserOut()
+      router.push("/login")
+      return
+    } else if (error.includes("400")) {
+      throwErrorPopup("Title already exists")
+      errorMsg.value = "Title already exists"
+      return
+    }
     errorMsg.value = "Could not publish item"
     return
   }

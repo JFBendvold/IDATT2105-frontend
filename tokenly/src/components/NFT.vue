@@ -7,6 +7,7 @@ import { useUserStore } from '@/stores/UserStore.js'
 import { addToFavorites, removeItemFromFavorites, fetchAllFavorites } from '@/services/FavoritesService.js'
 import { useFavoritesStore } from '@/stores/FavoritesStore.js'
 import { ref, onMounted } from 'vue'
+import { throwErrorPopup } from '@/utils/ErrorController.js'
 
 const favoritesStore = useFavoritesStore()
 
@@ -115,6 +116,7 @@ async function handleFavoriteClick() {
       const params = { "username": userStore.username, "itemId": id }
       await removeItemFromFavorites(params)
       isFavorite.value = false
+      throwErrorPopup('Item removed from favorites')
   }
   else {
     const favorite = {
@@ -124,6 +126,7 @@ async function handleFavoriteClick() {
     try {
     await addToFavorites(favorite)
     isFavorite.value = true
+    throwErrorPopup('Item added to favorites')
     } catch (error) {
       console.log(error) //TODO: print?
     }
@@ -145,14 +148,14 @@ async function handleFavoriteClick() {
       </div>
       <div class="buttons">
         <div class="buy-buttons-row">
-          <button class="buy-button">
+          <button class="buy-button" @click="throwErrorPopup('Bid disse ballene')">
             <p>{{ $t('Bid') }}</p>
             <div class="price">
               {{ image.bidPrice }}
               <i class="fab fa-ethereum"></i>
             </div>
           </button>
-          <button class="buy-button">
+          <button class="buy-button" @click="throwErrorPopup('Kjøp disse ballene')">
             <p>{{ $t('Buy') }}</p>
             <div class="price">
               {{ image.price }}
