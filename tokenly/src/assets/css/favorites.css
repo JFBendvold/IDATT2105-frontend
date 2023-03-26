@@ -1,14 +1,3 @@
-.favorites-view {
-  min-height: 100vh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding-top: 60px;
-  background: linear-gradient(180deg, #758bfd 0%, #f1f2f6 100%);
-}
-
 .favorites-wrapper {
   display: flex;
   flex-direction: column;

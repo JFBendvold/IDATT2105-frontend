@@ -3,10 +3,6 @@ import '@/assets/css/publish.css'
 import { RouterLink } from 'vue-router'
 import Title from '../components/Title.vue'
 import { ref } from 'vue'
-import { postFile } from '@/services/PublishService.js'
-import { postUserItem, fetchAllItems } from '@/services/ItemService.js'
-import { useUserStore } from '@/stores/UserStore.js'
-import router from '../router'
 
 const categorySuggestion = ref('')
 const showCategories = ref(false)
@@ -19,8 +15,6 @@ const title = ref('')
 const description = ref('')
 const bidStartPrice = ref('')
 const buyNowPrice = ref('')
-let file = ref(null)
-let formData = ref(null)
 const selectedCategories = ref([])
 
 let categories = [
@@ -76,10 +70,7 @@ const uploadFile = (event) => {
     return
   }
 
-  file = event.target.files[0]
-  formData = new FormData()
-  formData.append('file', file)
-  
+  const file = event.target.files[0]
   if (file) {
     const reader = new FileReader()
     reader.onload = (e) => {
@@ -91,7 +82,7 @@ const uploadFile = (event) => {
   }
 }
 
-const publish = async () => {
+const publish = () => {
   if (title.value.length === 0) {
     errorMsg.value = 'Title is required'
     return
@@ -120,40 +111,24 @@ const publish = async () => {
   }
 
   errorMsg.value = ''
-  const mainData = { //TODO: use all of these
+  console.log('Publishing')
+
+  const mainData = {
     title: title.value,
     description: description.value,
     categories: selectedCategories.value,
     file: uploadedFile.value
   }
 
-  const listingData = { //TODO: use all of these
+  console.log(mainData)
+
+  const listingData = {
     listed: listed.value,
     bidStartPrice: bidStartPrice.value,
     buyNowPrice: buyNowPrice.value
   }
 
-  try {
-    const response = (await postFile(formData)).data
-
-    const item = {
-        itemName: title.value,
-        ownerName: useUserStore().username,
-        description: description.value
-    }
-
-    const publishItem = await postUserItem(item)
-    
-    router.push("/") //TODO: redirect to item page
-  }
-  catch (error) {
-    console.log(error)
-    errorMsg.value = "Could not publish item"
-    return
-  }
-
-
-
+  console.log(listingData)
 }
 </script>
 
@@ -162,8 +137,8 @@ const publish = async () => {
     <Title title="Publish" />
     <div class="publish-wrapper">
       <form @submit.prevent="publish">
-        <input type="text" :placeholder="$t('Title')" class="publish-title" v-model="title" />
-        <textarea :placeholder="$t('Description')" v-model="description"></textarea>
+        <input type="text" placeholder="Title" class="publish-title" v-model="title" />
+        <textarea placeholder="Description" v-model="description"></textarea>
         <input
           type="file"
           accept="image/*"
@@ -177,7 +152,7 @@ const publish = async () => {
           @click="$refs.upload.click()"
           v-if="uploadedFile === null"
         >
-          {{ $t('Upload') }}
+          Upload
         </button>
         <div class="publish-upload-preview" v-if="uploadedFile">
           <img :src="uploadedFile" />
@@ -185,7 +160,7 @@ const publish = async () => {
         <div class="publish-categories">
           <input
             type="text"
-            :placeholder="$t('Enter Category')"
+            placeholder="Enter Category"
             class="publish-category-input"
             @keyup.enter="addCategory($event.target.value)"
             @keyup="suggestCategoryInput($event)"
@@ -203,16 +178,14 @@ const publish = async () => {
           @click="showCategories = !showCategories"
           v-if="!showCategories"
         >
-          {{ $t('Show Categories') }}
-          ({{ selectedCategories.length }})
+          Show Categories ({{ selectedCategories.length }})
         </button>
         <button
           class="show-categories-button"
           @click="showCategories = !showCategories"
           v-if="showCategories"
         >
-          {{ $t('Hide Categories') }}
-          ({{ selectedCategories.length }})
+          Hide Categories ({{ selectedCategories.length }})
         </button>
         <div class="publish-selected-categories" v-if="showCategories">
           <span
@@ -225,14 +198,12 @@ const publish = async () => {
         </div>
         <div class="listed-options">
           <input type="checkbox" id="listed" v-model="listed" />
-          <label for="listed"> 
-             {{ $t('For sale') }}
-          </label>
+          <label for="listed"> For sale </label>
           <div class="listed-options-wrapper" v-if="listed">
             <div class="row">
               <input
                 type="text"
-                :placeholder="$t('Starting bid')"
+                placeholder="Starting Bid"
                 name="starting-bid"
                 v-model="bidStartPrice"
               />
@@ -241,7 +212,7 @@ const publish = async () => {
             <div class="row">
               <input
                 type="text"
-                :placeholder="$t('Buy now price')"
+                placeholder="Buy now price"
                 name="buy-now-price"
                 v-model="buyNowPrice"
               />
@@ -250,16 +221,10 @@ const publish = async () => {
           </div>
         </div>
         <p class="publish-terms">
-          {{ $t('By publishing, you agree to our') }} <RouterLink to="/terms"> 
-            {{ $t('Terms of Service') }}
-          </RouterLink> {{ $t('and') }}
-          <RouterLink to="/privacy">
-            {{ $t('Privacy Policy') }}
-          </RouterLink>
+          By publishing, you agree to our <RouterLink to="/terms">Terms of Service</RouterLink> and
+          <RouterLink to="/privacy">Privacy Policy</RouterLink>
         </p>
-        <button type="submit">
-          {{ $t('Publish') }}
-        </button>
+        <button type="submit">Publish</button>
         <p class="publish-error" v-if="errorMsg.length > 0">
           {{ errorMsg }}
         </p>

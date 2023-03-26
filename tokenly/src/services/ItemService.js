@@ -50,6 +50,17 @@ export async function fetchItemFromPath(sourcePath) {
   }
 }
 
+//Fetches an item from the database to display on the website
+export async function fetchAllItems() {
+  try {
+    const response = await apiClient.get('/')
+    console.log(response)
+    return response
+  } catch (error) {
+    throw new Error('There was an error while fetching the requested item: ' + error)
+  }
+}
+
 //Posts a new item to the logged in users' item inventory
 export async function postItem(userToken, newItem) {
   try {
@@ -58,24 +69,4 @@ export async function postItem(userToken, newItem) {
   } catch (error) {
     throw new Error('There was an error while posting a new item to the user inventory: ' + error)
   }
-}
-
-//Posts a new item
-export async function postUserItem(item) {
-  try {
-  const response = await apiClient.post('/post', item)
-  return response
-  } catch (error) {
-    throw new Error('There was an error while posting a new item: ' + error)
-  }
-}
-
-export async function fetchAllItems(){
-  try {
-  const response = await apiClient.get('/')
-  return response
-  } catch (error) {
-    throw new Error('There was an error while getting all items: ' + error)
-  }
-
 }

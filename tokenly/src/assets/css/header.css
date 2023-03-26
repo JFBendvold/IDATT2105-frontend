@@ -13,7 +13,6 @@ header {
   right: 0;
   z-index: 10;
   backdrop-filter: blur(10px) saturate(100%);
-  -webkit-backdrop-filter: blur(10px) saturate(100%);
 }
 
 header .wrapper {
@@ -52,7 +51,7 @@ header .logo:hover {
 
 header .search {
   flex: 2;
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
 }
@@ -98,7 +97,6 @@ header .search button:hover i {
 
 header .links {
   flex: 1;
-  max-width: 500px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -129,80 +127,4 @@ header .links ul li a {
 
 header .links ul li a:hover {
   text-decoration: underline;
-}
-
-.burger {
-  display: none;
-  cursor: pointer;
-}
-
-.burger-menu {
-  position: fixed;
-  top: 60px;
-  width: 100%;
-  height: calc(100vh - 60px);
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.8);
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  transition: all 0.5s ease;
-  backdrop-filter: blur(10px) saturate(100%);
-  -webkit-backdrop-filter: blur(10px) saturate(100%);
-}
-
-.hide {
-  right: -100%;
-}
-
-.show {
-  right: 0;
-}
-
-.burger-menu ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-direction: column;
-}
-
-.burger-menu ul a {
-  text-decoration: none;
-  color: #758BFD;
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
-.burger-menu ul li {
-  margin: 40px 0;
-  border-bottom: 1px solid #758BFD;
-  width: 100%;
-  text-align: center;
-}
-
-@media screen and (max-width: 768px) {
-  header {
-    height: 60px;
-    background-color: rgba(0, 0, 0, 0.6)
-  }
-  
-  header .logo {
-    font-size: 1.2rem;
-  }
-
-  header .links {
-    display: none;
-  }
-
-  .burger {
-    display: flex;
-    align-self: center;
-    justify-content: center;
-  }
 }

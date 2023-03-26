@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8080/api/itemsCategories',
+  baseURL: 'http://localhost:8080/api/categories',
   withCredentials: false,
   headers: {
     Accept: 'application/json',
@@ -10,25 +10,15 @@ const apiClient = axios.create({
 })
 
 //Fetches all categories from the database
-export async function fetchItemsFromCategory(categoryName) {
+export async function fetchAllItems() {
     try {
-      const response = await apiClient.get('/items/' + categoryName)
+      const response = await apiClient.get('/')
       console.log(response)
       return response
     } catch (error) {
       throw new Error(
-        'There was an error while fetching the requested category: ' + error
+        'There was an error while fetching the requested item: ' + error
       )
     }
   }
-
-export async function fetchAllItems() {
-  try {
-    const response = await apiClient.get('/')
-    console.log(response)
-    return response
-  } catch (error) {
-    throw new Error('There was an error while fetching the requested item: ' + error)
-  }
-}
 
