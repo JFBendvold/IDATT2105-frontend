@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { fetchItemsFromCategory } from '@/services/CategoryService.js'
 
 export const useCategoryStore = defineStore({
   id: 'CategoryStore',
@@ -12,9 +11,7 @@ export const useCategoryStore = defineStore({
   },
   actions: {
     async setCategory(category) {
-      const response = await fetchItemsFromCategory(category)
-      this.currentCategory = response.data
-      return response.data
+      this.currentCategory = category
     },
     resetCategory() {
       this.currentCategory = ''

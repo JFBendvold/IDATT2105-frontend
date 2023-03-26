@@ -6,8 +6,26 @@ import ProfileSettings from './ProfileSettings.vue'
 import Wallet from './Wallet.vue'
 import { useUserStore } from '@/stores/UserStore.js'
 import picon1 from '@/assets/img/profile_icons/picon1.jpg'
+import { useItemsStore } from '@/stores/ItemsStore.js'
+import { storeToRefs } from 'pinia'
+import { computed, onMounted } from 'vue'
+import imageListFormat from '@/utils/ImageListFormatter.js'
+import { fetchItemsByOwner } from '@/services/ItemService.js'
+
+const itemsStore = useItemsStore()
+
+const { items } = storeToRefs(itemsStore) 
 
 const userStore = useUserStore()
+
+async function fetchUsersItems() {
+  const items = await fetchItemsByOwner(userStore.username)
+  itemsStore.setItems(items.data)
+}
+
+onMounted(async () => {
+  await fetchUsersItems()
+})
 
 // Get params from url
 const params = new URLSearchParams(window.location.search)
@@ -17,40 +35,10 @@ const creatoinDate = ref('2021-09-01')
 
 const viewSettings = ref(false)
 
-const NFTs = ref([
-  {
-    filename:
-      'https://images.unsplash.com/photo-1676501334781-30ac3973dbef?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80',
-    alt: 'Image 1',
-    title: 'Image 1',
-    price: '10',
-    link: 'nft'
-  },
-  {
-    filename:
-      'https://images.unsplash.com/photo-1678446332674-27e494ebe44e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80',
-    alt: 'Image 2',
-    title: 'Image 2',
-    price: '20',
-    link: 'nft'
-  },
-  {
-    filename:
-      'https://images.unsplash.com/photo-1678537378341-f9a017d75515?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80',
-    alt: 'Image 3',
-    title: 'Image 3',
-    price: '30',
-    link: 'nft'
-  },
-  {
-    filename:
-      'https://images.unsplash.com/photo-1678446332674-27e494ebe44e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80',
-    alt: 'Image 2',
-    title: 'Image 2',
-    price: '20',
-    link: 'nft'
-  }
-])
+let NFTs = computed(() => {
+  return imageListFormat(items.value)
+})
+
 </script>
 
 <template>

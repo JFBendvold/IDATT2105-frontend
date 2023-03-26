@@ -3,7 +3,10 @@ import '@/assets/css/discover/nftTable.css'
 import NFTTableHeader from './NFTTableHeader.vue'
 import { RouterLink } from 'vue-router'
 import { useItemsStore } from '@/stores/ItemsStore.js'
-import { ref, computed } from 'vue'
+import { computed, onMounted } from 'vue'
+import { fetchAllItems } from '@/services/ItemService.js'
+import { storeToRefs } from 'pinia'
+
 
 const itemsStore = useItemsStore()
 const page = ref(1)
@@ -18,12 +21,22 @@ function prevPage() {
   }
 }
 
+async function fetchItems() {
+  const items = await fetchAllItems()
+  itemsStore.setItems(items.data)
+}
+
+onMounted(async () => {
+  await fetchItems()
+})
+
 function convert(items) {
+
   var nftArray = []
+  console.log("Items length:", items.length)
   for (let i = 0; i < items.length; i++) {
 
-    if(items[i].buyPrice === undefined || items[i].bidPrice === undefined || items[i].listed === undefined) { 
-
+  if(items[i].minPrice === undefined || items[i].maxPrice === undefined || items[i].listingId === undefined || items[i].publicationTime === null) { 
     let nft = {
       title: items[i].itemName,
       description: items[i].description,
@@ -40,23 +53,23 @@ function convert(items) {
       title: items[i].itemName,
       description: items[i].description,
       image: `http://localhost:8080/api/source/${items[i].itemId}`, 
-      listed: items[i].listed,
-      bidPrice: items[i].bidPrice,
-      buyPrice: items[i].buyPrice,
-      categories: '',
+      listed: items[i].publicationTime.slice(0, 10),
+      bidPrice: items[i].minPrice,
+      buyPrice: items[i].maxPrice,
+      categories: ['IMPLEMENT'],
       id: items[i].itemId
     }
     nftArray.push(nft)
   }
+}
   return nftArray
 }
-}
-const items = ref(itemsStore.getItems)
+
+const { items } = storeToRefs(itemsStore)
 
 let nfts = computed(() => {
   return convert(items.value)
 })
-
   /*
   {
     title: 'NFT Title',
@@ -169,7 +182,7 @@ let nfts = computed(() => {
       <div class="nft-table-cell nft-table-cell-title">Title</div>
       <div class="nft-table-cell nft-table-cell-description">Description</div>
       <div class="nft-table-cell nft-table-cell-image">Image</div>
-      <div class="nft-table-cell nft-table-cell-listed">Listed</div>
+      <div class="nft-table-cell nft-table-cell-listed">Date Published</div>
       <div class="nft-table-cell nft-table-cell-bid-price">Bid Price</div>
       <div class="nft-table-cell nft-table-cell-buy-price">Buy Price</div>
       <div class="nft-table-cell nft-table-cell-categories">Categories</div>
@@ -179,7 +192,7 @@ let nfts = computed(() => {
         <div class="nft-table-cell nft-table-cell-title">{{ nft.title }}</div>
         <div class="nft-table-cell nft-table-cell-description">{{ nft.description }}</div>
         <div class="nft-table-cell nft-table-cell-image">
-          <img :src="nft.image" alt="NFT Image" />
+          <img :src="nft.image" alt="NFT Image" height="100" width="100" />
         </div>
         <div class="nft-table-cell nft-table-cell-listed">{{ nft.listed }}</div>
         <div class="nft-table-cell nft-table-cell-bid-price">
