@@ -4,8 +4,9 @@ import '@fortawesome/fontawesome-free/css/all.css'
 import picon1 from '../assets/img/profile_icons/picon1.jpg'
 import { useItemsStore } from '@/stores/ItemsStore.js'
 import { useUserStore } from '@/stores/UserStore.js'
-import { addToFavorites, removeItemFromFavorites } from '@/services/FavoritesService.js'
+import { addToFavorites, removeItemFromFavorites, fetchAllFavorites } from '@/services/FavoritesService.js'
 import { useFavoritesStore } from '@/stores/FavoritesStore.js'
+import { ref, onMounted } from 'vue'
 
 const favoritesStore = useFavoritesStore()
 
@@ -17,16 +18,40 @@ const params = new URLSearchParams(window.location.search)
 const id = params.get('id')
 
 const targetItems = itemsStore.getItems
-const targetFavorites = favoritesStore.getFavorites
+let targetFavorites = favoritesStore.getFavorites
 var item = null
 
+// Check if the item is in the favorites store
+const isFavorite = ref(false)
+
+// Update the favorites store when the component is mounted
+onMounted(async () => {
+  await fetchFavorites()
+  console.log(isFavorite.value)
+})
+
+async function fetchFavorites() { //TODO UTIL
+  const favorites = await fetchAllFavorites(userStore.username)
+  favoritesStore.setFavorites(favorites.data)
+
+  targetFavorites = favoritesStore.getFavorites
+  for(let i = 0; i < targetFavorites.length; i++) {
+    if(targetFavorites[i].itemId == id) {
+      isFavorite.value = true
+      break
+    }
+  }
+}
+
+// Get the item from the items store if it is there
 for(let i = 0; i < targetItems.length; i++) {
   if(targetItems[i].itemId == id) {
     item = targetItems[i]
     break
   }
 } 
- //TODO: make method
+
+//TODO: make method
 if (!item) {
   for(let i = 0; i < targetFavorites.length; i++) {
   if(targetFavorites[i].itemId == id) {
@@ -35,6 +60,8 @@ if (!item) {
   }
 }
 }
+
+//TODO: If the item is still not found, make a request to the server to get the item
 
 let image = {
   filename:
@@ -52,6 +79,7 @@ let user = {
   image: picon1
 }
 
+//Image tilt on hover effect
 const onMouseOver = (event) => {
   // make the image tilt a bit in 3d space when hovering over it, depending on the mouse position
   const x = event.offsetX
@@ -65,8 +93,14 @@ const onMouseOver = (event) => {
   }deg) rotateX(${(yPercent - 50) / 100}deg)`
 }
 
-async function handleFavoriteClick() {
+// Reset the image tilt when the mouse leaves the image
+const onMouseOut = (event) => {
+  event.target.style.transform = 'none'
+}
 
+//Handle favorite click event, add or remove item from favorites
+async function handleFavoriteClick() {
+  await fetchFavorites()
   let isPresent = false
 
   const targetFavorites = favoritesStore.getFavorites
@@ -80,6 +114,7 @@ async function handleFavoriteClick() {
   if(isPresent) {
       const params = { "username": userStore.username, "itemId": id }
       await removeItemFromFavorites(params)
+      isFavorite.value = false
   }
   else {
     const favorite = {
@@ -88,14 +123,11 @@ async function handleFavoriteClick() {
     }
     try {
     await addToFavorites(favorite)
+    isFavorite.value = true
     } catch (error) {
       console.log(error) //TODO: print?
     }
   }
-}
-
-const onMouseOut = (event) => {
-  event.target.style.transform = 'none'
 }
 </script>
 
@@ -129,7 +161,8 @@ const onMouseOut = (event) => {
           </button>
         </div>
         <button class="favourite-button" @click="handleFavoriteClick()">
-          <i class="far fa-heart"></i>
+          <i class="far fa-heart" v-if="!isFavorite"></i>
+          <i class="fas fa-heart" v-else></i>
         </button>
       </div>
       <h1 class="nft-title">{{ image.title }}</h1>
