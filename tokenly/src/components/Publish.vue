@@ -173,11 +173,7 @@ const publish = async () => {
       return
     }
     router.push('/') //TODO: redirect to item page
-  } catch (error) {
-    console.log(error)
-    errorMsg.value = 'Could not publish item'
-    return
-  }
+  } 
 }
 </script>
 
