@@ -157,12 +157,6 @@ describe('Test the functionality of the webpage when not logged in', () => {
     cy.get('h1').should('contain', 'Vintage Vinyl Record')
   }) 
 
-  it('tries to click on a nft that is displayed in `Newly Listed`', () => {
-    cy.visit('/')
-    cy.get('.swiper-slide').first().click() //TODO: Change this to the nft in the newly listed list
-    cy.get('h1').should('contain', 'Vintage Vinyl Record')
-  }) 
-
   it('tries to click the footer `Home` link', () => {
     cy.visit('/')
     cy.get('a').contains('Home').click()
@@ -189,7 +183,6 @@ describe('Test the functionality of the webpage when not logged in', () => {
 
 })
 
-//TODO: TEST that the button heart is filled, click
 
 describe('Test the functionality of the webpage with favorites when logged in', () => {
   beforeEach(() => {

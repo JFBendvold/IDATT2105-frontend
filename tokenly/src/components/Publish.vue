@@ -163,7 +163,7 @@ const publish = async () => {
     }
     
     throwErrorPopup("NFT published")
-    router.push("/") //TODO: redirect to item page
+    router.push("/") 
   }
   catch (error) {
     error += ""
@@ -178,7 +178,7 @@ const publish = async () => {
       errorMsg.value = "Title already exists"
       return
     }
-    router.push('/') //TODO: redirect to item page
+    router.push('/') 
   } 
 }
 </script>

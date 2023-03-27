@@ -9,7 +9,7 @@ const apiClient = axios.create({
   }
 })
 
-//Posts a new favorite to the logged in user's favorites/wishlist TODO:
+//Posts a new favorite to the logged in user's favorites/wishlist
 export async function addToFavorites(params) {
   try {
     const response = await apiClient.post('/wishlists/wishlist', params)
