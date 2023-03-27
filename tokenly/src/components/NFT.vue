@@ -291,7 +291,7 @@ async function handleFavoriteClick() {
           @mouseout="onMouseOut"
         />
       </div>
-      <div class="buttons">
+      <div class="buttons" v-if="useUserStore().isLoggedIn">
         <div class="buy-buttons-row">
           <button class="buy-button">
             <p @click="bid()">{{ $t('Bid') }}</p>
