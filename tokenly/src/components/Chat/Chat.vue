@@ -28,8 +28,6 @@ onMounted(async () => {
   }
 
   chatData.value = await chatListFormat(response.data)
-
-  console.log(toRaw(chatData.value))
 })
 
 
@@ -43,7 +41,6 @@ function formatPreviewMessage(message) {
 
     // Convert message to JSON
     messageJson = JSON.parse(message)
-    console.log(messageJson)
 
     if (messageJson.type === 'bid') {
       return 'Bid placed on a NFT'
@@ -73,7 +70,6 @@ async function openChat() {
   ].seen = true
 
   let chatId = chatData.value.find((chat) => chat.username === chatToOpen.value).chatId
-  console.log(chatId)
   await markAsSeen(chatId)
 
   console.log('Opened chat with ' + chatToOpen.value)

@@ -19,3 +19,12 @@ export async function fetchListingsFromCategory(categoryName) {
     throw new Error('There was an error while fetching the requested category: ' + error)
   }
 }
+
+export async function fetchListing(listingId) {
+  try {
+    const response = await apiClient.get('/listing/' + listingId)
+    return response
+  } catch (error) {
+    throw new Error('There was an error while fetching the requested listing: ' + error)
+  }
+}

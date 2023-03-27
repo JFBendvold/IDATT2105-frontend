@@ -19,5 +19,8 @@ import CategoryButton from './CategoryButton.vue'
         <CategoryButton category="Collectibles" />
       </div>
     </div>
+    <div class="category-scrolldown">
+      <i class="fas fa-chevron-down"></i>
+    </div>
   </div>
 </template>

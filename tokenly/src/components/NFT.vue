@@ -16,7 +16,8 @@ import { throwErrorPopup } from '@/utils/ErrorController.js'
 import {fetchUserProfile} from '@/services/ProfileService.js'
 import router from '../router'
 import { doTransaction } from '@/services/TransactionService.js'
-import { sendPurchaseNotification } from '@/services/ChatService.js'
+import { sendPurchaseNotification, sendBidNotification } from '@/services/ChatService.js'
+import { createBid } from '@/services/BidService.js'
 
 const favoritesStore = useFavoritesStore()
 
@@ -70,6 +71,8 @@ async function buy() {
       listingId: listingId.value
     }
 
+    console.log(transaction)
+
     // Send the transaction
     try {
       await doTransaction(transaction)
@@ -104,8 +107,24 @@ async function bid() {
   }
 
   if (confirmBid.value) {
-    throwErrorPopup('Bid confirmed')
-    router.push('/')
+    // Create a bid
+    const bid = {
+      buyerName: userStore.username,
+      price: bidAmount.value,
+      listingId: listingId.value
+    }
+
+    try {
+      const response = await createBid(bid)
+
+      await sendBidNotification(item.ownerName, userStore.username, response.data.bidId, bidAmount.value, id)
+
+      throwErrorPopup('Bid confirmed')
+      router.push('/')
+    } catch (error) {
+      throwErrorPopup('Bid failed, try again later')
+      return
+    }
   } else {
     confirmBid.value = true
     throwErrorPopup('Click again to confirm')
