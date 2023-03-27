@@ -20,14 +20,19 @@ export default async function chatListFormat(chatList) {
 
     messagesResponse.data.forEach((message) => {
         let time = new Date(message.messageTime);
+        let isMe = message.senderName === useUserStore().username;
 
+        let seen = message.seen;
+        if (isMe) {
+            seen = true;
+        }
 
       let messageObj = {
         messageId: message.messageId,
         message: message.message,
         time: time.toLocaleTimeString(),
-        seen: message.seen,
-        isMe: message.senderName === useUserStore().username,
+        seen: seen,
+        isMe: isMe,
       };
 
       messagesList.push(messageObj);
@@ -42,8 +47,6 @@ export default async function chatListFormat(chatList) {
         isMe: false,
         });
     }
-
-    console.log(messagesList.length);
 
     let chatObj = {
       chatId: chat.chatId,

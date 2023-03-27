@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { toRaw } from 'vue'
+import { useUserStore } from '@/stores/UserStore.js'
 
 const apiClient = axios.create({
   baseURL: 'http://localhost:8080/api/',
@@ -37,5 +38,27 @@ export async function fetchMessages(chatId) {
         return response
     } catch (error) {
         throw new Error('There was an error while fetching messages: ' + error.response)
+    }
+}
+
+export async function sendMessage(chatId, message) {
+    try {
+        const response = await apiClient.post('messages/post', {
+            chatId: chatId,
+            message: message,
+            senderName: useUserStore().username
+            })
+        return response
+    } catch (error) {
+        throw new Error('There was an error while sending message: ' + error.response)
+    }
+}
+
+export async function markAsSeen(chatId) {
+    try {
+        const response = await apiClient.put('chats/seen/' + chatId)
+        return response
+    } catch (error) {
+        throw new Error('There was an error while marking messages as seen: ' + error.response)
     }
 }

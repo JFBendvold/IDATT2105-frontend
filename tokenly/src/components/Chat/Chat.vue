@@ -3,7 +3,7 @@ import '@/assets/css/chat/chat.css'
 import Message from './Message.vue'
 import { ref, onMounted, toRaw } from 'vue'
 import { useUserStore } from '@/stores/UserStore.js'
-import { fetchChats } from '@/services/ChatService.js'
+import { fetchChats, sendMessage, markAsSeen } from '@/services/ChatService.js'
 import { throwErrorPopup } from '@/utils/ErrorController.js'
 import chatListFormat from '@/utils/ChatFormatter.js'
 
@@ -63,7 +63,7 @@ function formatPreviewMessage(message) {
   }
 }
 
-function openChat() {
+async function openChat() {
   // Set all messages to seen
   chatData.value.find((chat) => chat.username === chatToOpen.value).messages[
     Object.keys(chatData.value.find((chat) => chat.username === chatToOpen.value).messages)[
@@ -72,10 +72,14 @@ function openChat() {
     ]
   ].seen = true
 
+  let chatId = chatData.value.find((chat) => chat.username === chatToOpen.value).chatId
+  console.log(chatId)
+  await markAsSeen(chatId)
+
   console.log('Opened chat with ' + chatToOpen.value)
 }
 
-function sendChat() {
+async function sendChat() {
   // Check if message is empty
   if (chatToSend.value.trim() === '') {
     return
@@ -93,6 +97,14 @@ function sendChat() {
     time: new Date().toLocaleTimeString(),
     seen: true,
     isMe: true
+  }
+
+  //Send message to database
+  let chatId = chatData.value.find((chat) => chat.username === chatToOpen.value).chatId
+  try {
+    await sendMessage(chatId, chatToSend.value)
+  } catch (error) {
+    throwErrorPopup('Error sending message, please try again later')
   }
 
   console.log(chatData.value)
