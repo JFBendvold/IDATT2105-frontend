@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "main", "Website-Layout", "CICD-Implementation" ]
+    branches: [ "main", "Website-Layout", "CICD-Implementation", "mocha" ]
   pull_request:
-    branches: [ "main", "Website-Layout", "CICD-Implementation" ]
+    branches: [ "main", "Website-Layout", "CICD-Implementation", "mocha" ]
 
 jobs:
   build:
@@ -36,3 +36,6 @@ jobs:
 
     - name: Build project
       run: cd tokenly && npm run build
+      
+    - name: Run user tests
+      run: cd tokenly && npm run test
