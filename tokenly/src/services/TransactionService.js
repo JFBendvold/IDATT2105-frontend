@@ -17,3 +17,16 @@ export async function doTransaction(transaction) {
     throw new Error('There was an error while posting transaction: ' + error.response.statusText)
   }
 }
+
+/**
+ * Fetches all transactions from the API
+ * @returns List of transactions
+ */
+export async function getTransactions() {
+  try {
+    const response = await apiClient.get('/all')
+    return response
+  } catch (error) {
+    throw new Error('There was an error while fetching transactions: ' + error.response.statusText)
+  }
+}

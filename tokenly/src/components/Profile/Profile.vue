@@ -3,6 +3,7 @@ import '@/assets/css/profile/profile.css'
 import { ref } from 'vue'
 import Title from '@/components/Title.vue'
 import ProfileSettings from './ProfileSettings.vue'
+import AdminPanel from './AdminPanel.vue'
 import Wallet from './Wallet.vue'
 import { useUserStore } from '@/stores/UserStore.js'
 import picon1 from '@/assets/img/profile_icons/picon1.jpg'
@@ -75,6 +76,7 @@ const NFTs = ref([])
           </div>
         </div>
       </div>
+      <AdminPanel v-if="userStore.username === username" />
       <button
         class="profile-settings-btn"
         @click="viewSettings = !viewSettings"
