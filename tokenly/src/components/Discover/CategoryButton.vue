@@ -2,6 +2,7 @@
 import '../../assets/css/discover/categoryButton.css'
 import { RouterLink } from 'vue-router'
 import { ref } from 'vue'
+import router from '@/router'
 
 import Photography from '../../assets/img/category/Photography.jpg'
 import Animation from '../../assets/img/category/Animation.gif'
@@ -66,14 +67,18 @@ const onMouseOut = (event) => {
 
 const handleClick = async (event) => {
   const selectedCategory = event.target.innerText
-  itemsStore.resetItems
-  const response = await fetchAllItemsByCategory(selectedCategory)
-  itemsStore.setItems(response.data)
+
+  router.push({
+    name: 'discover',
+    query: {
+      category: selectedCategory
+    }
+  })
 }
 </script>
 
 <template>
-  <RouterLink to="/discover?search=true" @click="handleClick($event)">
+  <a @click="handleClick">
     <div
       class="category-button"
       ref="categoryButton"
@@ -85,5 +90,5 @@ const handleClick = async (event) => {
         {{ category }}
       </div>
     </div>
-  </RouterLink>
+  </a>
 </template>

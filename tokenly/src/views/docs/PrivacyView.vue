@@ -1,7 +1,9 @@
 <script setup>
 import Footer from '@/components/Footer.vue'
+import Header from '@/components/Header.vue'
 </script>
 <template>
+  <Header id="header"/>
   <p>Privacy Policy</p>
   <p>
     This privacy policy explains how we collect, use, and protect your personal information when you
@@ -52,6 +54,9 @@ import Footer from '@/components/Footer.vue'
 </template>
 
 <style scoped>
+#header {
+  display: none;
+}
 p {
   margin-bottom: 1rem;
 }

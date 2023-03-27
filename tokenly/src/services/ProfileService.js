@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { useUserStore } from '@/stores/UserStore.js'
 
 const apiClient = axios.create({
   baseURL: 'http://localhost:8080/api/profiles',
@@ -29,6 +30,29 @@ export async function addBalance(userId, balance) {
   } catch (error) {
     throw new Error(
       'There was an error while changing the balance: ' + error.response.statusText
+    )
+  }
+}
+
+export async function changeUserPassword(oldPassword, newPassword) {
+  try {
+    console.log(useUserStore().username)
+    const response = await apiClient.put('/profile/' + useUserStore().username + '/password?oldPassword=' + oldPassword + '&newPassword=' + newPassword)
+    return response
+  } catch (error) {
+    throw new Error(
+      'There was an error while changing the password: ' + error.response.statusText
+    )
+  }
+}
+
+export async function checkIfAdmin() {
+  try {
+    const response = await apiClient.get('/profile/isAdmin/' + useUserStore().username)
+    return response
+  } catch (error) {
+    throw new Error(
+      'There was an error while checking if the user is an admin: ' + error.response.statusText
     )
   }
 }
