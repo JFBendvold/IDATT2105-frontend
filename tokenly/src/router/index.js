@@ -72,7 +72,7 @@ router.beforeEach(async (from, to) => {
   const privatePages = ['publish', 'favorites', 'chat']
   const authorized = useUserStore().isLoggedIn
   if (authorized && (to.name == 'login' || to.name == 'signup')) {
-    return '/'
+    return true
   } else if (privatePages.includes(to.name) && !authorized) {
     return '/login'
   } else {
