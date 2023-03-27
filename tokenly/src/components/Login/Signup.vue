@@ -37,6 +37,12 @@ const checkInputs = computed(() => {
     return false
   }
 
+  // Check if password is at least 8 characters
+  if (password.value.length < 8) {
+    setErrorFor(password, 'Password must be at least 8 characters')
+    return false
+  }
+
   if (confirmPassword.value == '') {
     setErrorFor(confirmPassword, 'Confirm password cannot be blank')
     return false
