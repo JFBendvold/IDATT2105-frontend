@@ -14,11 +14,11 @@ describe("Footer.vue", () => {
     })
 
     //Checks that the component contains the expected text
-    expect(wrapper.html()).toContain("Links");
-    expect(wrapper.html()).toContain("Social");
-    expect(wrapper.html()).toContain("Legal");
-    expect(wrapper.html()).toContain("Instagram");
-    expect(wrapper.html()).toContain("Twitter");
-    expect(wrapper.html()).toContain("Facebook");
-  });
-});
+    expect(wrapper.html()).toContain("Links")
+    expect(wrapper.html()).toContain("Social")
+    expect(wrapper.html()).toContain("Legal")
+    expect(wrapper.html()).toContain("Instagram")
+    expect(wrapper.html()).toContain("Twitter")
+    expect(wrapper.html()).toContain("Facebook")
+  })
+})
