@@ -14,7 +14,7 @@ console.log(props.message)
 // Delete the error popup after 10 seconds
 setTimeout(() => {
     deleteSelf()
-}, 10000)
+}, 6000)
 
 function deleteSelf() {
     const errorPopup = document.querySelector('.error-popup')

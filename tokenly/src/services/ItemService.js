@@ -48,7 +48,7 @@ export async function fetchAllItemsByCategory(category) {
 
 export async function fetchItemsByOwner(ownerName) {
   try {
-    const response = await apiClient.get('itemListing/owner?username=' + ownerName)
+    const response = await apiClient.get('itemListing/owner?username=' + ownerName + '&size=1000')
     return response
   } catch (error) {
     throw new Error('There was an error while getting all items belonging to the user: ' + error)
@@ -61,5 +61,14 @@ export async function fetchItemById(itemId) {
     return response
   } catch (error) {
     throw new Error('There was an error while getting all items belonging to the user: ' + error)
+  }
+}
+
+export async function addVisitById(itemId) {
+  try {
+    const response = await apiClient.put('listings/visits/' + itemId)
+    return response
+  } catch (error) {
+    throw new Error('There was an error while adding a visit to the item: ' + error)
   }
 }
