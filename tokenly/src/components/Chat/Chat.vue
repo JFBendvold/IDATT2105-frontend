@@ -5,6 +5,7 @@ import { ref, onMounted, toRaw } from 'vue'
 import { useUserStore } from '@/stores/UserStore.js'
 import { fetchChats, sendMessage, markAsSeen } from '@/services/ChatService.js'
 import { throwErrorPopup } from '@/utils/ErrorController.js'
+import router from '@/router'
 import chatListFormat from '@/utils/ChatFormatter.js'
 
 const userStore = useUserStore()
@@ -18,8 +19,22 @@ const chatToSend = ref('')
 const chatData = ref([])
 
 onMounted(async () => {
+  // Check if user is logged in
+  if (!userStore.isLoggedIn) {
+    return
+  }
+
+  let response = null
   // Fetch chats
-  const response = await fetchChats(userStore.username)
+  try {
+    response = await fetchChats(userStore.username)
+  } catch (error) {
+    // Check if error is 401
+    userStore.logUserOut()
+    console.log('You need to be logged in')
+    throwErrorPopup('You need to be logged in')
+  }
+  
   if (response.status === 200) {
     let rawData = response.data
   } else {
@@ -108,103 +123,6 @@ async function sendChat() {
   // Clear chatToSend
   chatToSend.value = ''
 }
-
-const chatDataOld = ref([
-  {
-    username: 'JohnDoe',
-    messages: {
-      1: {
-        message: 'Hello',
-        time: '12:00',
-        isMe: false,
-        seen: true
-      },
-      2: {
-        message: 'Hi',
-        time: '12:01',
-        isMe: true,
-        seen: true
-      },
-      3: {
-        message: 'How are you?',
-        time: '12:02',
-        isMe: false,
-        seen: true
-      },
-      4: {
-        message: "I'm fine, thanks for asking, how are you?",
-        time: '12:03',
-        isMe: true,
-        seen: true
-      },
-      5: {
-        message: 'What about you?',
-        time: '12:04',
-        isMe: false,
-        seen: true
-      },
-      6: {
-        message: "I'm fine too",
-        time: '12:05',
-        isMe: true,
-        seen: true
-      },
-      7: {
-        message: 'Nice to hear that',
-        time: '12:06',
-        isMe: false,
-        seen: true
-      },
-      8: {
-        message: 'Bye',
-        time: '12:07',
-        isMe: false,
-        seen: true
-      },
-      9: {
-        message: 'Bye',
-        time: '12:08',
-        isMe: true,
-        seen: true
-      }
-    }
-  },
-  {
-    username: 'SuckySurya',
-    messages: {
-      1: {
-        message: 'Are you home yet?',
-        time: '12:00',
-        isMe: false,
-        seen: false
-      },
-      2: {
-        message: "{'type':'bid','amount':0.02,'bidId':'1234','itemId':'123'}",
-        time: '12:01',
-        isMe: false,
-        seen: false
-      },
-      3: {
-        message: "{'type':'acceptance','amount':0.02,'bidId':'1234','itemId':'123'}",
-        time: '12:02',
-        isMe: true,
-        seen: true
-      },
-      4: {
-        message: "{'type':'decline','amount':0.02,'bidId':'1234','itemId':'123'}",
-        time: '12:03',
-        isMe: true,
-        seen: true
-      },
-      5: {
-        message: "{'type':'purchase','amount':0.02, 'itemId':'123'}",
-        time: '12:04',
-        isMe: true,
-        seen: true
-      }
-    }
-  }
-])
 
 function toggleChat() {
   chatBtn.value.classList.toggle('active')

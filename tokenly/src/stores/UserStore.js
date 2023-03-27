@@ -58,7 +58,6 @@ export const useUserStore = defineStore({
             'The username and/or password did not match any registered users, please try again.'
           )
         }
-        //TODO: push to specific page?
         //Console logs errors
       } catch (error) {
         console.error(error)
@@ -69,12 +68,10 @@ export const useUserStore = defineStore({
     logUserOut() {
       this.userToken = null
       this.username = null
-      //TODO: push to home?
     },
     getUsername() {
       return this.username
     }
-    //TODO: add methods to update username, password, name etc...
   },
   getters: {
     isLoggedIn() {

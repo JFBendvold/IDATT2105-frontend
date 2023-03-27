@@ -24,7 +24,6 @@ let nfts = computed(() => {
 })
 
 async function fetchFavorites() {
-  //TODO UTIL
   const favorites = await fetchAllFavorites(userStore.username)
   favoritesStore.setFavorites(favorites.data)
 }

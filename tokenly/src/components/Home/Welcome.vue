@@ -18,7 +18,6 @@ const userStore = useUserStore()
       </p>
       <p v-if="userStore.isLoggedIn">
         {{ $t('Welcome back') }} {{ userStore.username }}, {{ $t('Greeting') }}
-        <!-- TODO: ADD greeting! -->
       </p>
       <RouterLink to="/login" v-if="!userStore.isLoggedIn">
         <button class="register">

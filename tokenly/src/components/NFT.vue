@@ -2,7 +2,6 @@
 import '../assets/css/nft.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 import picon1 from '../assets/img/profile_icons/picon1.jpg'
-import { useItemsStore } from '@/stores/ItemsStore.js'
 import { useUserStore } from '@/stores/UserStore.js'
 import {
   addToFavorites,

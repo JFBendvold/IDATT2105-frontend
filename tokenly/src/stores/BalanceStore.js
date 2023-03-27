@@ -18,7 +18,7 @@ export const useBalanceStore = defineStore({
       this.currentBalance = balance
     },
     increaseBalance(balance) {
-      //TODO: Add checks
+     
       this.currentBalance += balance
     },
     decreaseBalance(balance) {

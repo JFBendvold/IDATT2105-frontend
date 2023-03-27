@@ -3,7 +3,6 @@ import { useUserStore } from '@/stores/UserStore.js'
 
 const apiClient = axios.create({
   baseURL: 'http://localhost:8080/api/profiles',
-  withCredentials: false,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json'
@@ -25,7 +24,12 @@ export async function fetchUserProfile(username) {
 //Changes the balance of the user
 export async function addBalance(userId, balance) {
   try {
-    const response = await apiClient.put('/profile/' + userId + '/addBalance?balance=' + balance)
+    const response = await apiClient.put('/profile/' + userId + '/addBalance?balance=' + balance, {
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + useUserStore().userToken
+      }
+  })
     return response
   } catch (error) {
     throw new Error(
@@ -37,7 +41,12 @@ export async function addBalance(userId, balance) {
 export async function changeUserPassword(oldPassword, newPassword) {
   try {
     console.log(useUserStore().username)
-    const response = await apiClient.put('/profile/' + useUserStore().username + '/password?oldPassword=' + oldPassword + '&newPassword=' + newPassword)
+    const response = await apiClient.put('/profile/' + useUserStore().username + '/password?oldPassword=' + oldPassword + '&newPassword=' + newPassword, {
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + useUserStore().userToken
+      }
+  })
     return response
   } catch (error) {
     throw new Error(
@@ -48,7 +57,12 @@ export async function changeUserPassword(oldPassword, newPassword) {
 
 export async function checkIfAdmin() {
   try {
-    const response = await apiClient.get('/profile/isAdmin/' + useUserStore().username)
+    const response = await apiClient.get('/profile/isAdmin/' + useUserStore().username, {
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + useUserStore().userToken
+      }
+  })
     return response
   } catch (error) {
     throw new Error(

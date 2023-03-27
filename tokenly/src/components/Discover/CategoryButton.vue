@@ -12,10 +12,7 @@ import People from '../../assets/img/category/People.jpg'
 import Cartoon from '../../assets/img/category/Cartoon.jpg'
 import Art from '../../assets/img/category/Art.jpg'
 import Collectibles from '../../assets/img/category/Collectibles.jpg'
-import { useItemsStore } from '@/stores/ItemsStore.js'
 import { fetchAllItemsByCategory } from '@/services/ItemService.js'
-
-const itemsStore = useItemsStore()
 
 const { category } = defineProps({
   category: {

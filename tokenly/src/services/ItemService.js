@@ -1,8 +1,8 @@
 import axios from 'axios'
+import { useUserStore } from '@/stores/UserStore.js'
 
 const apiClient = axios.create({
   baseURL: 'http://localhost:8080/api/',
-  withCredentials: false,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json'
@@ -16,7 +16,12 @@ const apiClient = axios.create({
  */
 export async function postUserItem(item) {
   try {
-    const response = await apiClient.post('itemListing/post', item)
+    const response = await apiClient.post('itemListing/post', item, {
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + useUserStore().userToken
+      }
+  })
     return response
   } catch (error) {
     throw new Error('There was an error while posting a new item: ' + error)
@@ -28,7 +33,12 @@ export async function addItemCategory(itemId, category) {
 
   //Check if category exists
   try {
-    const response = await apiClient.get('categories/')
+    const response = await apiClient.get('categories/', {
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + useUserStore().userToken
+      }
+  })
     for (let i = 0; i < response.data.length; i++) {
       if (response.data[i].categoryName == category) {
         categoryExists = true
@@ -43,7 +53,12 @@ export async function addItemCategory(itemId, category) {
     try {
       const response = await apiClient.post('categories/', {
         categoryName: category
-      })
+      }, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + useUserStore().userToken
+        }
+    })
     } catch (error) {
       //Then the category does exist
     }
@@ -54,7 +69,12 @@ export async function addItemCategory(itemId, category) {
     const response = await apiClient.post('itemsCategories/post', {
       itemId: itemId,
       categoryName: category
-    })
+    }, {
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + useUserStore().userToken
+      }
+  })
     return response
   } catch (error) {
     throw new Error('There was an error while posting a new item: ' + error)
