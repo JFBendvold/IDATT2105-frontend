@@ -11,6 +11,9 @@ import { storeToRefs } from 'pinia'
 import { computed, onMounted } from 'vue'
 import imageListFormat from '@/utils/ImageListFormatter.js'
 import { fetchItemsByOwner } from '@/services/ItemService.js'
+import {fetchUserProfile} from '@/services/ProfileService.js'
+import { throwErrorPopup } from '@/utils/ErrorController.js'
+import router from '@/router'
 
 const itemsStore = useItemsStore()
 
@@ -18,13 +21,24 @@ const { items } = storeToRefs(itemsStore)
 
 const userStore = useUserStore()
 
-async function fetchUsersItems() {
-  const items = await fetchItemsByOwner(userStore.username)
-  itemsStore.setItems(items.data)
-}
 
 onMounted(async () => {
-  await fetchUsersItems()
+  // Fetch profile
+  const profile = await fetchUserProfile(username.value)
+
+  if (profile.data == null) {
+    throwErrorPopup('Profile not found')
+    router.push('/')
+  }
+
+  creatoinDate.value = profile.data.birthdate
+
+  // Fetch items
+  const fetchedItems = await fetchItemsByOwner(username.value)
+
+  console.log(fetchedItems.data)
+
+  NFTs.value = imageListFormat(fetchedItems.data)
 })
 
 // Get params from url
@@ -35,9 +49,7 @@ const creatoinDate = ref('2021-09-01')
 
 const viewSettings = ref(false)
 
-let NFTs = computed(() => {
-  return imageListFormat(items.value)
-})
+const NFTs = ref([])
 </script>
 
 <template>

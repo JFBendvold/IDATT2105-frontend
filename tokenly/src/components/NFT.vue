@@ -10,14 +10,13 @@ import {
   fetchAllFavorites
 } from '@/services/FavoritesService.js'
 import { useFavoritesStore } from '@/stores/FavoritesStore.js'
-import { fetchItemById } from '@/services/ItemService.js'
+import { fetchItemById, addVisitById } from '@/services/ItemService.js'
 import { ref, onMounted } from 'vue'
 import { throwErrorPopup } from '@/utils/ErrorController.js'
+import {fetchUserProfile} from '@/services/ProfileService.js'
 import router from '../router'
 
 const favoritesStore = useFavoritesStore()
-
-const itemsStore = useItemsStore()
 
 const userStore = useUserStore()
 
@@ -34,12 +33,71 @@ const user = ref({
   image: ''
 })
 
+const isOwner = ref(false)
+const bidAmount = ref(0)
+const confirmBid = ref(false)
+const confirmPurchase = ref(false)
+
+const visits = ref(0)
+
 const params = new URLSearchParams(window.location.search)
 const id = params.get('id')
 
-const targetItems = itemsStore.getItems
 let targetFavorites = favoritesStore.getFavorites
 var item = null
+
+// Buy and bid actions
+async function buy() {
+  if (isOwner.value) {
+    throwErrorPopup('You are the owner of this item')
+    return
+  }
+
+  if (!await checkBalance(bidAmount.value)) {
+    return
+  }
+
+  if (confirmPurchase.value) {
+    throwErrorPopup('Purchase confirmed')
+    router.push('/')
+  } else {
+    confirmPurchase.value = true
+    throwErrorPopup('Click again to confirm')
+  }
+}
+
+async function bid() {
+  if (isOwner.value) {
+    throwErrorPopup('You are the owner of this item')
+    return
+  }
+
+  if (bidAmount.value < image.value.bidPrice) {
+    throwErrorPopup('Bid must be greater than ' + image.value.bidPrice)
+    return
+  }
+
+  if (!await checkBalance(bidAmount.value)) {
+    return
+  }
+
+  if (confirmBid.value) {
+    throwErrorPopup('Bid confirmed')
+    router.push('/')
+  } else {
+    confirmBid.value = true
+    throwErrorPopup('Click again to confirm')
+  }
+}
+
+async function checkBalance(price) {
+  const response = await fetchUserProfile(userStore.username)
+  if (response.data.balance < price) {
+    throwErrorPopup('Insufficient balance')
+    return false
+  }
+  return true
+}
 
 // Check if the item is in the favorites store
 const isFavorite = ref(false)
@@ -48,15 +106,16 @@ const isFavorite = ref(false)
 onMounted(async () => {
   if (useUserStore().isLoggedIn) {
     await fetchFavorites()
-    console.log(isFavorite.value)
   }
 
   if (!item) {
     try {
-      console.log('Fetching item from server' + id)
       const responseItem = await fetchItemById(id)
+      if (responseItem.data.listingId != null) {
+        const responseListing = await addVisitById(responseItem.data.listingId)
+        visits.value = responseListing.data
+      }
       item = responseItem.data
-      console.log(item)
       image.value = {
         filename: 'http://localhost:8080/api/source/' + id,
         alt: 'Image displayed in the NFT card',
@@ -69,9 +128,17 @@ onMounted(async () => {
         name: item.ownerName,
         image: picon1
       }
+
+      // Set the bid amount to the minimum bid price
+      bidAmount.value = item.minPrice
+
+      // Check if the user is the owner of the item
+      if (userStore.username == item.ownerName) {
+        isOwner.value = true
+      }
     } catch (error) {
       console.log(error)
-
+      throwErrorPopup("NFT not found")
       router.push('/')
     }
   } else {
@@ -92,7 +159,6 @@ onMounted(async () => {
 })
 
 async function fetchFavorites() {
-  //TODO UTIL
   const favorites = await fetchAllFavorites(userStore.username)
   favoritesStore.setFavorites(favorites.data)
 
@@ -104,10 +170,6 @@ async function fetchFavorites() {
     }
   }
 }
-
-
-
-//TODO: If the item is still not found, make a request to the server to get the item
 
 //Image tilt on hover effect
 const onMouseOver = (event) => {
@@ -141,7 +203,7 @@ async function handleFavoriteClick() {
       break
     }
   }
-  if(isPresent) {
+  if(isPresent) { //Check if the item is already in favorites
       const params = { "username": userStore.username, "itemId": id }
       await removeItemFromFavorites(params)
       isFavorite.value = false
@@ -157,7 +219,7 @@ async function handleFavoriteClick() {
     isFavorite.value = true
     throwErrorPopup('Item added to favorites')
     } catch (error) {
-      console.log(error) //TODO: print?
+      throwErrorPopup('Item already in favorites')
     }
   }
 }
@@ -177,14 +239,19 @@ async function handleFavoriteClick() {
       </div>
       <div class="buttons">
         <div class="buy-buttons-row">
-          <button class="buy-button" @click="throwErrorPopup('Bid disse ballene')">
-            <p>{{ $t('Bid') }}</p>
+          <button class="buy-button">
+            <p @click="bid()">{{ $t('Bid') }}</p>
             <div class="price">
-              {{ image.bidPrice }}
+              <input
+                class="bid-input"
+                type="number"
+                v-model="bidAmount"
+                placeholder="0.00"
+              />
               <i class="fab fa-ethereum"></i>
             </div>
           </button>
-          <button class="buy-button" @click="throwErrorPopup('Kjøp disse ballene')">
+          <button class="buy-button" @click="buy()">
             <p>{{ $t('Buy') }}</p>
             <div class="price">
               {{ image.price }}
@@ -198,6 +265,9 @@ async function handleFavoriteClick() {
         </button>
       </div>
       <h1 class="nft-title">{{ image.title }}</h1>
+      <p class="nft-views">{{ visits }} 
+        <i class="far fa-eye"></i>
+      </p>
       <p class="nft-description">{{ image.description }}</p>
       <div class="user-tag">
         <img :src="user.image" :alt="user.name" />

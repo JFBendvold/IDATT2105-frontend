@@ -1,8 +1,11 @@
 <script setup>
 import '@/assets/css/chat/chat.css'
 import Message from './Message.vue'
-import { ref } from 'vue'
+import { ref, onMounted, toRaw } from 'vue'
 import { useUserStore } from '@/stores/UserStore.js'
+import { fetchChats, sendMessage, markAsSeen } from '@/services/ChatService.js'
+import { throwErrorPopup } from '@/utils/ErrorController.js'
+import chatListFormat from '@/utils/ChatFormatter.js'
 
 const userStore = useUserStore()
 
@@ -11,6 +14,24 @@ const chatContainer = ref(null)
 const chatOpen = ref(false)
 const chatToOpen = ref('')
 const chatToSend = ref('')
+
+const chatData = ref([])
+
+onMounted(async () => {
+  // Fetch chats
+  const response = await fetchChats(userStore.username)
+  if (response.status === 200) {
+    let rawData = response.data
+  } else {
+    console.log('Error fetching chats')
+    throwErrorPopup('Error fetching chats')
+  }
+
+  chatData.value = await chatListFormat(response.data)
+
+  console.log(toRaw(chatData.value))
+})
+
 
 function formatPreviewMessage(message) {
   let rawMessage = message
@@ -42,7 +63,7 @@ function formatPreviewMessage(message) {
   }
 }
 
-function openChat() {
+async function openChat() {
   // Set all messages to seen
   chatData.value.find((chat) => chat.username === chatToOpen.value).messages[
     Object.keys(chatData.value.find((chat) => chat.username === chatToOpen.value).messages)[
@@ -51,10 +72,14 @@ function openChat() {
     ]
   ].seen = true
 
+  let chatId = chatData.value.find((chat) => chat.username === chatToOpen.value).chatId
+  console.log(chatId)
+  await markAsSeen(chatId)
+
   console.log('Opened chat with ' + chatToOpen.value)
 }
 
-function sendChat() {
+async function sendChat() {
   // Check if message is empty
   if (chatToSend.value.trim() === '') {
     return
@@ -65,20 +90,30 @@ function sendChat() {
 
   // Add chat to chatData
   chatData.value.find((chat) => chat.username === chatToOpen.value).messages[
-    Object.keys(chatData.value.find((chat) => chat.username === chatToOpen.value).messages).length +
-      1
+    Object.keys(chatData.value.find((chat) => chat.username === chatToOpen.value).messages).length
   ] = {
+    messageId: 0,
     message: chatToSend.value,
-    time: '12:09',
-    isMe: true,
-    seen: true
+    time: new Date().toLocaleTimeString(),
+    seen: true,
+    isMe: true
   }
+
+  //Send message to database
+  let chatId = chatData.value.find((chat) => chat.username === chatToOpen.value).chatId
+  try {
+    await sendMessage(chatId, chatToSend.value)
+  } catch (error) {
+    throwErrorPopup('Error sending message, please try again later')
+  }
+
+  console.log(chatData.value)
 
   // Clear chatToSend
   chatToSend.value = ''
 }
 
-const chatData = ref([
+const chatDataOld = ref([
   {
     username: 'JohnDoe',
     messages: {
