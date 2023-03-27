@@ -48,6 +48,17 @@ export async function fetchAllItems(filter) {
     filter.maxPrice = 1000000
   }
 
+  if (filter.category === undefined) {
+    filter.category = ''
+  } else {
+    try {
+        const response = await apiClient.get('itemListing/category/?size=' + filter.size + '&sortBy=' + filter.sortBy + '&page=' + filter.page + '&order=' + filter.order + '&minPrice=' + filter.minPrice + '&maxPrice=' + filter.maxPrice + '&category=' + filter.category)
+        return response
+    } catch (error) {
+        throw new Error('There was an error while getting all items: ' + error)
+    }
+  }
+
   try {
     const response = await apiClient.get('itemListing/?size=' + filter.size + '&sortBy=' + filter.sortBy + '&page=' + filter.page + '&order=' + filter.order + '&minPrice=' + filter.minPrice + '&maxPrice=' + filter.maxPrice)
     return response
@@ -89,5 +100,14 @@ export async function addVisitById(itemId) {
     return response
   } catch (error) {
     throw new Error('There was an error while adding a visit to the item: ' + error)
+  }
+}
+
+export async function fetchItemCategories(itemId) {
+  try {
+    const response = await apiClient.get('itemsCategories/categories/' + itemId)
+    return response
+  } catch (error) {
+    throw new Error('There was an error while getting all item categories: ' + error)
   }
 }

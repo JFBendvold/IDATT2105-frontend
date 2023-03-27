@@ -16,12 +16,12 @@ let selectedCategories = []
 let categories = [
   'Art',
   'Music',
-  'Sports',
+  'Sport',
   'Gaming',
   'Collectibles',
   'Fashion',
   'Photography',
-  'Animals',
+  'Animal',
   'Food',
   'Travel',
   'Science',
@@ -30,7 +30,8 @@ let categories = [
   'Business',
   'Education',
   'Entertainment',
-  'Other'
+  'Other',
+  'Wallpaper',
 ]
 
 function resetAllFilters() {
@@ -92,7 +93,7 @@ const applyFilters = () => {
 
   emit('apply-filters', {
     sortBy: orderDropdownText.value,
-    categories: selectedCategories,
+    category: selectedCategories[0],
     minPrice: minPrice.value,
     maxPrice: maxPrice.value
   })

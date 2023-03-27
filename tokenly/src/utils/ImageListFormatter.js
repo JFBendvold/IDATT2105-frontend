@@ -1,3 +1,5 @@
+import { fetchItemCategories } from '@/services/ItemService.js'
+
 // Converts the data from the database into a format that can be used by the image gallery
 export default function imageListFormat(imageList) {
   if (!imageList.length === 0) return []
@@ -34,11 +36,17 @@ export default function imageListFormat(imageList) {
   return imageArray
 }
 
-export function imageTableFormat(imageList) {
+export async function imageTableFormat(imageList) {
   let items = imageList
   console.log(items.length)
   var nftArray = []
   for (let i = 0; i < items.length; i++) {
+    let categories = []
+    const itemCategories = await fetchItemCategories(items[i].itemId)
+    for (let j = 0; j < itemCategories.data.length; j++) {
+      categories.push(itemCategories.data[j].categoryName)
+    }
+
     if (
       items[i].minPrice === undefined ||
       items[i].maxPrice === undefined ||
@@ -52,7 +60,7 @@ export function imageTableFormat(imageList) {
         listed: 'Not listed',
         bidPrice: '0',
         buyPrice: '0',
-        categories: '',
+        categories: categories,
         id: items[i].itemId
       }
       nftArray.push(nft)
@@ -64,7 +72,7 @@ export function imageTableFormat(imageList) {
         listed: items[i].publicationTime.slice(0, 10),
         bidPrice: items[i].minPrice,
         buyPrice: items[i].maxPrice,
-        categories: ['IMPLEMENT'],
+        categories: categories,
         id: items[i].itemId
       }
       nftArray.push(nft)

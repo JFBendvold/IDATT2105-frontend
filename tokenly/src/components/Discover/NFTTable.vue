@@ -33,6 +33,7 @@ onMounted(async () => {
 })
 
 const applyFilters = (filter) => {
+  page.value = 1
   updateNFTs(filter)
 }
 
@@ -72,7 +73,7 @@ async function updateNFTs(filter) {
   let response = await fetchAllItems(filter)
   items.value = response.data
 
-  nfts.value = imageTableFormat(items.value)
+  nfts.value = await imageTableFormat(items.value)
 }
 
 </script>
