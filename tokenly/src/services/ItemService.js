@@ -9,7 +9,11 @@ const apiClient = axios.create({
   }
 })
 
-//Posts a new item
+/**
+ * Posts a new item to the database
+ * @param {*} item An object containing all information about the item
+ * @returns The id of the newly created item
+ */
 export async function postUserItem(item) {
   try {
     const response = await apiClient.post('itemListing/post', item)
@@ -19,6 +23,49 @@ export async function postUserItem(item) {
   }
 }
 
+export async function addItemCategory(itemId, category) {
+  let categoryExists = false
+
+  //Check if category exists
+  try {
+    const response = await apiClient.get('categories/')
+    for (let i = 0; i < response.data.length; i++) {
+      if (response.data[i].categoryName == category) {
+        categoryExists = true
+      }
+    }
+  } catch (error) {
+    throw new Error('There was an error while posting a new item: ' + error)
+  }
+
+  //If category does not exist, create it
+  if (!categoryExists) {
+    try {
+      const response = await apiClient.post('categories/', {
+        categoryName: category
+      })
+    } catch (error) {
+      //Then the category does exist
+    }
+  }
+
+  //Add category to item
+  try {
+    const response = await apiClient.post('itemsCategories/post', {
+      itemId: itemId,
+      categoryName: category
+    })
+    return response
+  } catch (error) {
+    throw new Error('There was an error while posting a new item: ' + error)
+  }
+}
+
+/**
+ * Fetches all items from the database
+ * @param {*} filter  An object containing the filter parameters
+ * @returns An array of items
+ */
 export async function fetchAllItems(filter) {
   if (filter === undefined) {
     filter = {}
@@ -69,6 +116,11 @@ export async function fetchAllItems(filter) {
   }
 }
 
+/**
+ * Fetches all items with a specific category
+ * @param {*} category The category of the items
+ * @returns An array of items
+ */
 export async function fetchAllItemsByCategory(category) {
   try {
     const response = await apiClient.get('itemListing/category?size=6&category=' + category)
@@ -78,6 +130,11 @@ export async function fetchAllItemsByCategory(category) {
   }
 }
 
+/**
+ * Fetches all items belonging to a specific user
+ * @param {*} ownerName The username of the owner
+ * @returns An array of items
+ */
 export async function fetchItemsByOwner(ownerName) {
   try {
     const response = await apiClient.get('itemListing/owner?username=' + ownerName + '&size=1000')
@@ -87,6 +144,11 @@ export async function fetchItemsByOwner(ownerName) {
   }
 }
 
+/**
+ * Fetches all information about a specific item
+ * @param {*} itemId  The id of the item
+ * @returns An object containing all information about the item
+  */
 export async function fetchItemById(itemId) {
   try {
     const response = await apiClient.get('itemListing/item/' + itemId)
@@ -96,6 +158,10 @@ export async function fetchItemById(itemId) {
   }
 }
 
+/**
+ * Adds a visit to an item
+ * @param {*} itemId  The id of the item
+ */
 export async function addVisitById(itemId) {
   try {
     const response = await apiClient.put('listings/visits/' + itemId)
@@ -105,6 +171,11 @@ export async function addVisitById(itemId) {
   }
 }
 
+/**
+ * Fetches all categories from an item
+ * @param {*} itemId  The id of the item
+ * @returns  An array of categories
+ */
 export async function fetchItemCategories(itemId) {
   try {
     const response = await apiClient.get('itemsCategories/categories/' + itemId)

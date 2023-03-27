@@ -4,7 +4,7 @@ import { RouterLink } from 'vue-router'
 import Title from '../components/Title.vue'
 import { ref } from 'vue'
 import { postFile } from '@/services/PublishService.js'
-import { postUserItem, fetchAllItems } from '@/services/ItemService.js'
+import { postUserItem, fetchAllItems, addItemCategory } from '@/services/ItemService.js'
 import { useUserStore } from '@/stores/UserStore.js'
 import router from '../router'
 import { throwErrorPopup } from '@/utils/ErrorController.js'
@@ -27,7 +27,7 @@ const selectedCategories = ref([])
 let categories = [
   'Art',
   'Music',
-  'Sports',
+  'Sport',
   'Gaming',
   'Collectibles',
   'Fashion',
@@ -155,6 +155,12 @@ const publish = async () => {
 
     const publishItem = await postUserItem(item)
     console.log(publishItem)
+
+    // Loop through categories and add them to the item
+    for (let i = 0; i < selectedCategories.value.length; i++) {
+      const category = selectedCategories.value[i]
+      const categoryResponse = await addItemCategory(publishItem.data.itemId, category)
+    }
     
     throwErrorPopup("NFT published")
     router.push("/") //TODO: redirect to item page
