@@ -4,7 +4,6 @@ module.exports = {
     moduleNameMapper: {
       "^@/(.*)$": "<rootDir>/src/$1",
       "\\.(css|jpg|png|svg)$": "<rootDir>/__mocks__/mock.js",
-      "axios": "<rootDir>/__mocks__/axios.js"
     },
     transform: {
       "^.+\\.js$": "babel-jest",
