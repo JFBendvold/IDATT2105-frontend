@@ -63,6 +63,8 @@ async function updateNFTs(filter) {
     filter.order = 'asc'
   } else if (filter.sortBy === 'Trending') {
     filter.sortBy = 'visits'
+  } else if (filter.sortBy === 'Sort by') {
+    filter.sortBy = 'visits'
   }
 
   console.log(filter)
