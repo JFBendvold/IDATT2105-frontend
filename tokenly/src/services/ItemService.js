@@ -48,15 +48,6 @@ export async function fetchAllItems(filter) {
   }
 }
 
-export async function fetchNewestItems() {
-  try {
-    const response = await apiClient.get('itemListing/?size=6')
-    return response
-  } catch (error) {
-    throw new Error('There was an error while getting all items: ' + error)
-  }
-}
-
 export async function fetchAllItemsByCategory(category) {
   try {
     const response = await apiClient.get('itemListing/category?size=6&category=' + category)
