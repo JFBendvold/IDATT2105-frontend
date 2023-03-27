@@ -38,7 +38,6 @@ export default function imageListFormat(imageList) {
 
 export async function imageTableFormat(imageList) {
   let items = imageList
-  console.log(items.length)
   var nftArray = []
   for (let i = 0; i < items.length; i++) {
     let categories = []

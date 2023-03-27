@@ -1,16 +1,21 @@
 <script setup>
 import '@/assets/css/discover/nftTable.css'
 import NFTTableHeader from './NFTTableHeader.vue'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRoute } from 'vue-router'
 import { useItemsStore } from '@/stores/ItemsStore.js'
-import { computed, onMounted, ref } from 'vue'
+import { onMounted, ref, watch, computed } from 'vue'
 import { fetchAllItems } from '@/services/ItemService.js'
 import { storeToRefs } from 'pinia'
 import { imageTableFormat } from '@/utils/ImageListFormatter.js'
+import { throwErrorPopup } from '@/utils/ErrorController.js'
 
 const items = ref([])
 const nfts = ref([])
 const page = ref(1)
+const lastFilter = ref(null)
+
+const route = useRoute();
+const category = computed(() => route.query.category);
 
 function nextPage() {
   if (items.value.length < 6) {
@@ -29,7 +34,9 @@ function prevPage() {
 }
 
 onMounted(async () => {
-  updateNFTs()
+  watch(category, updateNFTs({
+    category: category.value
+  }), { immediate: true })
 })
 
 const applyFilters = (filter) => {
@@ -39,10 +46,20 @@ const applyFilters = (filter) => {
 
 async function updateNFTs(filter) {
   if (filter === undefined) {
-    filter = {
-      page: page.value-1,
-      size: 6
+    if (lastFilter.value === null) {
+      filter = {
+        page: page.value-1,
+        size: 6
+      }
+    } else {
+      filter = {
+        ...lastFilter.value,
+        page: page.value-1,
+        size: 6
+      }
     }
+  } else {
+    lastFilter.value = filter
   }
 
   if (filter.page === undefined) {
@@ -70,10 +87,14 @@ async function updateNFTs(filter) {
 
   console.log(filter)
 
-  let response = await fetchAllItems(filter)
-  items.value = response.data
+  try {
+    let response = await fetchAllItems(filter)
+    items.value = response.data
 
-  nfts.value = await imageTableFormat(items.value)
+    nfts.value = await imageTableFormat(items.value)
+  } catch (error) {
+    throwErrorPopup("Was not able to find any NFTs with the given filters")
+  }
 }
 
 </script>

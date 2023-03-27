@@ -50,9 +50,11 @@ export async function fetchAllItems(filter) {
 
   if (filter.category === undefined) {
     filter.category = ''
+  } else if (filter.category == '') {
+    filter.category = ''
   } else {
     try {
-        const response = await apiClient.get('itemListing/category/?size=' + filter.size + '&sortBy=' + filter.sortBy + '&page=' + filter.page + '&order=' + filter.order + '&minPrice=' + filter.minPrice + '&maxPrice=' + filter.maxPrice + '&category=' + filter.category)
+        const response = await apiClient.get('itemListing/category?size=' + filter.size + '&sortBy=' + filter.sortBy + '&page=' + filter.page + '&order=' + filter.order + '&minPrice=' + filter.minPrice + '&maxPrice=' + filter.maxPrice + '&category=' + filter.category)
         return response
     } catch (error) {
         throw new Error('There was an error while getting all items: ' + error)

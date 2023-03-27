@@ -140,3 +140,27 @@
   font-weight: bold;
   color: #333;
 }
+
+@media screen and (max-width: 768px) {
+  .nft-table-row .nft-table-cell {
+    height: 200px;
+    flex: 1;
+  }
+
+  .nft-table-cell-image img {
+    height: 200px;
+    width: 200px;
+  }
+
+  .nft-table-row .nft-table-cell-description {
+    display: none;
+  }
+
+  .nft-table-row .nft-table-cell-listed {
+    display: none;
+  }
+
+  .nft-table-row .nft-table-cell-title {
+    display: none;
+  }
+}
