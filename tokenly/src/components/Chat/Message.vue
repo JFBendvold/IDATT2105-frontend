@@ -89,7 +89,9 @@ if (props.message.message.startsWith('{')) {
         </p>
       </div>
       <div class="chat-purchase" v-else-if="messageJson.type === 'purchase'">
-        <p class="chat-content-title">NFT purchased</p>
+        <p class="chat-content-title">
+          NFT purchased for {{ messageJson.amount }} <i class="fab fa-ethereum"></i>
+        </p>
         <p class="chat-content-message-text">
           <RouterLink :to="'/nft?id=' + messageJson.itemId">
             NFT: {{ messageJson.itemId }}

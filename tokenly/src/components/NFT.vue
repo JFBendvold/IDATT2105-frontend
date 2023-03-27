@@ -15,6 +15,8 @@ import { ref, onMounted } from 'vue'
 import { throwErrorPopup } from '@/utils/ErrorController.js'
 import {fetchUserProfile} from '@/services/ProfileService.js'
 import router from '../router'
+import { doTransaction } from '@/services/TransactionService.js'
+import { sendPurchaseNotification } from '@/services/ChatService.js'
 
 const favoritesStore = useFavoritesStore()
 
@@ -33,8 +35,10 @@ const user = ref({
   image: ''
 })
 
+const listingId = ref(0)
 const isOwner = ref(false)
 const bidAmount = ref(0)
+const purchaseAmount = ref(0)
 const confirmBid = ref(false)
 const confirmPurchase = ref(false)
 
@@ -53,11 +57,29 @@ async function buy() {
     return
   }
 
-  if (!await checkBalance(bidAmount.value)) {
+  if (!await checkBalance(purchaseAmount.value)) {
     return
   }
 
   if (confirmPurchase.value) {
+    // Create a transaction
+    const transaction = {
+      buyerName: userStore.username,
+      sellerName: item.ownerName,
+      transactionPrice: purchaseAmount.value,
+      listingId: listingId.value
+    }
+
+    // Send the transaction
+    try {
+      await doTransaction(transaction)
+      await sendPurchaseNotification(item.ownerName, userStore.username, purchaseAmount.value, id)
+
+    } catch (error) {
+      throwErrorPopup('Purchase failed, try again later')
+      return
+    }
+
     throwErrorPopup('Purchase confirmed')
     router.push('/')
   } else {
@@ -129,8 +151,12 @@ onMounted(async () => {
         image: picon1
       }
 
-      // Set the bid amount to the minimum bid price
+      // Set the bid and purchase amount to the minimum bid price
       bidAmount.value = item.minPrice
+      purchaseAmount.value = item.maxPrice
+
+      // Set the listing id
+      listingId.value = item.listingId
 
       // Check if the user is the owner of the item
       if (userStore.username == item.ownerName) {
