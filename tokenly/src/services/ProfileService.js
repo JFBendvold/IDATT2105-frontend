@@ -45,3 +45,14 @@ export async function changeUserPassword(oldPassword, newPassword) {
     )
   }
 }
+
+export async function checkIfAdmin() {
+  try {
+    const response = await apiClient.get('/profile/isAdmin/' + useUserStore().username)
+    return response
+  } catch (error) {
+    throw new Error(
+      'There was an error while checking if the user is an admin: ' + error.response.statusText
+    )
+  }
+}

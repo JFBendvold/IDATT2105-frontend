@@ -18,7 +18,6 @@ function openAdminPanel() {
 
     fetchInfo()
 }
-
 </script>
 
 <template>
