@@ -4,21 +4,28 @@ import { ref } from 'vue'
 import '../assets/css/header.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 import { useUserStore } from '@/stores/UserStore.js'
+import { onMounted } from 'vue'
 
 const userStore = useUserStore()
 const displayMenu = ref(null)
 
-// Make the background fade in on scroll
-window.addEventListener('scroll', () => {
-  // If the screen is too small, don't do anything
-  if (window.innerWidth < 768) {
-    return
-  }
+onMounted(() => {
+  // Make the background fade in on scroll
+  window.addEventListener('scroll', () => {
+    // If the screen is too small, don't do anything
+    if (window.innerWidth < 768) {
+      return
+    }
 
-  const header = document.querySelector('header')
-  let opacity = window.scrollY / 100
-  if (opacity > 0.4) opacity = 0.4
-  header.style.background = `rgba(0, 0, 0, ${opacity})`
+    const header = document.querySelector('header')
+    let opacity = window.scrollY / 100
+    if (opacity > 0.4) opacity = 0.4
+    try {
+      header.style.background = `rgba(0, 0, 0, ${opacity})`
+    } catch (e) {
+      //console.log(e)
+    }
+  })
 })
 
 function toggleMenu() {

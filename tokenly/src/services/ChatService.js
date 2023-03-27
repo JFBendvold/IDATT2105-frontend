@@ -1,14 +1,12 @@
 import axios from 'axios'
-import { toRaw } from 'vue'
 import { useUserStore } from '@/stores/UserStore.js'
 
 const apiClient = axios.create({
   baseURL: 'http://localhost:8080/api/',
-  withCredentials: false,
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json'
-  }
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+    }
 })
 
 /**
@@ -18,7 +16,14 @@ const apiClient = axios.create({
  */  
 export async function fetchChats(username) {
     try {
-        const response = await apiClient.get('chats/' + username)
+        console.log(`Bearer ${useUserStore().userToken}`)
+        const response = await apiClient.get('chats/' + username, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + useUserStore().userToken
+            }
+        })
+
 
         return response
     } catch (error) {
@@ -34,10 +39,16 @@ export async function fetchChats(username) {
 */
 export async function fetchMessages(chatId) {
     try {
-        const response = await apiClient.get('messages/chats/' + chatId)
+        const response = await apiClient.get('messages/chats/' + chatId, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + useUserStore().userToken
+            }
+
+        })
         return response
     } catch (error) {
-        throw new Error('There was an error while fetching messages: ' + error.response)
+        throw error
     }
 }
 
@@ -53,6 +64,11 @@ export async function sendMessage(chatId, message) {
             chatId: chatId,
             message: message,
             senderName: useUserStore().username
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + useUserStore().userToken
+                }
             })
         return response
     } catch (error) {
@@ -62,7 +78,12 @@ export async function sendMessage(chatId, message) {
 
 export async function markAsSeen(chatId) {
     try {
-        const response = await apiClient.put('chats/seen/' + chatId)
+        const response = await apiClient.put('chats/seen/' + chatId, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + useUserStore().userToken
+            }
+        })
         return response
     } catch (error) {
         throw new Error('There was an error while marking messages as seen: ' + error.response)
@@ -76,7 +97,12 @@ export async function markAsSeen(chatId) {
  */
 export async function createChat(chat) {
     try {
-        const response = await apiClient.post('chats/chat', chat)
+        const response = await apiClient.post('chats/chat', chat, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + useUserStore().userToken
+            }
+        })
         return response
     } catch (error) {
         throw new Error('There was an error while creating chat: ' + error.response)
@@ -255,7 +281,12 @@ export async function sendDeclineBidNotification(sellerName, buyerName, bidId, a
 export async function closeMessage(messageId) {
     try {
         console.log('Closing message with id: ' + messageId)
-        const response = await apiClient.put('messages/close/' + messageId)
+        const response = await apiClient.put('messages/close/' + messageId, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + useUserStore().userToken
+            }
+        })
         return response
     } catch (error) {
         throw new Error('There was an error while deleting message: ' + error.response)
