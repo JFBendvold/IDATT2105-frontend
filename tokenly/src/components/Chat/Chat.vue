@@ -18,6 +18,11 @@ const chatToSend = ref('')
 const chatData = ref([])
 
 onMounted(async () => {
+  // Check if user is logged in
+  if (!userStore.isLoggedIn) {
+    return
+  }
+
   // Fetch chats
   const response = await fetchChats(userStore.username)
   if (response.status === 200) {

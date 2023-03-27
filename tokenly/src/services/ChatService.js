@@ -4,11 +4,10 @@ import { useUserStore } from '@/stores/UserStore.js'
 
 const apiClient = axios.create({
   baseURL: 'http://localhost:8080/api/',
-  withCredentials: false,
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json'
-  }
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+    }
 })
 
 /**
@@ -18,7 +17,14 @@ const apiClient = axios.create({
  */  
 export async function fetchChats(username) {
     try {
-        const response = await apiClient.get('chats/' + username)
+        console.log(`Bearer ${useUserStore().userToken}`)
+        const response = await apiClient.get('chats/' + username, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + useUserStore().userToken
+            }
+        })
+
 
         return response
     } catch (error) {
@@ -34,7 +40,13 @@ export async function fetchChats(username) {
 */
 export async function fetchMessages(chatId) {
     try {
-        const response = await apiClient.get('messages/chats/' + chatId)
+        const response = await apiClient.get('messages/chats/' + chatId, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + useUserStore().userToken
+            }
+
+        })
         return response
     } catch (error) {
         throw new Error('There was an error while fetching messages: ' + error.response)
