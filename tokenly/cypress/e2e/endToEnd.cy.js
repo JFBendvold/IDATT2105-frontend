@@ -2,12 +2,24 @@
 
 
 //Mocks login for the tests by manually sending correct api request and storing the response in the session storage
-const login = (name) => {
+const loginAdmin = (name) => {
   cy.session(name, () => {
     cy.request({
       method: 'POST',
       url: 'http://localhost:8080/api/users/token',
       body: { username: name, password: 'password456' },
+    }).then(({ body }) => {
+      window.sessionStorage.setItem('UserStore', JSON.stringify({ userToken: body, username: name }))
+    })
+  })
+}
+
+const loginUser = (name) => {
+  cy.session(name, () => {
+    cy.request({
+      method: 'POST',
+      url: 'http://localhost:8080/api/users/token',
+      body: { username: name, password: 'password777' },
     }).then(({ body }) => {
       window.sessionStorage.setItem('UserStore', JSON.stringify({ userToken: body, username: name }))
     })
@@ -83,9 +95,12 @@ describe('Test visitng the urls of the webpage', () => {
 describe('Test visiting the urls of the page when the user is logged in (admin user)', () => {
 
   beforeEach(() => {
-    logout()
-    login('jane')
+    loginAdmin('jane')
   })  
+
+  afterEach(() => { 
+    logout()
+  })
 
   it('visits the publish url when logged in', () => {
     cy.visit('/publish')
@@ -174,11 +189,27 @@ describe('Test the functionality of the webpage when not logged in', () => {
 
 //TODO: TEST that the button heart is filled, click
 
-describe('Test the functionality of the webpage when logged in', () => {
+describe('Test the functionality of the webpage with favorites when logged in', () => {
   beforeEach(() => {
-    logout()
-    login('jane')
+    loginAdmin('jane')
+    //Adds the nft with id 6 to favorites
+    cy.visit('/nft?id=6')
+    cy.get('.fa-heart').then(($i) => {
+      if ($i.hasClass('far')) {
+        cy.get('.fa-heart').click()
+      } 
+    })
   })  
+  afterEach(() => {
+    //Removes the nft with id 6 from favorites
+    cy.visit('/nft?id=6')
+    cy.get('.fa-heart').then(($i) => {
+      if ($i.hasClass('fas')) {
+        cy.get('.fa-heart').click()
+      } 
+    })
+    logout()
+  })
 
   it('tries to go to profile favorites and then redirects when pressing the arrow btn', () => {
     cy.visit('/nft?id=5')
@@ -187,19 +218,73 @@ describe('Test the functionality of the webpage when logged in', () => {
     cy.get('h1').should('contain', 'Canon EOS R')
   })
 
-  it.only('tries to go to profile favorites and then remove a favorite', () => {
-    cy.visit('/nft?id=5')
-
-    cy.get('.fa-heart').then(($heart) => {
-      if ($heart.hasClass('far')) {
-        cy.get('.fa-heart').click()
-      } 
-    })
-
+  it('tries to go to nft and add it to favorites', () => { 
     cy.visit('/favorites')
+    cy.get('h3').contains('Nature Photography Print')
 
-    cy.get('.favorites-grid-item').should('have.length', 1)
-    cy.get('.remove-icon').last().click() //TODO: update    
+  })
+
+  it('tries to go to nft and add it to favorites, then remove the added item', () => {
+    cy.visit('/favorites')
+    cy.get('h3').contains('Nature Photography Print')
+    cy.get('.fa-arrow-right').last().click()
+    cy.get('h3').contains('Nature Photography Print').should('not.exist')
   })
 
 })
+
+describe('Test the functionality chat when logged in', () => {
+  beforeEach(() => {
+    loginAdmin('jane')
+  })
+  afterEach(() => {
+    logout()
+  })
+
+  it('opens the chats for the logged in user', () => {
+    cy.visit('/')
+    cy.get('.fa-comment-dots').first().click()
+    cy.get('h3').should('contain', 'Chat')
+  })
+
+  it('opens the chats for the logged in user then clicks on chat w john', () => {
+    cy.visit('/')
+    cy.get('.fa-comment-dots').first().click()
+    cy.get('.clickable').first().click()
+    cy.get('p').contains('OK, that works for me. Can we meet tomorrow to complete the transaction?')
+  })
+
+  it('opens the chats for the logged in user and sends message to olivia', () => {
+    cy.visit('/')
+    cy.get('.fa-comment-dots').first().click()
+    cy.get('.clickable').last().click()
+    cy.get('input').last().type('Hello Olivia, I am interested in your NFT. Can we meet tomorrow to complete the transaction?')
+    cy.get('.fa-paper-plane').click()
+    cy.get('.chat-content-message-text').contains('Hello Olivia, I am interested in your NFT. Can we meet tomorrow to complete the transaction?')
+  })
+
+  it('logs in with olivia', () => {
+    loginUser('olivia')
+    cy.visit('/')
+    cy.get('.wrapper').should('contain', 'olivia')
+  })
+
+  it('opens the chats for the logged in user and sends message to Olivia', () => {
+    cy.visit('/')
+    cy.get('.fa-comment-dots').first().click()
+    cy.get('.clickable').last().click()
+    cy.get('input').last().type('Greetings Olivia')
+    cy.get('.fa-paper-plane').click()
+    loginUser('olivia')
+    cy.visit('/')
+    cy.get('.wrapper').should('contain', 'olivia')
+    cy.visit('/')
+    cy.get('.fa-comment-dots').last().click()
+    cy.get('p').contains('Greetings Olivia')
+
+  })
+
+
+
+})
+
