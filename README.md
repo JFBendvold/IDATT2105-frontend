@@ -1,2 +1,8 @@
-# IDATT2105-frontend
-Frontend for IDATT2105 project
+# IDATT2105
+IDATT2105 project
+
+Created by:
+John Fredrik Bendvold
+Magnus Lutro Allison 
+Anders Austlid
+Pedro Pablo Cardona
