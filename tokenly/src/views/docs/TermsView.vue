@@ -1,8 +1,9 @@
 <script setup>
 import Footer from '@/components/Footer.vue'
+import Header from '@/components/Header.vue'
 </script>
-
 <template>
+  <Header id="header"/>
   <p>
     Welcome to our NFT-Marketplace. By using our service, you agree to the following terms of
     service. Please read these terms carefully before using our service.
@@ -63,6 +64,9 @@ import Footer from '@/components/Footer.vue'
 </template>
 
 <style scoped>
+#header {
+  display: none;
+}
 p {
   margin-bottom: 1rem;
 }
