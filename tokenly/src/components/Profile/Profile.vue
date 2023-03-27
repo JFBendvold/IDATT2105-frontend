@@ -3,15 +3,16 @@ import '@/assets/css/profile/profile.css'
 import { ref } from 'vue'
 import Title from '@/components/Title.vue'
 import ProfileSettings from './ProfileSettings.vue'
+import AdminPanel from './AdminPanel.vue'
 import Wallet from './Wallet.vue'
 import { useUserStore } from '@/stores/UserStore.js'
 import picon1 from '@/assets/img/profile_icons/picon1.jpg'
 import { useItemsStore } from '@/stores/ItemsStore.js'
 import { storeToRefs } from 'pinia'
-import { computed, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import imageListFormat from '@/utils/ImageListFormatter.js'
 import { fetchItemsByOwner } from '@/services/ItemService.js'
-import {fetchUserProfile} from '@/services/ProfileService.js'
+import {fetchUserProfile, checkIfAdmin} from '@/services/ProfileService.js'
 import { throwErrorPopup } from '@/utils/ErrorController.js'
 import router from '@/router'
 
@@ -20,6 +21,8 @@ const itemsStore = useItemsStore()
 const { items } = storeToRefs(itemsStore)
 
 const userStore = useUserStore()
+
+const isAdmin = ref(false)
 
 
 onMounted(async () => {
@@ -35,6 +38,10 @@ onMounted(async () => {
 
   // Fetch items
   const fetchedItems = await fetchItemsByOwner(username.value)
+
+  // Check if admin
+  const adminResponse = await checkIfAdmin(username.value)
+  isAdmin.value = adminResponse.data
 
   NFTs.value = imageListFormat(fetchedItems.data)
 })
@@ -75,6 +82,7 @@ const NFTs = ref([])
           </div>
         </div>
       </div>
+      <AdminPanel v-if="userStore.username === username && isAdmin" />
       <button
         class="profile-settings-btn"
         @click="viewSettings = !viewSettings"

@@ -62,5 +62,18 @@
   "Withdraw": "Withdraw",
   "Amount to deposit in": "Amount to deposit in ",
   "Amount to withdraw in": "Amount to withdraw in ",
-  "Loading": "Loading"
+  "Loading": "Loading",
+  "Admin Panel": "Admin Panel",
+  "Admin": "Admin",
+  "Users": "Users",
+  "NFTs": "NFTs",
+  "Categories": "Categories",
+  "Transactions": "Transactions",
+  "User": "User",
+  "Time": "Time",
+  "Date": "Date",
+  "Amount": "Amount",
+  "Seller": "Seller",
+  "Buyer": "Buyer",
+  "Listing-id": "Listing-id"
 }

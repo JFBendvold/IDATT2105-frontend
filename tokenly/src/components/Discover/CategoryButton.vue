@@ -67,11 +67,18 @@ const onMouseOut = (event) => {
 
 const handleClick = async (event) => {
   const selectedCategory = event.target.innerText
+
+  router.push({
+    name: 'discover',
+    query: {
+      category: selectedCategory
+    }
+  })
 }
 </script>
 
 <template>
-  <RouterLink :to="'/discover?category=' + category" @click="handleClick">
+  <a @click="handleClick">
     <div
       class="category-button"
       ref="categoryButton"
@@ -83,5 +90,5 @@ const handleClick = async (event) => {
         {{ category }}
       </div>
     </div>
-  </RouterLink>
+  </a>
 </template>

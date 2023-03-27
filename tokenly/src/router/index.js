@@ -64,7 +64,13 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   if (from.name == 'profile' && to.name == 'profile' && from.fullPath != to.fullPath) {
     window.location.href = to.fullPath
-    return
+    next(false)
+  }
+
+  // If from and to is discover, then do refresh
+  if (from.name == 'discover' && to.name == 'discover') {
+    next(true)
+    window.location.href = to.fullPath
   }
 
   const privatePages = ['publish', 'favorites', 'chat', 'profile']

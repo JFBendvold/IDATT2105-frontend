@@ -140,6 +140,16 @@ async function checkBalance(price) {
   return true
 }
 
+// Navigate to the profile page
+function goToProfile() {
+  router.push({
+    name: 'profile',
+    query: {
+      username: user.value.name
+    }
+  })
+}
+
 // Check if the item is in the favorites store
 const isFavorite = ref(false)
 
@@ -314,7 +324,7 @@ async function handleFavoriteClick() {
         <i class="far fa-eye"></i>
       </p>
       <p class="nft-description">{{ image.description }}</p>
-      <div class="user-tag">
+      <div class="user-tag" @click="goToProfile()">
         <img :src="user.image" :alt="user.name" />
         <div class="user-tag-info">
           <p class="user-tag-name">
