@@ -1,3 +1,5 @@
+import { fetchItemCategories } from '@/services/ItemService.js'
+
 // Converts the data from the database into a format that can be used by the image gallery
 export default function imageListFormat(imageList) {
   if (!imageList.length === 0) return []
@@ -32,4 +34,48 @@ export default function imageListFormat(imageList) {
     }
   }
   return imageArray
+}
+
+export async function imageTableFormat(imageList) {
+  let items = imageList
+  var nftArray = []
+  for (let i = 0; i < items.length; i++) {
+    let categories = []
+    const itemCategories = await fetchItemCategories(items[i].itemId)
+    for (let j = 0; j < itemCategories.data.length; j++) {
+      categories.push(itemCategories.data[j].categoryName)
+    }
+
+    if (
+      items[i].minPrice === undefined ||
+      items[i].maxPrice === undefined ||
+      items[i].listingId === undefined ||
+      items[i].publicationTime === null
+    ) {
+      let nft = {
+        title: items[i].itemName,
+        description: items[i].description,
+        image: `http://localhost:8080/api/source/${items[i].itemId}`,
+        listed: 'Not listed',
+        bidPrice: '0',
+        buyPrice: '0',
+        categories: categories,
+        id: items[i].itemId
+      }
+      nftArray.push(nft)
+    } else {
+      let nft = {
+        title: items[i].itemName,
+        description: items[i].description,
+        image: `http://localhost:8080/api/source/${items[i].itemId}`,
+        listed: items[i].publicationTime.slice(0, 10),
+        bidPrice: items[i].minPrice,
+        buyPrice: items[i].maxPrice,
+        categories: categories,
+        id: items[i].itemId
+      }
+      nftArray.push(nft)
+    }
+  }
+  return nftArray
 }

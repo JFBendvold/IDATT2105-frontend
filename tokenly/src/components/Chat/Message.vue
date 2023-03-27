@@ -1,8 +1,19 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
+import router from '@/router'
 import '@/assets/css/chat/message.css'
+import { fetchListing } from '@/services/ListingsService.js'
+import { throwErrorPopup } from '@/utils/ErrorController.js'
+import { doTransaction } from '@/services/TransactionService.js'
+import {fetchUserProfile} from '@/services/ProfileService.js'
+import { sendAcceptBidNotification, closeMessage, sendDeclineBidNotification } from '@/services/ChatService.js'
+import { useUserStore } from '@/stores/UserStore.js'
+import { fetchBid } from '@/services/BidService.js'
 
+const userStore = useUserStore()
+
+const validMessage = ref(true)
 const isActionMessage = ref(false)
 let messageJson = null
 
@@ -11,38 +22,128 @@ const props = defineProps({
 })
 const isMe = computed(() => props.message.isMe)
 
-function acceptBid() {
-  console.log('Accept bid')
-}
+async function acceptBid() {
+  // Get listingId from bid
+  let listingId = 0
+  try {
+    const fetchListingResponse = await fetchBid(messageJson.bidId)
+    listingId = fetchListingResponse.data.listingId
+  } catch (error) {
+    throwErrorPopup("Something went wrong while fetching the listing, please try again later")
+  }
 
-function declineBid() {
-  console.log('Decline bid')
-}
+  // Create a transaction
+  const transaction = {
+      buyerName: messageJson.buyerName,
+      sellerName: userStore.username,
+      transactionPrice: messageJson.amount,
+      listingId: listingId,
+  }
 
-// Analyze message and give the correct visualisation
-if (props.message.message.startsWith('{')) {
-  // Replace all ' with "
-  props.message.message = props.message.message.replace(/'/g, '"')
+  // Send the transaction
+  try {
+      doTransaction(transaction)
+  } catch (error) {
+      throwErrorPopup("Something went wrong while sending the transaction, please try again later")
+  }
 
-  // Convert message to JSON
-  messageJson = JSON.parse(props.message.message)
-  console.log(messageJson)
+  // Send the notification
+  try {
+      sendAcceptBidNotification(transaction.sellerName, transaction.buyerName, messageJson.bidId, transaction.transactionPrice, messageJson.itemId)
+  } catch (error) {
+      throwErrorPopup("Something went wrong while sending the notification, please try again later")
+  }
 
-  isActionMessage.value = true
-
-  if (messageJson.type === 'bid') {
-    //Check if the item is still available
-    //If the item is still available, show the bid
-    //If the item is not available, delete the bid
+  // Close the message
+  try {
+      closeMessage(props.message.messageId)
+      throwErrorPopup("Bid accepted")
+      router.push({ name: 'nft', query: { id: messageJson.itemId } })
+  } catch (error) {
+      throwErrorPopup("Something went wrong while closing the message")
   }
 }
+
+async function declineBid() {
+    // Get listingId from bid
+    let listingId = 0
+  try {
+    const fetchListingResponse = await fetchBid(messageJson.bidId)
+    listingId = fetchListingResponse.data.listingId
+  } catch (error) {
+    throwErrorPopup("Something went wrong while fetching the listing, please try again later")
+  }
+
+  // Create a transaction
+  const transaction = {
+      buyerName: messageJson.buyerName,
+      sellerName: userStore.username,
+      transactionPrice: messageJson.amount,
+      listingId: listingId,
+  }
+
+  // Send the notification
+  try {
+      sendDeclineBidNotification(transaction.sellerName, transaction.buyerName, messageJson.bidId, transaction.transactionPrice, messageJson.itemId)
+  } catch (error) {
+      throwErrorPopup("Something went wrong while sending the notification, please try again later")
+  }
+
+  // Close the message
+  try {
+      closeMessage(props.message.messageId)
+      throwErrorPopup("Bid declined")
+      router.push({ name: 'nft', query: { id: messageJson.itemId } })
+  } catch (error) {
+      throwErrorPopup("Something went wrong while closing the message")
+  }
+}
+
+onMounted(async () => {
+  // Check if the message is an action message
+  if (props.message.message.startsWith('{')) {
+    // Replace all ' with "
+    props.message.message = props.message.message.replace(/'/g, '"')
+
+    // Convert message to JSON
+    messageJson = JSON.parse(props.message.message)
+    console.log(messageJson)
+
+    isActionMessage.value = true
+
+    if (messageJson.type === 'bid') {
+      //Check if the item is still available
+      let listed = false
+      try {
+        const fetchListingResponse = await fetchListing(messageJson.itemId)
+        listed = !fetchListingResponse.data.isClosed
+      } catch (error) {
+        throwErrorPopup("Something went wrong while fetching the listing, please try again later")
+      }
+
+      if (!listed) {
+        validMessage.value = false
+        return
+      }
+
+      //Check if the buyer has enough funds
+      try {
+        const response = await fetchUserProfile(messageJson.buyerName)
+        if (response.data.balance < messageJson.amount) {
+          validMessage.value = false
+          return
+        }
+      } catch (error) {
+        throwErrorPopup("Some messages went wrong while fetching the user's profile")
+        validMessage.value = false
+      }
+    }
+  }
+})
 </script>
 
 <template>
-  <div
-    class="chat-content-message-item"
-    :class="{ 'chat-content-message-item-me': message.isMe, 'action-message': isActionMessage }"
-  >
+  <div class="chat-content-message-item" :class="{ 'chat-content-message-item-me': message.isMe, 'action-message': isActionMessage }" v-if="validMessage">
     <p class="chat-content-message-text" v-if="messageJson === null">
       {{ message.message }}
     </p>
@@ -89,7 +190,9 @@ if (props.message.message.startsWith('{')) {
         </p>
       </div>
       <div class="chat-purchase" v-else-if="messageJson.type === 'purchase'">
-        <p class="chat-content-title">NFT purchased</p>
+        <p class="chat-content-title">
+          NFT purchased for {{ messageJson.amount }} <i class="fab fa-ethereum"></i>
+        </p>
         <p class="chat-content-message-text">
           <RouterLink :to="'/nft?id=' + messageJson.itemId">
             NFT: {{ messageJson.itemId }}

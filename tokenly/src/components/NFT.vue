@@ -15,6 +15,9 @@ import { ref, onMounted } from 'vue'
 import { throwErrorPopup } from '@/utils/ErrorController.js'
 import {fetchUserProfile} from '@/services/ProfileService.js'
 import router from '../router'
+import { doTransaction } from '@/services/TransactionService.js'
+import { sendPurchaseNotification, sendBidNotification } from '@/services/ChatService.js'
+import { createBid } from '@/services/BidService.js'
 
 const favoritesStore = useFavoritesStore()
 
@@ -33,8 +36,10 @@ const user = ref({
   image: ''
 })
 
+const listingId = ref(0)
 const isOwner = ref(false)
 const bidAmount = ref(0)
+const purchaseAmount = ref(0)
 const confirmBid = ref(false)
 const confirmPurchase = ref(false)
 
@@ -53,11 +58,31 @@ async function buy() {
     return
   }
 
-  if (!await checkBalance(bidAmount.value)) {
+  if (!await checkBalance(purchaseAmount.value)) {
     return
   }
 
   if (confirmPurchase.value) {
+    // Create a transaction
+    const transaction = {
+      buyerName: userStore.username,
+      sellerName: item.ownerName,
+      transactionPrice: purchaseAmount.value,
+      listingId: listingId.value
+    }
+
+    console.log(transaction)
+
+    // Send the transaction
+    try {
+      await doTransaction(transaction)
+      await sendPurchaseNotification(item.ownerName, userStore.username, purchaseAmount.value, id)
+
+    } catch (error) {
+      throwErrorPopup('Purchase failed, try again later')
+      return
+    }
+
     throwErrorPopup('Purchase confirmed')
     router.push('/')
   } else {
@@ -82,8 +107,24 @@ async function bid() {
   }
 
   if (confirmBid.value) {
-    throwErrorPopup('Bid confirmed')
-    router.push('/')
+    // Create a bid
+    const bid = {
+      buyerName: userStore.username,
+      price: bidAmount.value,
+      listingId: listingId.value
+    }
+
+    try {
+      const response = await createBid(bid)
+
+      await sendBidNotification(item.ownerName, userStore.username, response.data.bidId, bidAmount.value, id)
+
+      throwErrorPopup('Bid confirmed')
+      router.push('/')
+    } catch (error) {
+      throwErrorPopup('Bid failed, try again later')
+      return
+    }
   } else {
     confirmBid.value = true
     throwErrorPopup('Click again to confirm')
@@ -97,6 +138,16 @@ async function checkBalance(price) {
     return false
   }
   return true
+}
+
+// Navigate to the profile page
+function goToProfile() {
+  router.push({
+    name: 'profile',
+    query: {
+      username: user.value.name
+    }
+  })
 }
 
 // Check if the item is in the favorites store
@@ -129,8 +180,12 @@ onMounted(async () => {
         image: picon1
       }
 
-      // Set the bid amount to the minimum bid price
+      // Set the bid and purchase amount to the minimum bid price
       bidAmount.value = item.minPrice
+      purchaseAmount.value = item.maxPrice
+
+      // Set the listing id
+      listingId.value = item.listingId
 
       // Check if the user is the owner of the item
       if (userStore.username == item.ownerName) {
@@ -269,7 +324,7 @@ async function handleFavoriteClick() {
         <i class="far fa-eye"></i>
       </p>
       <p class="nft-description">{{ image.description }}</p>
-      <div class="user-tag">
+      <div class="user-tag" @click="goToProfile()">
         <img :src="user.image" :alt="user.name" />
         <div class="user-tag-info">
           <p class="user-tag-name">

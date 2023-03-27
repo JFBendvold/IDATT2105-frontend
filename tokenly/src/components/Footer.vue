@@ -20,7 +20,7 @@ const changeLanguage = () => {
           <RouterLink to="/">{{ $t('Home') }}</RouterLink>
           <RouterLink to="/discover">{{ $t('Discover') }}</RouterLink>
           <RouterLink to="/publish">{{ $t('Publish') }}</RouterLink>
-          <RouterLink to="/profile">{{ $t('Profile') }}</RouterLink>
+          <RouterLink to="/login">{{ $t('Login') }}</RouterLink>
         </div>
       </div>
       <div class="footer-container">

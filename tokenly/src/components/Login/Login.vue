@@ -21,7 +21,7 @@ export default {
       try {
         await userStore.logUserIn(this.username, this.password)
       } catch (error) {
-        this.error = error.message
+        this.error = "Username or password is incorrect"
       }
     }
   }

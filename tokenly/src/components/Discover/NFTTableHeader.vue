@@ -1,26 +1,29 @@
 <script setup>
 import '@/assets/css/discover/nftTableHeader.css'
 import { ref } from 'vue'
+import { throwErrorPopup } from '@/utils/ErrorController.js'
+
+const emit = defineEmits(['apply-filters'])
+
+const showAllFilters = ref(false)
 
 const showOrderDropdown = ref(false)
-const showStatusDropdown = ref(false)
 const showCategoryDropdown = ref(false)
-
 const orderDropdownText = ref('Sort by')
-const statusDropdownText = ref('Status')
-
 const categorySuggestion = ref('')
+const minPrice = ref('')
+const maxPrice = ref('')
 
 let selectedCategories = []
 let categories = [
   'Art',
   'Music',
-  'Sports',
+  'Sport',
   'Gaming',
   'Collectibles',
   'Fashion',
   'Photography',
-  'Animals',
+  'Animal',
   'Food',
   'Travel',
   'Science',
@@ -29,14 +32,20 @@ let categories = [
   'Business',
   'Education',
   'Entertainment',
-  'Other'
+  'Other',
+  'Wallpaper',
 ]
+
+function resetAllFilters() {
+  orderDropdownText.value = 'Sort by'
+  selectedCategories = []
+  minPrice.value = ''
+  maxPrice.value = ''
+}
 
 const toggleDropdown = (dropdown, filter) => {
   if (dropdown === 'order') {
     orderDropdownText.value = filter
-  } else if (dropdown === 'status') {
-    statusDropdownText.value = filter
   }
 }
 
@@ -47,6 +56,12 @@ const removeCategory = (category) => {
 
 const addCategory = (category) => {
   showCategoryDropdown.value = false
+
+  if (selectedCategories.length == 1) {
+    throwErrorPopup('You can only select one category')
+    return
+  }
+
   if (selectedCategories.includes(category)) {
     return
   }
@@ -66,23 +81,66 @@ const suggestCategoryInput = (event) => {
 }
 
 const applyFilters = () => {
-  console.log('Apply Filters')
+  // Check if min price and max price are numbers
+  if (minPrice.value !== '' && isNaN(minPrice.value)) {
+    minPrice.value = '0'
+  }
+
+  if (maxPrice.value !== '' && isNaN(maxPrice.value)) {
+    maxPrice.value = '0'
+  }
+
+  // Check if min price is less than max price
+  if (minPrice.value !== '' && maxPrice.value !== '') {
+    if (Number(minPrice.value) > Number(maxPrice.value)) {
+      throwErrorPopup('Min price cannot be greater than max price')
+      return
+    }
+  }
+
+  emit('apply-filters', {
+    sortBy: orderDropdownText.value,
+    category: selectedCategories[0],
+    minPrice: minPrice.value,
+    maxPrice: maxPrice.value
+  })
 }
+
+const trendingButton = () => {
+  resetAllFilters()
+  orderDropdownText.value = 'Trending'
+  applyFilters()
+}
+
+const newlyListedButton = () => {
+  resetAllFilters()
+  orderDropdownText.value = 'Newest'
+  applyFilters()
+}
+
 </script>
 
 <template>
   <div class="nft-table-header" id="items">
     <div class="filters">
       <div class="left">
-        <button class="filter-text-button">Trending</button>
-        <button class="filter-text-button">Newly Listed</button>
+        <button class="filter-text-button" @click="trendingButton">Trending</button>
+        <button class="filter-text-button" @click="newlyListedButton">Newly Listed</button>
       </div>
       <div class="right">
-        <div class="filter-price">
+        <div class="filter-text-button-simple" @click="showAllFilters = !showAllFilters">
+          <span>Filters</span>
+          <span class="filter-text-button-icon">
+            <i class="fas fa-chevron-down" v-if="!showAllFilters"></i>
+            <i class="fas fa-chevron-up" v-if="showAllFilters"></i>
+          </span>
+        </div>
+        <div class="filter-all-container" v-if="showAllFilters">
+          <div class="filter-price">
           <div class="filter-price-inputs">
-            <input type="text" placeholder="Min Price" size="8" />
+            <input type="text" placeholder="Min Price" size="8" v-model="minPrice" />
             <i class="fab fa-ethereum"></i>
-            <input type="text" placeholder="Max Price" size="8" />
+            <input type="text" placeholder="Max Price" size="8" v-model="maxPrice" />
             <i class="fab fa-ethereum"></i>
           </div>
         </div>
@@ -125,32 +183,6 @@ const applyFilters = () => {
             </div>
           </div>
         </div>
-        <div class="filter-text-button" @click="showStatusDropdown = !showStatusDropdown">
-          <span>
-            {{ statusDropdownText }}
-          </span>
-          <span class="filter-text-button-icon">
-            <i class="fas fa-chevron-down" v-if="!showStatusDropdown"></i>
-            <i class="fas fa-chevron-up" v-if="showStatusDropdown"></i>
-          </span>
-          <div class="filter-text-button-dropdown" v-if="showStatusDropdown">
-            <div
-              class="filter-text-button-dropdown-item"
-              @click="toggleDropdown('status', 'Listed')"
-            >
-              <span>Listed</span>
-            </div>
-            <div
-              class="filter-text-button-dropdown-item"
-              @click="toggleDropdown('status', 'Not Listed')"
-            >
-              <span>Not Listed</span>
-            </div>
-            <div class="filter-text-button-dropdown-item" @click="toggleDropdown('status', 'Both')">
-              <span>Both</span>
-            </div>
-          </div>
-        </div>
         <div class="filter-text-button" @click="showOrderDropdown = !showOrderDropdown">
           <span>
             {{ orderDropdownText }}
@@ -181,6 +213,7 @@ const applyFilters = () => {
           </div>
         </div>
         <button class="apply-filters-button" @click="applyFilters">Apply Filters</button>
+        </div>
       </div>
     </div>
   </div>

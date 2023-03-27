@@ -22,17 +22,16 @@ import Chat from '../components/Chat/Chat.vue'
 .content {
   min-height: 100vh;
   width: 100%;
-  background-color: #f1f2f6;
+  background: linear-gradient(180deg, #F1F2F6 0%, #AEB8FE 100%);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   box-shadow: 0px 0px 100px rgba(0, 0, 0, 0.5);
-  margin-top: 100vh;
 }
 @media (max-width: 768px) {
   .content {
-    margin-top: 0;
+    margin-top: 0px;
   }
 }
 </style>

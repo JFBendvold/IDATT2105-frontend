@@ -139,12 +139,14 @@ describe('Test the functionality of the webpage when not logged in', () => {
   it('tries to select a the first category, being `Photography`', () => {
     cy.visit('/discover')
     cy.get('.category-button').first().click()
+    cy.reload()
     cy.get('img').should('have.length', 4 + numberOfLogos)
   }) 
 
   it('tries to select a the last category, being `Collectibles`', () => {
     cy.visit('/discover')
     cy.get('.category-button').last().click()
+    cy.reload()
     cy.get('img').should('have.length', 5 + numberOfLogos)
   }) 
 
@@ -281,6 +283,35 @@ describe('Test the functionality chat when logged in', () => {
     cy.visit('/')
     cy.get('.fa-comment-dots').last().click()
     cy.get('p').contains('Greetings Olivia')
+
+  })
+
+  it('opens the profile page of jane and click deposit', () => {
+    cy.visit('/profile?username=jane')
+    cy.get('.wallet-action').contains('Deposit').click()
+    cy.get('h1').should('contain', 'Deposit')
+  })
+
+  it('opens the profile page of jane and click deposit and deposits 10 eth', () => {
+    cy.visit('/profile?username=jane')
+
+    cy.get('.wallet-action').contains('Deposit').click()
+    cy.get('.popup-input-field').first().type('10')
+    cy.get('.popup-button').contains('Deposit').click()
+    cy.get('span').contains('Loading')
+
+
+  })
+  
+  it('opens the profile page of jane and click deposit and deposits 10 eth', () => {
+    cy.visit('/profile?username=jane')
+    cy.get(".wallet-balance").invoke("text").should("contain", "Balance : 100 ")
+    cy.get('.wallet-action').contains('Deposit').click()
+    cy.get('.popup-input-field').first().type('10')
+    cy.get('.popup-button').contains('Deposit').click()
+    cy.get('span').contains('Loading')
+    cy.wait(5000)
+    cy.get(".wallet-balance").invoke("text").should("contain", "Balance : 110 ")
 
   })
 
