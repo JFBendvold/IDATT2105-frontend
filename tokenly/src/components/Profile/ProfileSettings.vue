@@ -57,42 +57,6 @@ function signOut() {
     </div>
     <hr />
     <h3>
-      {{ $t('Change password') }}
-    </h3>
-    <div class="profile-settings-row">
-      <div class="profile-settings-column">
-        <label for="old-password">
-          {{ $t('Old Password') }}
-        </label>
-        <input type="password" id="old-password" :placeholder="$t('Old Password')" />
-      </div>
-    </div>
-    <div class="profile-settings-row">
-      <div class="profile-settings-column">
-        <label for="new-password">
-          {{ $t('New Password') }}
-        </label>
-        <input type="password" id="new-password" :placeholder="$t('New Password')" />
-      </div>
-      <div class="profile-settings-column">
-        <label for="confirm-password">
-          {{ $t('Confirm Password') }}
-        </label>
-        <input type="password" id="confirm-password" :placeholder="$t('Confirm Password')" />
-      </div>
-    </div>
-    <div class="profile-settings-row">
-      <div class="profile-settings-column">
-        <p class="profile-settings-error">
-          {{ errorMsgPassword }}
-        </p>
-        <button class="profile-settings-button" @click="changePassword">
-          {{ $t('Change Password') }}
-        </button>
-      </div>
-    </div>
-    <hr />
-    <h3>
       {{ $t('Change name') }}
     </h3>
     <div class="profile-settings-row">

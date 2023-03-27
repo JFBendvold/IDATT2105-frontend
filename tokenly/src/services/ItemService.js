@@ -19,18 +19,29 @@ export async function postUserItem(item) {
   }
 }
 
-export async function fetchAllItems() {
-  try {
-    const response = await apiClient.get('itemListing/?size=6')
-    return response
-  } catch (error) {
-    throw new Error('There was an error while getting all items: ' + error)
+export async function fetchAllItems(filter) {
+  if (filter === undefined) {
+    filter = {}
   }
-}
 
-export async function fetchNewestItems() {
+  if (filter.size === undefined) {
+    filter.size = 6
+  }
+
+  if (filter.sortBy === undefined) {
+    filter.sortBy = 'visits'
+  }
+
+  if (filter.page === undefined) {
+    filter.page = 0
+  }
+
+  if (filter.order === undefined) {
+    filter.order = 'desc'
+  }
+
   try {
-    const response = await apiClient.get('itemListing/?size=6')
+    const response = await apiClient.get('itemListing/?size=' + filter.size + '&sortBy=' + filter.sortBy + '&page=' + filter.page + '&order=' + filter.order)
     return response
   } catch (error) {
     throw new Error('There was an error while getting all items: ' + error)

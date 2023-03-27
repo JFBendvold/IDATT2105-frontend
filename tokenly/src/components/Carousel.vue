@@ -5,31 +5,31 @@ import { RouterLink } from 'vue-router'
 import 'swiper/swiper-bundle.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 import '../assets/css/carousel.css'
-import { useItemsStore } from '@/stores/ItemsStore.js'
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { fetchAllItems } from '@/services/ItemService.js'
-import { storeToRefs } from 'pinia'
 import imageListFormat from '@/utils/ImageListFormatter'
 
-const itemsStore = useItemsStore()
-
-const { items, newItems } = storeToRefs(itemsStore) //TODO: use NewItems
-
-async function fetchItems() {
-  const tempItems = await fetchAllItems()
-  itemsStore.setItems(tempItems.data)
-}
-
-onMounted(async () => {
-  itemsStore.resetItems
-  await fetchItems()
+const props = defineProps({
+  type: String,
 })
 
-let images = computed(() => {
-  return imageListFormat(items.value)
+const images = ref([])
+
+onMounted(async () => {
+  let tempItems = []
+
+  if (props.type === 'trending') {
+    tempItems = await fetchAllItems({ sortBy: 'visits', size: 8})
+  } else if (props.type === 'newest') {
+    tempItems = await fetchAllItems({ sortBy: 'publication_time', size: 8})
+  }
+
+  images.value = imageListFormat(tempItems.data)
 })
 
 SwiperCore.use([Autoplay])
+
+
 
 const slidesPerView = ref('4')
 

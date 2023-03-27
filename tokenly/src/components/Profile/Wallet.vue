@@ -43,8 +43,6 @@ const deposit = async () => {
   }, 5000)
 
   updateBalance()
-
-  console.log('Deposit: ' + depositAmount.value)
 }
 
 // Withdraw from wallet
@@ -70,8 +68,6 @@ const withdraw = async () => {
   }, 5000)
 
   updateBalance()
-
-  console.log('Withdraw: ' + withdrawAmount.value)
 }
 
 const checkDepositAmount = () => {

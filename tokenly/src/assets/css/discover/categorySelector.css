@@ -54,6 +54,21 @@
   background: linear-gradient(rgba(0, 0, 0, 0), rgb(241, 242, 246));
 }
 
+.category-scrolldown {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 20px;
+  color: #fff;
+  font-size: 1.5rem;
+  animation: bounce 1s infinite;
+}
+
+.category-scrolldown i {
+  font-size: 2rem;
+}
+
 @media screen and (max-width: 768px) {
   .category-selector {
     flex-direction: column;
@@ -74,6 +89,10 @@
   }
 
   .category-background-fade {
+    display: none;
+  }
+
+  .category-scrolldown {
     display: none;
   }
 }
