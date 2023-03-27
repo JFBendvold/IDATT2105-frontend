@@ -112,6 +112,20 @@
   border-radius: 0 10px 10px 0;
 }
 
+.nft-wrapper .nft-container .buttons .buy-button .price input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #333;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  width: 100%;
+  -webkit-appearance: none;
+  margin: 0;
+  -moz-appearance: textfield;
+}
+
 .nft-wrapper .nft-container .buttons .buy-button:hover {
   background: rgba(255, 134, 0, 0.8);
 }
