@@ -1,8 +1,11 @@
 <script setup>
 import '@/assets/css/chat/chat.css'
 import Message from './Message.vue'
-import { ref } from 'vue'
+import { ref, onMounted, toRaw } from 'vue'
 import { useUserStore } from '@/stores/UserStore.js'
+import { fetchChats } from '@/services/ChatService.js'
+import { throwErrorPopup } from '@/utils/ErrorController.js'
+import chatListFormat from '@/utils/ChatFormatter.js'
 
 const userStore = useUserStore()
 
@@ -11,6 +14,24 @@ const chatContainer = ref(null)
 const chatOpen = ref(false)
 const chatToOpen = ref('')
 const chatToSend = ref('')
+
+const chatData = ref([])
+
+onMounted(async () => {
+  // Fetch chats
+  const response = await fetchChats(userStore.username)
+  if (response.status === 200) {
+    let rawData = response.data
+  } else {
+    console.log('Error fetching chats')
+    throwErrorPopup('Error fetching chats')
+  }
+
+  chatData.value = await chatListFormat(response.data)
+
+  console.log(toRaw(chatData.value))
+})
+
 
 function formatPreviewMessage(message) {
   let rawMessage = message
@@ -65,20 +86,22 @@ function sendChat() {
 
   // Add chat to chatData
   chatData.value.find((chat) => chat.username === chatToOpen.value).messages[
-    Object.keys(chatData.value.find((chat) => chat.username === chatToOpen.value).messages).length +
-      1
+    Object.keys(chatData.value.find((chat) => chat.username === chatToOpen.value).messages).length
   ] = {
+    messageId: 0,
     message: chatToSend.value,
-    time: '12:09',
-    isMe: true,
-    seen: true
+    time: new Date().toLocaleTimeString(),
+    seen: true,
+    isMe: true
   }
+
+  console.log(chatData.value)
 
   // Clear chatToSend
   chatToSend.value = ''
 }
 
-const chatData = ref([
+const chatDataOld = ref([
   {
     username: 'JohnDoe',
     messages: {
