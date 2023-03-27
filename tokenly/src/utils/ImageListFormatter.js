@@ -33,3 +33,42 @@ export default function imageListFormat(imageList) {
   }
   return imageArray
 }
+
+export function imageTableFormat(imageList) {
+  let items = imageList
+  console.log(items.length)
+  var nftArray = []
+  for (let i = 0; i < items.length; i++) {
+    if (
+      items[i].minPrice === undefined ||
+      items[i].maxPrice === undefined ||
+      items[i].listingId === undefined ||
+      items[i].publicationTime === null
+    ) {
+      let nft = {
+        title: items[i].itemName,
+        description: items[i].description,
+        image: `http://localhost:8080/api/source/${items[i].itemId}`,
+        listed: 'Not listed',
+        bidPrice: '0',
+        buyPrice: '0',
+        categories: '',
+        id: items[i].itemId
+      }
+      nftArray.push(nft)
+    } else {
+      let nft = {
+        title: items[i].itemName,
+        description: items[i].description,
+        image: `http://localhost:8080/api/source/${items[i].itemId}`,
+        listed: items[i].publicationTime.slice(0, 10),
+        bidPrice: items[i].minPrice,
+        buyPrice: items[i].maxPrice,
+        categories: ['IMPLEMENT'],
+        id: items[i].itemId
+      }
+      nftArray.push(nft)
+    }
+  }
+  return nftArray
+}

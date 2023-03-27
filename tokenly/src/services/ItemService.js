@@ -40,8 +40,16 @@ export async function fetchAllItems(filter) {
     filter.order = 'desc'
   }
 
+  if (filter.minPrice === undefined) {
+    filter.minPrice = 0
+  }
+
+  if (filter.maxPrice === undefined) {
+    filter.maxPrice = 1000000
+  }
+
   try {
-    const response = await apiClient.get('itemListing/?size=' + filter.size + '&sortBy=' + filter.sortBy + '&page=' + filter.page + '&order=' + filter.order)
+    const response = await apiClient.get('itemListing/?size=' + filter.size + '&sortBy=' + filter.sortBy + '&page=' + filter.page + '&order=' + filter.order + '&minPrice=' + filter.minPrice + '&maxPrice=' + filter.maxPrice)
     return response
   } catch (error) {
     throw new Error('There was an error while getting all items: ' + error)

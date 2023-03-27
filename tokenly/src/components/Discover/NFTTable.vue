@@ -6,179 +6,77 @@ import { useItemsStore } from '@/stores/ItemsStore.js'
 import { computed, onMounted, ref } from 'vue'
 import { fetchAllItems } from '@/services/ItemService.js'
 import { storeToRefs } from 'pinia'
+import { imageTableFormat } from '@/utils/ImageListFormatter.js'
 
-const itemsStore = useItemsStore()
+const items = ref([])
+const nfts = ref([])
 const page = ref(1)
 
 function nextPage() {
+  if (items.value.length < 6) {
+    return
+  }
+
   page.value++
+  updateNFTs()
 }
 
 function prevPage() {
   if (page.value > 1) {
     page.value--
+    updateNFTs()
   }
-}
-
-async function fetchItems() {
-  const items = await fetchAllItems()
-  itemsStore.setItems(items.data)
 }
 
 onMounted(async () => {
-  await fetchItems()
+  updateNFTs()
 })
 
-function convert(items) {
-  var nftArray = []
-  console.log('Items length:', items.length)
-  for (let i = 0; i < items.length; i++) {
-    if (
-      items[i].minPrice === undefined ||
-      items[i].maxPrice === undefined ||
-      items[i].listingId === undefined ||
-      items[i].publicationTime === null
-    ) {
-      let nft = {
-        title: items[i].itemName,
-        description: items[i].description,
-        image: `http://localhost:8080/api/source/${items[i].itemId}`,
-        listed: 'Not listed',
-        bidPrice: '0',
-        buyPrice: '0',
-        categories: '',
-        id: items[i].itemId
-      }
-      nftArray.push(nft)
-    } else {
-      let nft = {
-        title: items[i].itemName,
-        description: items[i].description,
-        image: `http://localhost:8080/api/source/${items[i].itemId}`,
-        listed: items[i].publicationTime.slice(0, 10),
-        bidPrice: items[i].minPrice,
-        buyPrice: items[i].maxPrice,
-        categories: ['IMPLEMENT'],
-        id: items[i].itemId
-      }
-      nftArray.push(nft)
-    }
-  }
-  return nftArray
+const applyFilters = (filter) => {
+  updateNFTs(filter)
 }
 
-const { items } = storeToRefs(itemsStore)
-
-let nfts = computed(() => {
-  return convert(items.value)
-})
-/*
-  {
-    title: 'NFT Title',
-    description: 'NFT Description',
-    image: 'http://localhost:8080/api/source/2',
-    listed: '2021-09-01',
-    bidPrice: '0.1',
-    buyPrice: '0.5',
-    categories: ['Art', 'Music'],
-    id: 1
-  },
-  {
-    title: 'NFT Title 2',
-    description: 'NFT Description 2',
-    image: 'https://picsum.photos/200/300',
-    listed: '2021-09-01',
-    bidPrice: '0.1',
-    buyPrice: '0.5',
-    categories: ['Art', 'Sports', 'Music', 'Fashion', 'Art', 'Sports', 'Music', 'Fashion'],
-    id: 1
-  },
-  {
-    title: 'NFT Title 3',
-    description: 'NFT Description 3',
-    image: 'https://picsum.photos/200/300',
-    listed: '2021-09-01',
-    bidPrice: '0.1',
-    buyPrice: '0.5',
-    categories: ['Art', 'Music'],
-    id: 1
-  },
-  {
-    title: 'NFT Title 4',
-    description: 'NFT Description 4',
-    image: 'https://picsum.photos/200/300',
-    listed: '2021-09-01',
-    bidPrice: '0.1',
-    buyPrice: '0.5',
-    categories: ['Art', 'Music'],
-    id: 69
-  },
-  {
-    title: 'NFT Title 5',
-    description: 'NFT Description 5',
-    image: 'https://picsum.photos/200/300',
-    listed: '2021-09-01',
-    bidPrice: '0.1',
-    buyPrice: '0.5',
-    categories: ['Art', 'Music'],
-    id: 1
-  },
-  {
-    title: 'NFT Title 6',
-    description: 'NFT Description 6',
-    image: 'https://picsum.photos/200/300',
-    listed: '2021-09-01',
-    bidPrice: '0.1',
-    buyPrice: '0.5',
-    categories: ['Art', 'Music'],
-    id: 1
-  },
-  {
-    title: 'NFT Title 7',
-    description: 'NFT Description 7',
-    image: 'https://picsum.photos/200/300',
-    listed: '2021-09-01',
-    bidPrice: '0.1',
-    buyPrice: '0.5',
-    categories: ['Art', 'Music'],
-    id: 1
-  },
-  {
-    title: 'NFT Title 8',
-    description: 'NFT Description 8',
-    image: 'https://picsum.photos/200/300',
-    listed: '2021-09-01',
-    bidPrice: '0.1',
-    buyPrice: '0.5',
-    categories: ['Art', 'Music'],
-    id: 1
-  },
-  {
-    title: 'NFT Title',
-    description: 'NFT Description',
-    image: 'https://picsum.photos/200/300',
-    listed: '2021-09-01',
-    bidPrice: '0.1',
-    buyPrice: '0.5',
-    categories: ['Art', 'Music'],
-    id: 1
-  },
-  {
-    title: 'NFT Title 2',
-    description: 'NFT Description 2',
-    image: 'https://picsum.photos/200/300',
-    listed: '2021-09-01',
-    bidPrice: '0.1',
-    buyPrice: '0.5',
-    categories: ['Art', 'Sports', 'Music', 'Fashion', 'Art', 'Sports', 'Music', 'Fashion'],
-    id: 1
+async function updateNFTs(filter) {
+  if (filter === undefined) {
+    filter = {
+      page: page.value-1,
+      size: 6
+    }
   }
-]
-*/
+
+  if (filter.page === undefined) {
+    filter.page = page.value-1
+  }
+
+  if (filter.size === undefined) {
+    filter.size = 6
+  }
+
+  if (filter.sortBy === undefined) {
+    filter.sortBy = "visits"
+  } else if (filter.sortBy === 'Newest') {
+    filter.sortBy = 'publication_time'
+  } else if (filter.sortBy === 'Price') {
+    filter.sortBy = 'max_price'
+  } else if (filter.sortBy === 'Oldest') {
+    filter.sortBy = 'publication_time'
+    filter.order = 'asc'
+  } else if (filter.sortBy === 'Trending') {
+    filter.sortBy = 'visits'
+  }
+
+  console.log(filter)
+
+  let response = await fetchAllItems(filter)
+  items.value = response.data
+
+  nfts.value = imageTableFormat(items.value)
+}
+
 </script>
 
 <template>
-  <NFTTableHeader />
+  <NFTTableHeader @apply-filters="applyFilters" />
   <div class="nft-table">
     <div class="nft-table-row header-row">
       <div class="nft-table-cell nft-table-cell-title">Title</div>
