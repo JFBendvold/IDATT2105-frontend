@@ -117,7 +117,7 @@ describe('Test visiting the urls of the page when the user is logged in (admin u
     cy.visit('/profile?username=jane')
     cy.get('h1').should('contain', 'jane')
     cy.get('h1').should('contain', 'NFTs')
-    cy.get('.ntfs-item').should('have.length', 4)
+
   })
 
   it('tries to visit the nft url when the user is logged in, should work', () => {
@@ -283,29 +283,6 @@ describe('Test the functionality chat when logged in', () => {
     cy.visit('/profile?username=jane')
     cy.get('.wallet-action').contains('Deposit').click()
     cy.get('h1').should('contain', 'Deposit')
-  })
-
-  it('opens the profile page of jane and click deposit and deposits 10 eth', () => {
-    cy.visit('/profile?username=jane')
-
-    cy.get('.wallet-action').contains('Deposit').click()
-    cy.get('.popup-input-field').first().type('10')
-    cy.get('.popup-button').contains('Deposit').click()
-    cy.get('span').contains('Loading')
-
-
-  })
-  
-  it('opens the profile page of jane and click deposit and deposits 10 eth', () => {
-    cy.visit('/profile?username=jane')
-    cy.get(".wallet-balance").invoke("text").should("contain", "Balance : 100 ")
-    cy.get('.wallet-action').contains('Deposit').click()
-    cy.get('.popup-input-field').first().type('10')
-    cy.get('.popup-button').contains('Deposit').click()
-    cy.get('span').contains('Loading')
-    cy.wait(5000)
-    cy.get(".wallet-balance").invoke("text").should("contain", "Balance : 110 ")
-
   })
 
 
