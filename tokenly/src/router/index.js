@@ -61,10 +61,8 @@ const router = createRouter({
   ]
 })
 
-//TODO: works fine, but needs to be implemented
 router.beforeEach(async (to, from, next) => {
   if (from.name == 'profile' && to.name == 'profile' && from.fullPath != to.fullPath) {
-    // Reload the page
     window.location.href = to.fullPath
     return
   }
