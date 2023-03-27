@@ -7,18 +7,12 @@ import AdminPanel from './AdminPanel.vue'
 import Wallet from './Wallet.vue'
 import { useUserStore } from '@/stores/UserStore.js'
 import picon1 from '@/assets/img/profile_icons/picon1.jpg'
-import { useItemsStore } from '@/stores/ItemsStore.js'
-import { storeToRefs } from 'pinia'
 import { onMounted } from 'vue'
 import imageListFormat from '@/utils/ImageListFormatter.js'
 import { fetchItemsByOwner } from '@/services/ItemService.js'
 import {fetchUserProfile, checkIfAdmin} from '@/services/ProfileService.js'
 import { throwErrorPopup } from '@/utils/ErrorController.js'
 import router from '@/router'
-
-const itemsStore = useItemsStore()
-
-const { items } = storeToRefs(itemsStore)
 
 const userStore = useUserStore()
 

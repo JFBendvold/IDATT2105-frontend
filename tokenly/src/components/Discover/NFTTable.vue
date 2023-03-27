@@ -2,10 +2,8 @@
 import '@/assets/css/discover/nftTable.css'
 import NFTTableHeader from './NFTTableHeader.vue'
 import { RouterLink, useRoute } from 'vue-router'
-import { useItemsStore } from '@/stores/ItemsStore.js'
 import { onMounted, ref, watch, computed } from 'vue'
 import { fetchAllItems } from '@/services/ItemService.js'
-import { storeToRefs } from 'pinia'
 import { imageTableFormat } from '@/utils/ImageListFormatter.js'
 import { throwErrorPopup } from '@/utils/ErrorController.js'
 
