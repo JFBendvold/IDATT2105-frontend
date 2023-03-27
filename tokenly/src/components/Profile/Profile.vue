@@ -36,8 +36,6 @@ onMounted(async () => {
   // Fetch items
   const fetchedItems = await fetchItemsByOwner(username.value)
 
-  console.log(fetchedItems.data)
-
   NFTs.value = imageListFormat(fetchedItems.data)
 })
 
